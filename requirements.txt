@@ -1,0 +1,4 @@
+streamlit
+pytest
+python-dotenv
+requests
