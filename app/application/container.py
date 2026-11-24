@@ -1,7 +1,11 @@
+
 from app.application.services.ai_service import AIService
 from app.application.services.provider_factory import ProviderFactory
 from app.application.services.provider_model_service import (
     ProviderModelService,
+)
+from app.application.repository_discovery_integration_service import (
+    RepositoryDiscoveryIntegrationService,
 )
 from app.infrastructure.providers import (
     AnthropicProvider,
@@ -23,6 +27,8 @@ class ApplicationContainer:
         self._provider_registry = InMemoryProviderRegistry()
 
         self._provider_factory = ProviderFactory()
+
+        self._repository_discovery_service = None
 
         self._register_providers()
 
@@ -86,3 +92,15 @@ class ApplicationContainer:
         return AIService(
             provider=provider,
         )
+
+    def create_repository_discovery_integration_service(
+        self,
+    ) -> RepositoryDiscoveryIntegrationService:
+        """Return the shared repository discovery service."""
+
+        if self._repository_discovery_service is None:
+            self._repository_discovery_service = (
+                RepositoryDiscoveryIntegrationService()
+            )
+
+        return self._repository_discovery_service

@@ -1,9 +1,13 @@
+
 import streamlit as st
 
 from app.application import ApplicationContainer
+from app.presentation.repository_discovery_view import (
+    render_repository_discovery_view,
+)
 
 
-def render(container: ApplicationContainer) -> None:
+def render_home(container: ApplicationContainer) -> None:
     st.title("🤖 AI Codebase Intelligence Platform")
 
     st.markdown(
@@ -37,3 +41,26 @@ def render(container: ApplicationContainer) -> None:
         "Select Model",
         model_names,
     )
+
+
+def render(container: ApplicationContainer) -> None:
+    st.sidebar.title("Navigation")
+
+    selected_page = st.sidebar.radio(
+        "Select Page",
+        [
+            "Home",
+            "Repository Discovery",
+        ],
+    )
+
+    if selected_page == "Home":
+        render_home(container)
+
+    elif selected_page == "Repository Discovery":
+        service = (
+            container
+            .create_repository_discovery_integration_service()
+        )
+
+        render_repository_discovery_view(service)
