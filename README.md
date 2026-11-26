@@ -390,7 +390,7 @@ See the [LICENSE](LICENSE) file for details.
 GitHub Repository:
 
 [AI Codebase Intelligence Platform](https://github.com/satya66123/AI-Codebase-Intelligence-Platform)
-
+[![GitHub Release](https://img.shields.io/github/v/release/satya66123/AI-Codebase-Intelligence-Platform)](https://github.com/satya66123/AI-Codebase-Intelligence-Platform/releases/tag/1.0.0)
 ---
 
 **Project Status: Completed**
