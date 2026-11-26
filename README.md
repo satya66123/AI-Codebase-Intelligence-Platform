@@ -1,498 +1,398 @@
-# 🤖 AI Codebase Intelligence Platform
+# AI Codebase Intelligence Platform
 
-An AI-powered Codebase Intelligence Platform built with a modular,
-SOLID-based, multi-provider and multi-model architecture.
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-red.svg)](https://streamlit.io/)
+[![PyTest](https://img.shields.io/badge/Tests-3147%20Passed-brightgreen.svg)](https://pytest.org/)
+[![CI](https://github.com/satya66123/AI-Codebase-Intelligence-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/satya66123/AI-Codebase-Intelligence-Platform/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/satya66123/AI-Codebase-Intelligence-Platform)
 
-The platform is designed to understand software repositories,
-analyze source code, extract codebase knowledge, and provide
-AI-powered intelligence over the complete codebase.
+An AI-powered platform designed to help developers discover, understand, analyze, and investigate software repositories using code intelligence and multiple AI providers.
 
-## Project Status
+---
 
-**Current Phase:** Phase 0 — General Foundation
+## Project Overview
 
-## Architecture
+The **AI Codebase Intelligence Platform** simplifies codebase exploration and improves developers' understanding of complex software projects.
 
-The platform follows:
+It combines repository discovery, structural code analysis, AI-powered reasoning, and advanced code intelligence to help developers investigate repositories and understand how their code is organized and connected.
 
-* SOLID principles
-* Separation of concerns
-* Dependency inversion
-* Interface-based design
-* Modular architecture
-* Multi-provider support
-* Multi-model support
-* Dependency injection
-* Service-oriented design
-* Extensible AI architecture
+The platform supports local AI models through Ollama and integrations with cloud AI providers.
 
-## AI Providers
+## Key Features
 
-The platform is designed to support multiple AI providers through
-a common provider abstraction.
+### 1. Repository Discovery
+- Select and explore local repositories.
+- Discover files and directories recursively.
+- Apply repository scanning and ignore rules.
+- Identify programming languages and file extensions.
+- Extract repository metadata and statistics.
+- Build repository maps and indexes.
 
-Configured providers:
+### 2. Code Understanding
+- Analyze source code structure.
+- Identify functions, methods, classes, and modules.
+- Examine imports and dependencies.
+- Analyze function calls and inheritance relationships.
+- Identify application entry points.
+- Inspect configuration and environment references.
 
-1. Ollama
-2. OpenAI
-3. Anthropic
-4. Google Gemini
-5. Mistral
-6. Groq
-7. Cohere
-8. DeepSeek
+### 3. AI Codebase Intelligence
+- Ask questions about a repository.
+- Understand code functionality and relationships.
+- Retrieve relevant source-code context.
+- Investigate dependencies and execution paths.
+- Generate context-aware explanations.
+- Validate answers against available code evidence.
 
-## AI Models
+### 4. Advanced Code Intelligence
+- Analyze code patterns and structural relationships.
+- Investigate potential code quality issues.
+- Examine dependency relationships.
+- Analyze potential circular dependencies.
+- Investigate change impact and technical debt.
+- Generate engineering insights and reports.
 
-The platform uses a centralized provider/model configuration.
+## Architecture Overview
 
-### Ollama
-
-* qwen2.5:1.5b
-* gemma2:2b
-* gemma3:4b
-* mistral:latest
-* phi3:latest
-* qwen3:latest
-* llama3.1:latest
-* llama3:8b
-* deepseek-coder:latest
-
-### OpenAI
-
-* gpt-5-mini
-* gpt-4o
-* gpt-4o-mini
-
-### Anthropic
-
-* claude-sonnet-4-5
-* claude-haiku-4-5
-* claude-opus-4-1
-
-### Google Gemini
-
-* gemini-3.6-flash
-* gemini-2.5-flash
-* gemini-2.5-pro
-
-### Mistral
-
-* mistral-medium-latest
-* mistral-large-latest
-* mistral-small-latest
-
-### Groq
-
-* llama-3.3-70b-versatile
-* llama-3.1-8b-instant
-* mixtral-8x7b-32768
-
-### Cohere
-
-* command-a-03-2025
-* command-r-plus
-* command-r
-
-### DeepSeek
-
-* deepseek-chat
-* deepseek-reasoner
-* deepseek-v4-flash
-
-## Project Phases
+The platform follows a layered application architecture that separates presentation, application workflows, analysis services, AI integration, and data storage.
 
 ```text
-Phase 0 → General Foundation
-Phase 1 → Codebase Knowledge Ingestion Process
-Phase 2 → Codebase Intelligence & Memory Process
-Phase 3 → AI Codebase Interaction Process
-Phase 4 → Validation & Advanced Codebase Intelligence
+                 USER
+                  |
+                  v
+          STREAMLIT INTERFACE
+                  |
+                  v
+          APPLICATION LAYER
+                  |
+       +----------+----------+
+       |          |          |
+       v          v          v
+   REPOSITORY   CODE       AI
+   DISCOVERY   ANALYSIS  INTELLIGENCE
+       |          |          |
+       +----------+----------+
+                  |
+                  v
+          ADVANCED ANALYSIS
+                  |
+                  v
+          AI PROVIDER LAYER
+                  |
+       +----------+----------+
+       |          |          |
+       v          v          v
+     OLLAMA     OPENAI    ANTHROPIC
+       |          |          |
+       +----------+----------+
+                  |
+                  v
+          JSON-BASED STORAGE
 ```
 
-## Phase 0 Components
+For more details, see [Architecture Documentation](docs/ARCHITECTURE.md) and [System Design](docs/systemdesign.md).
 
-```text
-Configuration
-Provider Abstraction
-Provider Clients
-Provider Registry
-Model Registry
-Provider Factory
-Dependency Injection
-Application Bootstrap
-Streamlit Foundation
-Logging
-Exception Handling
-Testing Foundation
-```
+## Development Phases
+
+| Phase | Name | Status |
+|---|---|---|
+| Phase 0 | General Foundation | Completed |
+| Phase 1 | Repository Discovery Process | Completed |
+| Phase 2 | Code Understanding Process | Completed |
+| Phase 3 | AI Codebase Intelligence Process | Completed |
+| Phase 4 | Advanced Code Intelligence Process | Completed |
+
+### Phase 0 — General Foundation
+Established the application foundation, configuration, provider abstraction, logging, error handling, testing setup, and development infrastructure.
+
+### Phase 1 — Repository Discovery Process
+Established repository selection, validation, scanning, file discovery, language detection, metadata extraction, and repository mapping.
+
+### Phase 2 — Code Understanding Process
+Introduced source-code parsing, code entity extraction, dependency analysis, call relationships, inheritance analysis, and entry-point detection.
+
+### Phase 3 — AI Codebase Intelligence Process
+Introduced question analysis, intent detection, repository and code retrieval, context building, AI reasoning, and evidence validation.
+
+### Phase 4 — Advanced Code Intelligence Process
+Introduced advanced structural analysis, code quality investigation, dependency analysis, change-impact investigation, risk analysis, and engineering reports.
+
+For the development plan and phase details, see:
+- [Project Notes](docs/projectnotes.md)
+- [Project Planner](docs/planner.md)
+- [Development Steps](docs/steps.md)
+- [Project Summary](docs/PROJECT_SUMMARY.md)
+
+## Technology Stack
+
+| Category | Technologies |
+|---|---|
+| Programming Language | Python 3.11 |
+| User Interface | Streamlit |
+| AI Integration | Ollama and cloud AI providers |
+| Code Analysis | Python parsing and analysis components |
+| Storage | JSON-based storage |
+| Testing | PyTest |
+| Version Control | Git and GitHub |
+| CI Configuration | GitHub Actions |
+| Container Configuration | Docker |
+
+## Multi-Provider AI Support
+
+The application supports eight AI provider families and 30 configured models.
+
+| Provider | Configured Models |
+|---|---:|
+| Ollama | 9 |
+| OpenAI | 3 |
+| Anthropic | 3 |
+| Google Gemini | 3 |
+| Mistral | 3 |
+| Groq | 3 |
+| Cohere | 3 |
+| DeepSeek | 3 |
+| **Total** | **30** |
+
+### Ollama Models
+- `qwen2.5:1.5b`
+- `gemma2:2b`
+- `gemma3:4b`
+- `mistral:latest`
+- `phi3:latest`
+- `qwen3:latest`
+- `llama3.1:latest`
+- `llama3:8b`
+- `deepseek-coder:latest`
+
+### OpenAI Models
+- `gpt-5-mini`
+- `gpt-4o`
+- `gpt-4o-mini`
+
+### Anthropic Models
+- `claude-sonnet-4-5`
+- `claude-haiku-4-5`
+- `claude-opus-4-1`
+
+### Google Gemini Models
+- `gemini-3.6-flash`
+- `gemini-2.5-flash`
+- `gemini-2.5-pro`
+
+The remaining provider model identifiers are maintained in the application's provider configuration.
+
+See [AI Provider Documentation](docs/AI_PROVIDER_DOCUMENTATION.md) and [Configuration Guide](docs/CONFIGURATION_GUIDE.md).
 
 ## Project Structure
 
+The application is organized into separate areas for application logic, domain components, infrastructure, presentation, tests, and documentation.
+
 ```text
-app/
-├── application/
-├── config/
-├── core/
-├── domain/
-├── infrastructure/
-└── presentation/
-
-tests/
-├── unit/
-└── integration/
-
-docs/
-├── architecture.md
-└── phase-0.md
+AI-Codebase-Intelligence-Platform/
+|
++-- app/
+|   +-- application/
+|   +-- domain/
+|   +-- infrastructure/
+|   +-- presentation/
+|
++-- tests/
++-- docs/
++-- screenshots/
++-- config/
++-- data/
+|
++-- app.py
++-- requirements.txt
++-- README.md
++-- .env.example
++-- .gitignore
++-- Dockerfile
++-- pytest.ini
 ```
 
-## Configuration
+See [Project Structure Documentation](docs/PROJECT_STRUCTURE.md) for more details.
 
-Create a local `.env` file from `.env.example`.
+## Installation
 
-Never commit `.env` or API keys to source control.
+### Prerequisites
+- Python 3.11
+- Git
+- pip
+- Ollama, if using local AI models
 
-Provider and model configuration is centralized so that AI
-provider selection remains independent from the core codebase
-intelligence logic.
+### 1. Clone the Repository
 
-## Running the Application
+```bash
+git clone https://github.com/satya66123/AI-Codebase-Intelligence-Platform.git
 
-Install dependencies:
+cd AI-Codebase-Intelligence-Platform
+```
+
+### 2. Create a Virtual Environment
+
+Windows PowerShell:
+
+```powershell
+python -m venv .venv
+
+.\.venv\Scripts\Activate.ps1
+```
+
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Start Streamlit:
+### 4. Configure Environment Variables
+
+Create a `.env` file using `.env.example` as a reference.
+
+Add the API credentials required for the cloud providers you intend to use.
+
+Keep API keys private. Do not commit `.env` files or secrets to GitHub.
+
+### 5. Start the Application
 
 ```bash
-streamlit run appy.py
+streamlit run app.py
 ```
 
-## Development Principles
+Open the local URL displayed in the terminal.
 
-Every phase follows:
+See the [Installation Guide](docs/INSTALLATION_GUIDE.md) and [User Guide](docs/USER_GUIDE.md) for further instructions.
 
-```text
-PLAN
- ↓
-DESIGN
- ↓
-IMPLEMENT
- ↓
-TEST
- ↓
-FIX
- ↓
-STABILIZE
- ↓
-DOCUMENT
- ↓
-NEXT PHASE
+## Running Tests
+
+Run the complete test suite:
+
+```bash
+pytest
 ```
 
-## Core Platform Vision
+Run tests with verbose output:
 
-The Codebase Intelligence Platform will progressively provide:
-
-```text
-Codebase
-   ↓
-Repository Discovery
-   ↓
-Codebase Ingestion
-   ↓
-Code Understanding
-   ↓
-Knowledge Extraction
-   ↓
-AI Intelligence
-   ↓
-Codebase Interaction
-   ↓
-Advanced Codebase Intelligence
+```bash
+pytest -v
 ```
 
-The goal is to build an AI system capable of understanding a
-software codebase as a complete system rather than treating
-individual source files as isolated documents.
+### Final Test Results
+
+| Metric | Result |
+|---|---:|
+| Total Tests | 3,147 |
+| Passed | 3,147 |
+| Failed | 0 |
+| Pass Rate | 100% |
+
+These are the final test results recorded for the project.
+
+See [Testing Documentation](docs/TESTING_DOCUMENTATION.md).
+
+## Documentation Index
+
+The following documentation files provide additional information about the platform.
+
+### Architecture and Design
+- [Architecture](docs/ARCHITECTURE.md)
+- [System Design](docs/systemdesign.md)
+- [Data Flow](docs/DATA_FLOW_DOCUMENTATION.md)
+- [Project Structure](docs/PROJECT_STRUCTURE.md)
+
+### User and Developer Guides
+- [User Guide](docs/USER_GUIDE.md)
+- [Installation Guide](docs/INSTALLATION_GUIDE.md)
+- [Configuration Guide](docs/CONFIGURATION_GUIDE.md)
+- [Development Workflow](docs/DEVELOPMENT_WORKFLOW.md)
+- [Contributing Guide](docs/CONTRIBUTING.md)
+- [Maintenance Guide](docs/MAINTENANCE_GUIDE.md)
+
+### Technical Documentation
+- [API Documentation](docs/API_DOCUMENTATION.md)
+- [API Reference](docs/API_REFERENCE.md)
+- [Features Documentation](docs/FEATURES_DOCUMENTATION.md)
+- [AI Provider Documentation](docs/AI_PROVIDER_DOCUMENTATION.md)
+- [Repository Discovery Documentation](docs/REPOSITORY_DISCOVERY_DOCUMENTATION.md)
+- [Code Quality Documentation](docs/CODE_QUALITY_DOCUMENTATION.md)
+- [Application Container Documentation](docs/APPLICATION_CONTAINER_DOCUMENTATION.md)
+- [Error Handling Documentation](docs/ERROR_HANDLING_DOCUMENTATION.md)
+- [Security Documentation](docs/SECURITY_DOCUMENTATION.md)
+- [Dependency Documentation](docs/DEPENDENCY_DOCUMENTATION.md)
+- [Logging and Monitoring](docs/LOGGING_AND_MONITORING_DOCUMENTATION.md)
+- [Performance Optimization](docs/PERFORMANCE_OPTIMIZATION_DOCUMENTATION.md)
+
+### Testing, Deployment and Release
+- [Testing Documentation](docs/TESTING_DOCUMENTATION.md)
+- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
+- [Changelog](docs/CHANGELOG.md)
+- [Release Notes](docs/releasenotes.md)
+- [License Documentation](docs/LICENSE.md)
+- [MIT License](LICENSE)
+
+### Project Planning and Reference
+- [Project Summary](docs/PROJECT_SUMMARY.md)
+- [Project Notes](docs/projectnotes.md)
+- [Project Planner](docs/planner.md)
+- [Development Steps](docs/steps.md)
+- [FAQ](docs/FAQ.md)
+- [Known Limitations](docs/KNOWN_LIMITATIONS.md)
+- [Future Enhancements](docs/FUTURE_ENHANCEMENTS.md)
+- [Future Improvements](docs/future_improvements.md)
+- [Glossary](docs/GLOSSARY.md)
+- [Screenshots Documentation](docs/screenshots.md)
+- [Documentation Index](docs/documentation.md)
+
+## Screenshots
+
+Application screenshots and recorded project outputs are maintained in the [`screenshots/`](screenshots/) directory.
+
+See [Screenshots Documentation](docs/screenshots.md) for the screenshot reference list.
+
+## Version and Release Information
+
+**Current Version:** `v1.0.0`
+
+**Release Status:** Current release
+
+The project roadmap identifies the following possible future releases:
+
+- `v1.1.0` — Planned
+- `v1.2.0` — Proposed
+- `v2.0.0` — Long-term proposal
+
+These are roadmap items, not claims that future releases have already been implemented.
+
+See [Release Notes](docs/releasenotes.md) and [Changelog](docs/CHANGELOG.md).
+
+## Future Enhancements
+
+Potential future improvements include:
+- Additional code intelligence capabilities.
+- More advanced repository analysis.
+- Improvements to AI reasoning and evidence validation.
+- Expanded engineering reports.
+- Further performance and usability improvements.
+
+See [Future Enhancements](docs/FUTURE_ENHANCEMENTS.md) and [Future Improvements](docs/future_improvements.md).
 
 ## License
 
-MIT License
+This project is licensed under the MIT License.
 
-````
+See the [LICENSE](LICENSE) file for details.
 
-### `docs/architecture.md`
+## Author
 
-```markdown
-# Architecture
+**Satya**
 
-## Architectural Layers
+GitHub Repository:
 
-```text
-Presentation
-     ↓
-Application
-     ↓
-Domain
-     ↓
-Infrastructure
-````
+[AI Codebase Intelligence Platform](https://github.com/satya66123/AI-Codebase-Intelligence-Platform)
 
-## Dependency Direction
+---
 
-```text
-Presentation → Application → Domain
-                         ↓
-                  Infrastructure
-```
+**Project Status: Completed**
 
-The domain layer depends on abstractions rather than concrete
-infrastructure implementations.
-
-## Application Architecture
-
-```text
-app.py
-  ↓
-Application
-  ↓
-Dependency Injection Container
-  ↓
-Services / Agents
-  ↓
-Provider Factory
-  ↓
-AI Provider
-  ↓
-AI Model
-```
-
-The Streamlit entry point remains thin and does not directly
-communicate with individual AI providers.
-
-## Provider Architecture
-
-```text
-AIProvider
-    ↑
-Concrete Provider
-    ↓
-Provider Client
-    ↓
-External AI API / Local Model
-```
-
-## Provider Factory
-
-```text
-ProviderFactory
-       │
-       ├── Ollama
-       ├── OpenAI
-       ├── Anthropic
-       ├── Google Gemini
-       ├── Mistral
-       ├── Groq
-       ├── Cohere
-       └── DeepSeek
-```
-
-The Provider Factory is responsible for creating the appropriate
-provider implementation.
-
-## SOLID
-
-### Single Responsibility
-
-Components have focused responsibilities.
-
-Examples:
-
-```text
-Configuration
-    → Application configuration
-
-Provider
-    → AI communication
-
-Service
-    → Business logic
-
-Agent
-    → AI workflow
-
-Presentation
-    → UI rendering
-
-Container
-    → Dependency management
-```
-
-### Open/Closed
-
-New providers, models, services, and intelligence capabilities
-can be introduced without modifying unrelated core logic.
-
-### Liskov Substitution
-
-Concrete providers implement the common provider abstraction and
-can be substituted wherever the base abstraction is required.
-
-### Interface Segregation
-
-Interfaces remain focused and minimal.
-
-### Dependency Inversion
-
-Higher-level application and domain components depend on
-abstractions rather than concrete infrastructure implementations.
-
-## Multi-Provider Architecture
-
-8 AI providers are supported through a common provider abstraction.
-
-## Multi-Model Architecture
-
-AI models are centrally configured and associated with their
-respective providers.
-
-Provider and model selection remains independent from the core
-codebase intelligence business logic.
-
-## Codebase Intelligence Architecture
-
-The long-term architecture follows:
-
-```text
-Repository
-    ↓
-Repository Discovery
-    ↓
-File Discovery
-    ↓
-Code Parsing
-    ↓
-Code Metadata
-    ↓
-Knowledge Extraction
-    ↓
-Knowledge Store
-    ↓
-Retrieval
-    ↓
-AI Intelligence
-    ↓
-Codebase Interaction
-```
-
-````
-
-### `docs/phase-0.md`
-
-```markdown
-# Phase 0 — General Foundation
-
-## Objective
-
-Establish a clean, modular, SOLID-based foundation for the
-AI Codebase Intelligence Platform.
-
-The purpose of Phase 0 is to create the architectural foundation
-required for future codebase ingestion, intelligence, memory,
-interaction, and advanced analysis capabilities.
-
-## Completed
-
-- Project definition
-- Architecture design
-- Repository structure
-- Configuration foundation
-- Provider abstraction
-- Provider clients
-- Provider registry
-- Model registry
-- Provider factory
-- Dependency injection
-- Application bootstrap
-- Streamlit foundation
-- Logging
-- Exception handling
-- Testing foundation
-- Configuration validation
-- Architecture stabilization
-- Documentation
-
-## Phase 0 Architecture
-
-```text
-Streamlit
-    ↓
-Presentation
-    ↓
-Application
-    ↓
-Dependency Injection Container
-    ↓
-Services / Agents
-    ↓
-Provider Factory
-    ↓
-AI Provider
-    ↓
-AI Model
-````
-
-## Phase 0 Goals
-
-```text
-✅ Establish project foundation
-✅ Establish clean architecture
-✅ Establish SOLID principles
-✅ Establish provider abstraction
-✅ Establish multi-provider foundation
-✅ Establish multi-model foundation
-✅ Establish dependency injection
-✅ Establish application bootstrap
-✅ Establish Streamlit foundation
-✅ Establish testing foundation
-```
-
-## Status
-
-Phase 0 is completed and ready for Phase 1.
-
-## Next Phase
-
-**Phase 1 — Codebase Knowledge Ingestion Process**
-
-````
-
-## Phase 0 Tracker
-
-```text
-✅ 0.1  Project Definition & Architecture
-✅ 0.2  Repository Structure
-✅ 0.3  Configuration Foundation
-✅ 0.4  Multi-Provider / Multi-Model Foundation
-✅ 0.5  Provider Abstraction
-✅ 0.6  Provider Clients
-✅ 0.7  Provider Registry
-✅ 0.8  Model Registry
-✅ 0.9  Provider Factory
-✅ 0.10 Dependency Injection Container
-✅ 0.11 Logging + Exception Foundation
-✅ 0.12 Configuration Validation
-✅ 0.13 Application Bootstrap
-✅ 0.14 Streamlit Foundation
-✅ 0.15 Testing Foundation
-✅ 0.16 Stabilization
-✅ 0.17 Documentation
-✅ 0.18 Phase 0 Review
-✅ 0.19 Phase 0 Complete
-
-➡️ Next → Phase 1: Codebase Knowledge Ingestion Process
-````
+**Version: 1.0.0**

@@ -1,0 +1,181 @@
+# AI Codebase Intelligence Platform — Project Notes
+
+Repository: https://github.com/satya66123/AI-Codebase-Intelligence-Platform.git
+
+## Purpose
+These project notes define the phased development plan for the AI Codebase Intelligence Platform. They preserve the goals, process flows, feature scope, component names and completion rules in the project plan.
+
+## Locked Development Flow
+text
+Phase 0 → General Foundation
+   ↓
+Phase 1 → Repository Discovery Process
+   ↓
+Phase 2 → Code Understanding Process
+   ↓
+Phase 3 → AI Codebase Intelligence Process
+   ↓
+Phase 4 → Advanced Code Intelligence Process
+   ↓
+PROJECT COMPLETE
+
+
+## Project Overview
+
+### Purpose
+
+The AI Codebase Intelligence Platform is intended to help developers discover repository structure, understand code relationships, ask natural-language questions about a codebase, and derive advanced engineering insights.
+
+### Locked development flow
+
+Phase 0 — General Foundation → Phase 1 — Repository Discovery Process → Phase 2 — Code Understanding Process → Phase 3 — AI Codebase Intelligence Process → Phase 4 — Advanced Code Intelligence Process.
+
+### Project principle
+
+Complete each phase, test and stabilize it, then proceed to the next phase. After Phase 4, test, document and finalize the project.
+
+## Phase 0 — General Foundation
+
+### Goal
+
+Build the complete project foundation, architecture, configuration, provider layer, UI skeleton, testing setup, and development environment.
+
+### Core work
+
+GitHub repository and Python project setup; virtual environment and dependency management; clean folder structure; configuration and environment-variable management; .env.example; logging; error handling; constants; data models and schemas; LLM provider abstraction; Ollama integration; optional OpenAI and Anthropic integrations; default model configuration; local repository storage; initial JSON-based metadata storage; Streamlit application skeleton; basic UI layout, header, footer and settings page; repository selection/upload placeholder; Pytest configuration and initial unit tests; code-quality configuration; GitHub Actions CI; Docker configuration; README and architecture documentation.
+
+### Expected result
+
+A stable, runnable, tested foundation ready for Repository Discovery Process development.
+
+## Phase 1 — Repository Discovery Process
+
+### Goal
+
+Allow the platform to accept a code repository and automatically discover its complete structure and basic characteristics.
+
+### Process
+
+Repository Input → Repository Validation → Repository Scanner → Directory Discovery → File Discovery → Ignore Rules Processing → Language Detection → Metadata Extraction → Repository Map Generation → Repository Index Storage.
+
+### Features
+
+Local repository selection; repository upload support; Git repository support; validation; directory scanning; recursive file discovery; file filtering; ignore-rule support; .gitignore awareness; configurable ignored directories; language detection; file-extension analysis; file-size metadata; file and directory statistics; repository statistics and metadata; repository map generation; indexing; repository summary.
+
+### Main components
+
+RepositoryAgent; RepositoryValidationService; RepositoryScanner; FileDiscoveryService; IgnoreRuleService; LanguageDetectionService; MetadataExtractionService; RepositoryMapService; RepositoryIndexService; RepositoryStorageService.
+
+### Expected questions
+
+What files exist? What languages are used? What is the directory structure? How large is the repository? What are the main components? What files should be ignored?
+
+## Phase 2 — Code Understanding Process
+
+### Goal
+
+Transform repository files into structured code intelligence.
+
+### Process
+
+Repository Files → Source File Selection → Language Parser → AST Analysis → Code Entity Extraction → Import Analysis → Dependency Analysis → Call Relationship Analysis → Configuration Discovery → Entry Point Detection → Code Intelligence Storage.
+
+### Features
+
+AST-based code parsing; multi-language architecture; function, method, class, interface and module extraction; import extraction; dependency detection; internal and external dependency mapping; function-call relationships; class relationships; inheritance detection; entry-point detection; API endpoint discovery; configuration-file and environment-variable discovery; database-connection and service discovery; code-entity metadata; code-relationship storage.
+
+### Main components
+
+CodeParserAgent; LanguageParserFactory; ASTAnalyzer; CodeEntityExtractor; FunctionAnalyzer; ClassAnalyzer; ImportAnalyzer; DependencyAnalyzer; CallGraphService; InheritanceAnalyzer; EntryPointDetector; ConfigurationAnalyzer; CodeIntelligenceStorage.
+
+### Expected understanding
+
+Repository → Modules → Classes → Functions → Imports → Dependencies → Calls → Relationships.
+
+## Phase 3 — AI Codebase Intelligence Process
+
+### Goal
+
+Enable natural-language interaction with the repository using retrieved code intelligence and AI reasoning.
+
+### Process
+
+User Question → Question Validation → Intent Detection → Repository Intelligence Retrieval → Relevant File Retrieval → Relevant Code Retrieval → Dependency Context → Architecture Context → Context Builder → LLM Reasoning → Evidence Validation → Final Answer.
+
+### Features
+
+AI codebase chat; repository-aware questions; file, module, class and function explanations; architecture and dependency explanations; code-flow explanations; data-flow and request-flow tracing; relevant file and function search; implementation-location and how-it-works questions; change-impact, dependency and architecture questions; source-grounded answers; file and code references; confidence scoring; insufficient-evidence responses.
+
+### Main components
+
+CodebaseIntelligenceAgent; QuestionAnalysisAgent; IntentDetectionService; RepositoryRetrievalService; CodeRetrievalService; ArchitectureContextService; DependencyContextService; ContextBuilder; CodebaseReasoningService; EvidenceValidationAgent; ConfidenceService.
+
+### Example questions
+
+Explain the architecture of this project. Where is authentication implemented? How does data flow from the API to storage? What calls this function? Which files depend on this service? What happens if I modify this module? Where is this configuration used? Explain the execution flow.
+
+### Expected result
+
+The AI combines the user question, repository structure, code entities, dependencies, call relationships and relevant source code to produce an evidence-grounded answer.
+
+## Phase 4 — Advanced Code Intelligence Process
+
+### Goal
+
+Generate actionable engineering insights from the complete repository intelligence.
+
+### Process
+
+Repository Intelligence → Code Pattern Analysis → Structural Analysis → Dependency Analysis → Change Impact Analysis → Issue Detection → Risk Analysis → AI Validation → Engineering Insights → Reports & Recommendations.
+
+### Code quality intelligence
+
+Dead-code, unused-function and unused-class detection; duplicate and similar code detection; code-smell detection; large-function and large-class detection; high-complexity detection.
+
+### Dependency intelligence
+
+Circular-dependency detection; dependency-risk analysis; highly coupled components; dependency hotspots; central-dependency detection.
+
+### Architecture intelligence
+
+Architecture-violation and layer-violation detection; unexpected dependencies; module-boundary analysis; architectural-hotspot detection.
+
+### Change impact intelligence
+
+Direct, indirect and dependency impact analysis; change-risk scoring; potentially affected files and functions; regression-risk estimation.
+
+### Technical debt intelligence
+
+Technical-debt indicators; high-risk modules; complex components; maintenance hotspots; refactoring recommendations.
+
+### Documentation intelligence
+
+Automatic architecture documentation; repository overview; module, dependency and execution-flow documentation; AI-generated engineering report.
+
+### Repository health intelligence
+
+Repository health, architecture, complexity, maintainability, dependency-health and technical-debt scores.
+
+### Main components
+
+AdvancedCodeIntelligenceAgent; DeadCodeAnalyzer; DuplicateCodeAnalyzer; CodeSmellAnalyzer; ComplexityAnalyzer; CircularDependencyAnalyzer; ArchitectureViolationAnalyzer; ImpactAnalysisService; RiskScoringService; TechnicalDebtAnalyzer; RepositoryHealthService; DocumentationGenerationAgent; EngineeringReportAgent.
+
+### Expected result
+
+Repository → Structural Intelligence → Code Intelligence → Relationship Intelligence → AI Reasoning → Issue Detection → Impact Analysis → Risk Analysis → Actionable Engineering Insights.
+
+## Completion Criteria and Working Rules
+
+### Phase completion sequence
+
+Phase 0 — Foundation Complete; Phase 1 — Repository Discovery Complete; Phase 2 — Code Understanding Complete; Phase 3 — AI Codebase Intelligence Complete; Phase 4 — Advanced Engineering Intelligence Complete.
+
+### Final locked rule
+
+Complete Phase 0 → Test and Stabilize → Complete Phase 1 → Test and Stabilize → Complete Phase 2 → Test and Stabilize → Complete Phase 3 → Test and Stabilize → Complete Phase 4 → Test, Document and Finalize → Project Complete.
+
+### Scope note
+
+This document records the project plan and intended phase scope. A listed capability or component is not, by itself, proof that it has been implemented or independently tested.
+
+Project repository: https://github.com/satya66123/AI-Codebase-Intelligence-Platform.git
