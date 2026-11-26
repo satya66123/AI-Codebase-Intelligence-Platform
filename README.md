@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-App-red.svg)](https://streamlit.io/)
 [![PyTest](https://img.shields.io/badge/Tests-3147%20Passed-brightgreen.svg)](https://pytest.org/)
-[![CI](https://github.com/satya66123/AI-Codebase-Intelligence-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/satya66123/AI-Codebase-Intelligence-Platform/actions/workflows/ci.yml)
+[![CI](https://github.com/satya66123/AI-Codebase-Intelligence-Platform/actions/workflows/python-tests.yml/badge.svg)](https://github.com/satya66123/AI-Codebase-Intelligence-Platform/actions/workflows/python-tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/satya66123/AI-Codebase-Intelligence-Platform)
 
