@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.final_application_integration_service import (
+from appy.application.final_application_integration_service import (
     FinalApplicationIntegrationError,
     FinalApplicationIntegrationResult,
     FinalApplicationIntegrationService,
@@ -43,7 +43,7 @@ class FakeWorkflowService:
 @pytest.fixture
 def parsed_sources():
     return {
-        "app.py": SimpleNamespace(filename="app.py", language="python"),
+        "appy.py": SimpleNamespace(filename="appy.py", language="python"),
         "service.py": SimpleNamespace(filename="service.py", language="python"),
     }
 
@@ -96,7 +96,7 @@ def test_execute_forwards_source_files(
     workflow_service,
     parsed_sources,
 ):
-    source_files = {"app.py": "print('hello')"}
+    source_files = {"appy.py": "print('hello')"}
 
     application_service.execute(
         parsed_sources,
@@ -126,7 +126,7 @@ def test_execute_forwards_dependencies(
     workflow_service,
     parsed_sources,
 ):
-    dependencies = (SimpleNamespace(source="app.py"),)
+    dependencies = (SimpleNamespace(source="appy.py"),)
 
     application_service.execute(
         parsed_sources,
@@ -156,7 +156,7 @@ def test_execute_forwards_entry_points(
     workflow_service,
     parsed_sources,
 ):
-    entry_points = ("app.main",)
+    entry_points = ("appy.main",)
 
     application_service.execute(
         parsed_sources,
@@ -230,7 +230,7 @@ def test_execute_forwards_default_optional_arguments(
 
 @pytest.mark.parametrize(
     "invalid_sources",
-    [None, (), [], "app.py", 123],
+    [None, (), [], "appy.py", 123],
 )
 def test_execute_rejects_non_mapping_sources(invalid_sources):
     service = FinalApplicationIntegrationService(

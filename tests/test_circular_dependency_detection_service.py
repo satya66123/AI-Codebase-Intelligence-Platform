@@ -5,13 +5,13 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from app.application.circular_dependency_detection_service import (
+from appy.application.circular_dependency_detection_service import (
     CircularDependency,
     CircularDependencyDetectionError,
     CircularDependencyDetectionResult,
     CircularDependencyDetectionService,
 )
-from app.application.dependency_analyzer import DependencyRecord
+from appy.application.dependency_analyzer import DependencyRecord
 
 
 @pytest.fixture
@@ -54,8 +54,8 @@ def test_empty_dependencies_return_empty_result(service):
 
 def test_single_internal_dependency_has_no_cycle(service):
     result = service.analyze(
-        [dependency("app/a.py", "app.b")],
-        internal_modules=["app.a", "app.b"],
+        [dependency("appy/a.py", "appy.b")],
+        internal_modules=["appy.a", "appy.b"],
     )
 
     assert result.total_modules == 2
@@ -67,14 +67,14 @@ def test_single_internal_dependency_has_no_cycle(service):
 def test_detects_two_module_cycle(service):
     result = service.analyze(
         [
-            dependency("app/a.py", "app.b"),
-            dependency("app/b.py", "app.a"),
+            dependency("appy/a.py", "appy.b"),
+            dependency("appy/b.py", "appy.a"),
         ],
-        internal_modules=["app.a", "app.b"],
+        internal_modules=["appy.a", "appy.b"],
     )
 
     assert result.cycle_count == 1
-    assert result.cycles[0].modules == ("app.a", "app.b", "app.a")
+    assert result.cycles[0].modules == ("appy.a", "appy.b", "appy.a")
     assert result.cycles[0].dependency_count == 2
     assert result.has_cycles is True
     assert result.healthy is False
@@ -83,41 +83,41 @@ def test_detects_two_module_cycle(service):
 def test_detects_three_module_cycle(service):
     result = service.analyze(
         [
-            dependency("app/a.py", "app.b"),
-            dependency("app/b.py", "app.c"),
-            dependency("app/c.py", "app.a"),
+            dependency("appy/a.py", "appy.b"),
+            dependency("appy/b.py", "appy.c"),
+            dependency("appy/c.py", "appy.a"),
         ],
-        internal_modules=["app.a", "app.b", "app.c"],
+        internal_modules=["appy.a", "appy.b", "appy.c"],
     )
 
     assert result.cycle_count == 1
     assert result.cycles[0].modules == (
-        "app.a",
-        "app.b",
-        "app.c",
-        "app.a",
+        "appy.a",
+        "appy.b",
+        "appy.c",
+        "appy.a",
     )
 
 
 def test_detects_self_dependency_cycle(service):
     result = service.analyze(
-        [dependency("app/a.py", "app.a")],
-        internal_modules=["app.a"],
+        [dependency("appy/a.py", "appy.a")],
+        internal_modules=["appy.a"],
     )
 
     assert result.cycle_count == 1
-    assert result.cycles[0].modules == ("app.a", "app.a")
+    assert result.cycles[0].modules == ("appy.a", "appy.a")
     assert result.cycles[0].dependency_count == 1
 
 
 def test_external_dependencies_are_ignored(service):
     result = service.analyze(
         [
-            dependency("app/a.py", "app.b"),
-            dependency("app/b.py", "requests", "external"),
-            dependency("app/b.py", "app.a"),
+            dependency("appy/a.py", "appy.b"),
+            dependency("appy/b.py", "requests", "external"),
+            dependency("appy/b.py", "appy.a"),
         ],
-        internal_modules=["app.a", "app.b"],
+        internal_modules=["appy.a", "appy.b"],
     )
 
     assert result.total_dependencies == 3
@@ -129,10 +129,10 @@ def test_external_dependencies_are_ignored(service):
 def test_unresolved_dependencies_are_ignored(service):
     result = service.analyze(
         [
-            dependency("app/a.py", "app.b"),
-            dependency("app/b.py", "unknown", "unresolved"),
+            dependency("appy/a.py", "appy.b"),
+            dependency("appy/b.py", "unknown", "unresolved"),
         ],
-        internal_modules=["app.a", "app.b"],
+        internal_modules=["appy.a", "appy.b"],
     )
 
     assert result.internal_dependencies == 1
@@ -207,27 +207,27 @@ def test_duplicate_dependency_records_do_not_duplicate_cycles(service):
 def test_module_paths_are_normalized(service):
     result = service.analyze(
         [
-            dependency("app\\a.py", "app.b"),
-            dependency("app\\b.py", "app.a"),
+            dependency("appy\\a.py", "appy.b"),
+            dependency("appy\\b.py", "appy.a"),
         ],
-        internal_modules=["app/a.py", "app/b.py"],
+        internal_modules=["appy/a.py", "appy/b.py"],
     )
 
     assert result.cycle_count == 1
-    assert result.cycles[0].modules == ("app.a", "app.b", "app.a")
+    assert result.cycles[0].modules == ("appy.a", "appy.b", "appy.a")
 
 
 def test_init_files_are_normalized_to_package_modules(service):
     result = service.analyze(
         [
-            dependency("app/a.py", "app.b"),
-            dependency("app/b/__init__.py", "app.a"),
+            dependency("appy/a.py", "appy.b"),
+            dependency("appy/b/__init__.py", "appy.a"),
         ],
-        internal_modules=["app.a", "app.b"],
+        internal_modules=["appy.a", "appy.b"],
     )
 
     assert result.cycle_count == 1
-    assert result.cycles[0].modules == ("app.a", "app.b", "app.a")
+    assert result.cycles[0].modules == ("appy.a", "appy.b", "appy.a")
 
 
 def test_module_to_file_mapping_resolves_nonstandard_paths(service):
@@ -279,10 +279,10 @@ def test_modules_are_inferred_when_inventory_is_omitted(service):
 def test_unmapped_internal_dependency_does_not_create_false_cycle(service):
     result = service.analyze(
         [
-            dependency("unknown/source.py", "app.b"),
-            dependency("app/b.py", "unknown.source"),
+            dependency("unknown/source.py", "appy.b"),
+            dependency("appy/b.py", "unknown.source"),
         ],
-        internal_modules=["app.b"],
+        internal_modules=["appy.b"],
     )
 
     assert result.cycle_count == 0
@@ -383,16 +383,16 @@ def test_invalid_dependencies_raise_error(service, invalid_dependencies):
 @pytest.mark.parametrize(
     "invalid_modules",
     [
-        "app.module",
-        b"app.module",
-        {"app.module"},
-        frozenset({"app.module"}),
+        "appy.module",
+        b"appy.module",
+        {"appy.module"},
+        frozenset({"appy.module"}),
         {"module": "path"},
         [""],
         [None],
         [1],
         ["."],
-        ["app..module"],
+        ["appy..module"],
     ],
 )
 def test_invalid_internal_modules_raise_error(service, invalid_modules):
@@ -421,7 +421,7 @@ def test_duplicate_normalized_internal_modules_raise_error(service):
     with pytest.raises(CircularDependencyDetectionError):
         service.analyze(
             [],
-            internal_modules=["app/module.py", "app.module"],
+            internal_modules=["appy/module.py", "appy.module"],
         )
 
 
@@ -429,8 +429,8 @@ def test_duplicate_normalized_mapping_keys_raise_error(service):
     class DuplicateKeyMapping(dict):
         def items(self):
             return [
-                ("app/module.py", "one.py"),
-                ("app.module", "two.py"),
+                ("appy/module.py", "one.py"),
+                ("appy.module", "two.py"),
             ]
 
     with pytest.raises(CircularDependencyDetectionError):

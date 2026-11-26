@@ -1,6 +1,6 @@
 import pytest
 
-from app.application.performance_optimization_recommendation_service import (
+from appy.application.performance_optimization_recommendation_service import (
     ComponentPerformanceSummary,
     OptimizationCategory,
     PerformanceMeasurement,

@@ -1,7 +1,7 @@
 import pytest
 from types import SimpleNamespace
 
-from app.application.affected_component_identification_service import (
+from appy.application.affected_component_identification_service import (
     AffectedComponent,
     AffectedComponentEvidence,
     AffectedComponentIdentificationError,
@@ -28,7 +28,7 @@ def entity(name, entity_type, qualified_name, filename, line=1):
 
 
 def change_finding(
-    affected_file="app/service.py",
+    affected_file="appy/service.py",
     affected_entity="service.run",
     relationship_type="call",
     changed_target="core.calculate",
@@ -36,7 +36,7 @@ def change_finding(
     reason="Calls changed function.",
 ):
     return SimpleNamespace(
-        source_file="app/core.py",
+        source_file="appy/core.py",
         affected_file=affected_file,
         affected_entity=affected_entity,
         relationship_type=relationship_type,
@@ -47,7 +47,7 @@ def change_finding(
 
 
 def indirect_finding(
-    affected_file="app/ui.py",
+    affected_file="appy/ui.py",
     affected_entity="ui.render",
     impact_type="call",
     changed_target="core.calculate",
@@ -78,38 +78,38 @@ def test_identify_returns_empty_result_when_no_changes_or_findings(service):
 
 
 def test_identify_explicit_changed_file(service):
-    result = service.identify(changed_files=("app/main.py",))
+    result = service.identify(changed_files=("appy/main.py",))
 
     assert result.total_components == 1
     component = result.components[0]
-    assert component.file_path == "app/main.py"
-    assert component.entity_name == "app/main.py"
+    assert component.file_path == "appy/main.py"
+    assert component.entity_name == "appy/main.py"
     assert component.entity_type == "file"
     assert component.impact_level is ComponentImpactLevel.DIRECT
 
 
 def test_identify_explicit_changed_entity(service):
-    code_entities = (entity("run", "function", "app.service.run", "app/service.py"),)
+    code_entities = (entity("run", "function", "appy.service.run", "appy/service.py"),)
 
     result = service.identify(
-        changed_entities=("app.service.run",),
+        changed_entities=("appy.service.run",),
         code_entities=code_entities,
     )
 
     assert result.total_components == 1
     component = result.components[0]
-    assert component.entity_name == "app.service.run"
+    assert component.entity_name == "appy.service.run"
     assert component.entity_type == "function"
     assert component.impact_level is ComponentImpactLevel.DIRECT
 
 
 def test_identify_changed_entity_by_simple_name(service):
-    code_entities = (entity("run", "function", "app.service.run", "app/service.py"),)
+    code_entities = (entity("run", "function", "appy.service.run", "appy/service.py"),)
 
     result = service.identify(changed_entities=("run",), code_entities=code_entities)
 
     assert result.total_components == 1
-    assert result.components[0].entity_name == "app.service.run"
+    assert result.components[0].entity_name == "appy.service.run"
 
 
 def test_identify_unmapped_changed_entity(service):
@@ -121,7 +121,7 @@ def test_identify_unmapped_changed_entity(service):
 
 
 def test_identify_maps_change_finding_to_function(service):
-    code_entities = (entity("run", "function", "service.run", "app/service.py"),)
+    code_entities = (entity("run", "function", "service.run", "appy/service.py"),)
     result = service.identify(
         code_entities=code_entities,
         change_impact_result=SimpleNamespace(findings=(change_finding(),)),
@@ -143,11 +143,11 @@ def test_identify_falls_back_to_file_when_entity_is_not_found(service):
 
     assert result.total_components == 1
     assert result.components[0].entity_type == "file"
-    assert result.components[0].file_path == "app/service.py"
+    assert result.components[0].file_path == "appy/service.py"
 
 
 def test_identify_maps_change_finding_to_module_entity(service):
-    module = entity("service", "module", "service", "app/service.py")
+    module = entity("service", "module", "service", "appy/service.py")
     result = service.identify(
         code_entities=(module,),
         change_impact_result=SimpleNamespace(
@@ -159,7 +159,7 @@ def test_identify_maps_change_finding_to_module_entity(service):
 
 
 def test_identify_maps_indirect_finding(service):
-    code_entities = (entity("render", "function", "ui.render", "app/ui.py"),)
+    code_entities = (entity("render", "function", "ui.render", "appy/ui.py"),)
     result = service.identify(
         code_entities=code_entities,
         impact_analysis_result=SimpleNamespace(findings=(indirect_finding(),)),
@@ -194,10 +194,10 @@ def test_identify_depth_greater_than_one_as_indirect_impact(service):
 
 
 def test_identify_deduplicates_same_component_from_multiple_sources(service):
-    code_entities = (entity("run", "function", "service.run", "app/service.py"),)
+    code_entities = (entity("run", "function", "service.run", "appy/service.py"),)
     direct = change_finding(affected_entity="service.run")
     indirect = indirect_finding(
-        affected_file="app/service.py",
+        affected_file="appy/service.py",
         affected_entity="service.run",
         depth=2,
     )
@@ -313,9 +313,9 @@ def test_identify_ignores_unanalyzed_data_flow_results(service):
 
 def test_identify_combines_explicit_file_and_finding_for_same_file(service):
     result = service.identify(
-        changed_files=("app/service.py",),
+        changed_files=("appy/service.py",),
         change_impact_result=SimpleNamespace(
-            findings=(change_finding(affected_file="app/service.py"),)
+            findings=(change_finding(affected_file="appy/service.py"),)
         ),
     )
 
@@ -325,9 +325,9 @@ def test_identify_combines_explicit_file_and_finding_for_same_file(service):
 
 
 def test_identify_uses_module_entity_for_explicit_changed_file(service):
-    module = entity("service", "module", "service", "app/service.py")
+    module = entity("service", "module", "service", "appy/service.py")
     result = service.identify(
-        changed_files=("app/service.py",),
+        changed_files=("appy/service.py",),
         code_entities=(module,),
     )
 
@@ -354,10 +354,10 @@ def test_identify_is_deterministic(service):
     "kwargs",
     [
         {"changed_files": None},
-        {"changed_files": "app.py"},
-        {"changed_files": {"app.py"}},
+        {"changed_files": "appy.py"},
+        {"changed_files": {"appy.py"}},
         {"changed_files": ("",)},
-        {"changed_files": ("app.py", "app.py")},
+        {"changed_files": ("appy.py", "appy.py")},
         {"changed_entities": None},
         {"changed_entities": "function"},
         {"changed_entities": {"function"}},
@@ -486,7 +486,7 @@ def test_result_model_rejects_inconsistent_impact_counts():
 
 
 def test_result_exposes_impact_count_aliases(service):
-    result = service.identify(changed_files=("app.py",))
+    result = service.identify(changed_files=("appy.py",))
 
     assert result.direct_impact_count == 1
     assert result.indirect_impact_count == 0

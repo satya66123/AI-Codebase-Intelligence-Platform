@@ -3,11 +3,11 @@ import ast
 
 import pytest
 
-from app.application.language_parser import (
+from appy.application.language_parser import (
     BaseLanguageParser,
     ParsedSource,
 )
-from app.application.language_parser_factory import (
+from appy.application.language_parser_factory import (
     LanguageParserFactory,
     LanguageParserFactoryError,
 )
@@ -89,7 +89,7 @@ def test_factory_registers_additional_parser(factory):
 
 
 def test_factory_rejects_duplicate_parser(factory):
-    from app.application.python_language_parser import (
+    from appy.application.python_language_parser import (
         PythonLanguageParser,
     )
 

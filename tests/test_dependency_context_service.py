@@ -1,29 +1,29 @@
 
 import pytest
 
-from app.application.dependency_analyzer import (
+from appy.application.dependency_analyzer import (
     DependencyAnalyzer,
     DependencyRecord,
 )
-from app.application.dependency_context_service import (
+from appy.application.dependency_context_service import (
     DependencyContextError,
     DependencyContextResult,
     DependencyContextService,
 )
-from app.application.import_analyzer import ImportRecord
+from appy.application.import_analyzer import ImportRecord
 
 
 @pytest.fixture
 def imports():
     return (
         ImportRecord(
-            module="app.auth",
+            module="appy.auth",
             imported_name=None,
             alias=None,
             import_type="import",
             level=0,
             line=1,
-            filename="app/service.py",
+            filename="appy/service.py",
         ),
         ImportRecord(
             module="os",
@@ -32,7 +32,7 @@ def imports():
             import_type="import",
             level=0,
             line=2,
-            filename="app/service.py",
+            filename="appy/service.py",
         ),
         ImportRecord(
             module="requests",
@@ -41,7 +41,7 @@ def imports():
             import_type="import",
             level=0,
             line=3,
-            filename="app/service.py",
+            filename="appy/service.py",
         ),
         ImportRecord(
             module=None,
@@ -50,16 +50,16 @@ def imports():
             import_type="from_import",
             level=1,
             line=4,
-            filename="app/utils.py",
+            filename="appy/utils.py",
         ),
         ImportRecord(
-            module="app.database",
+            module="appy.database",
             imported_name="connect",
             alias="db_connect",
             import_type="from_import",
             level=0,
             line=5,
-            filename="app/database_service.py",
+            filename="appy/database_service.py",
         ),
     )
 
@@ -72,9 +72,9 @@ def service():
 @pytest.fixture
 def internal_modules():
     return (
-        "app",
-        "app.auth",
-        "app.database",
+        "appy",
+        "appy.auth",
+        "appy.database",
     )
 
 
@@ -233,7 +233,7 @@ def test_retrieve_classifies_internal_dependency(
     internal = [
         item
         for item in result.dependencies
-        if item.imported_module == "app.auth"
+        if item.imported_module == "appy.auth"
     ]
 
     assert len(internal) == 1
@@ -293,7 +293,7 @@ def test_retrieve_classifies_relative_import_as_unresolved(
     unresolved = [
         item
         for item in result.dependencies
-        if item.source_file == "app/utils.py"
+        if item.source_file == "appy/utils.py"
     ]
 
     assert len(unresolved) == 1
@@ -313,13 +313,13 @@ def test_retrieve_preserves_import_metadata(
     database_dependency = next(
         item
         for item in result.dependencies
-        if item.imported_module == "app.database"
+        if item.imported_module == "appy.database"
     )
 
     assert database_dependency.imported_name == "connect"
     assert database_dependency.alias == "db_connect"
     assert database_dependency.line == 5
-    assert database_dependency.source_file == "app/database_service.py"
+    assert database_dependency.source_file == "appy/database_service.py"
 
 
 # ---------------------------------------------------------
@@ -337,9 +337,9 @@ def test_retrieve_groups_dependencies_by_file(
         internal_modules,
     )
 
-    assert "app/service.py" in result.dependencies_by_file
-    assert "app/utils.py" in result.dependencies_by_file
-    assert "app/database_service.py" in result.dependencies_by_file
+    assert "appy/service.py" in result.dependencies_by_file
+    assert "appy/utils.py" in result.dependencies_by_file
+    assert "appy/database_service.py" in result.dependencies_by_file
 
 
 def test_retrieve_groups_correct_number_of_dependencies(
@@ -352,7 +352,7 @@ def test_retrieve_groups_correct_number_of_dependencies(
         internal_modules,
     )
 
-    assert len(result.dependencies_by_file["app/service.py"]) == 3
+    assert len(result.dependencies_by_file["appy/service.py"]) == 3
 
 
 def test_retrieve_grouped_records_match_flat_records(
@@ -487,13 +487,13 @@ def test_retrieve_filters_relevant_files(
     result = service.retrieve(
         imports,
         internal_modules,
-        relevant_files=("app/service.py",),
+        relevant_files=("appy/service.py",),
     )
 
     assert result.total_dependencies == 3
 
     assert set(result.dependencies_by_file) == {
-        "app/service.py",
+        "appy/service.py",
     }
 
 
@@ -506,8 +506,8 @@ def test_retrieve_filters_multiple_relevant_files(
         imports,
         internal_modules,
         relevant_files=(
-            "app/service.py",
-            "app/utils.py",
+            "appy/service.py",
+            "appy/utils.py",
         ),
     )
 
@@ -522,7 +522,7 @@ def test_retrieve_returns_empty_when_no_files_match(
     result = service.retrieve(
         imports,
         internal_modules,
-        relevant_files=("app/missing.py",),
+        relevant_files=("appy/missing.py",),
     )
 
     assert result.total_dependencies == 0
@@ -537,13 +537,13 @@ def test_retrieve_by_file(
 ):
     result = service.retrieve_by_file(
         imports=imports,
-        filename="app/utils.py",
+        filename="appy/utils.py",
         internal_modules=internal_modules,
     )
 
     assert result.total_dependencies == 1
     assert set(result.dependencies_by_file) == {
-        "app/utils.py",
+        "appy/utils.py",
     }
 
 
@@ -648,7 +648,7 @@ def test_retrieve_rejects_string_internal_modules(
     with pytest.raises(DependencyContextError):
         service.retrieve(
             imports,
-            internal_modules="app",
+            internal_modules="appy",
         )
 
 
@@ -659,7 +659,7 @@ def test_retrieve_rejects_invalid_internal_module(
     with pytest.raises(DependencyContextError):
         service.retrieve(
             imports,
-            internal_modules=("app", ""),
+            internal_modules=("appy", ""),
         )
 
 
@@ -670,7 +670,7 @@ def test_retrieve_rejects_invalid_relevant_files(
     with pytest.raises(DependencyContextError):
         service.retrieve(
             imports,
-            relevant_files="app/service.py",
+            relevant_files="appy/service.py",
         )
 
 
@@ -681,5 +681,5 @@ def test_retrieve_rejects_invalid_relevant_filename(
     with pytest.raises(DependencyContextError):
         service.retrieve(
             imports,
-            relevant_files=("app/service.py", ""),
+            relevant_files=("appy/service.py", ""),
         )

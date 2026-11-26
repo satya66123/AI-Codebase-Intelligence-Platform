@@ -1,12 +1,12 @@
 
 import pytest
 
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanner
-from app.application.metadata_extraction_service import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanner
+from appy.application.metadata_extraction_service import (
     MetadataExtractionService,
 )
-from app.application.repository_index_service import (
+from appy.application.repository_index_service import (
     RepositoryIndexService,
     RepositoryIndexError,
 )
@@ -30,7 +30,7 @@ def create_repository_index(root):
 
 def test_build_repository_index(tmp_path):
     (tmp_path / "main.py").write_text("print('hello')")
-    (tmp_path / "app.js").write_text("console.log('hello')")
+    (tmp_path / "appy.js").write_text("console.log('hello')")
 
     index = create_repository_index(tmp_path)
 
@@ -41,7 +41,7 @@ def test_build_repository_index(tmp_path):
 
 def test_search_files_by_name(tmp_path):
     (tmp_path / "main.py").write_text("print('hello')")
-    (tmp_path / "app.js").write_text("console.log('hello')")
+    (tmp_path / "appy.js").write_text("console.log('hello')")
 
     index = create_repository_index(tmp_path)
 
@@ -56,7 +56,7 @@ def test_search_files_by_name(tmp_path):
 
 def test_search_files_by_extension(tmp_path):
     (tmp_path / "main.py").write_text("print('hello')")
-    (tmp_path / "app.js").write_text("console.log('hello')")
+    (tmp_path / "appy.js").write_text("console.log('hello')")
 
     index = create_repository_index(tmp_path)
 
@@ -72,7 +72,7 @@ def test_search_files_by_extension(tmp_path):
 def test_search_files_by_language(tmp_path):
     (tmp_path / "main.py").write_text("print('hello')")
     (tmp_path / "service.py").write_text("print('service')")
-    (tmp_path / "app.js").write_text("console.log('hello')")
+    (tmp_path / "appy.js").write_text("console.log('hello')")
 
     index = create_repository_index(tmp_path)
 
@@ -131,7 +131,7 @@ def test_get_missing_file_returns_none(tmp_path):
 def test_get_language_files(tmp_path):
     (tmp_path / "main.py").write_text("print('hello')")
     (tmp_path / "service.py").write_text("print('service')")
-    (tmp_path / "app.js").write_text("console.log('hello')")
+    (tmp_path / "appy.js").write_text("console.log('hello')")
 
     index = create_repository_index(tmp_path)
 

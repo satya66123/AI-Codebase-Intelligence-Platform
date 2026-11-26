@@ -1,9 +1,9 @@
 import pytest
 
-from app.application.repository_input import (
+from appy.application.repository_input import (
     RepositoryInfo,
 )
-from app.application.repository_scanner import (
+from appy.application.repository_scanner import (
     RepositoryScanner,
     RepositoryScanError,
 )

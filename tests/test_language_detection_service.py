@@ -1,5 +1,5 @@
 
-from app.application.language_detection_service import (
+from appy.application.language_detection_service import (
     LanguageDetectionService,
 )
 
@@ -13,13 +13,13 @@ def test_detect_python_language():
 def test_detect_javascript_language():
     service = LanguageDetectionService()
 
-    assert service.detect_language("app.js") == "JavaScript"
+    assert service.detect_language("appy.js") == "JavaScript"
 
 
 def test_detect_typescript_language():
     service = LanguageDetectionService()
 
-    assert service.detect_language("app.ts") == "TypeScript"
+    assert service.detect_language("appy.ts") == "TypeScript"
 
 
 def test_detect_language_case_insensitive():
@@ -47,7 +47,7 @@ def test_detect_multiple_languages():
     files = [
         "main.py",
         "service.py",
-        "app.js",
+        "appy.js",
         "index.ts",
         "README.md",
         "data.unknown",

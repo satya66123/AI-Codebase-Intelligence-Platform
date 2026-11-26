@@ -168,7 +168,7 @@ pip install -r requirements.txt
 Start Streamlit:
 
 ```bash
-streamlit run app.py
+streamlit run appy.py
 ```
 
 ## Development Principles

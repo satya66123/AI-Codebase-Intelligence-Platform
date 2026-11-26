@@ -3,16 +3,16 @@ from unittest.mock import Mock
 
 import pytest
 
-from app.application.repository_retrieval_service import (
+from appy.application.repository_retrieval_service import (
     RepositoryRetrievalError,
     RepositoryRetrievalResult,
     RepositoryRetrievalService,
 )
-from app.application.question_analysis_agent import (
+from appy.application.question_analysis_agent import (
     QuestionAnalysisResult,
 )
-from app.application.intent_detection_service import QueryIntent
-from app.application.context_memory_retrieval_service import (
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.context_memory_retrieval_service import (
     ContextMemoryRetrievalError,
 )
 

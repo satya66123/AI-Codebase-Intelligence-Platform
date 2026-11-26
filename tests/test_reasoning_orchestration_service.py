@@ -5,11 +5,11 @@ from unittest.mock import Mock
 
 import pytest
 
-from app.application.reasoning_orchestration_service import (
+from appy.application.reasoning_orchestration_service import (
     ReasoningOrchestrationError,
     ReasoningOrchestrationService,
 )
-from app.application.intent_detection_service import QueryIntent
+from appy.application.intent_detection_service import QueryIntent
 
 
 @pytest.fixture
@@ -561,8 +561,8 @@ def test_response_contains_context_source_references(
     dependencies,
 ):
     dependencies["combined_context"].source_files = (
-        "app/main.py",
-        "app/services/user.py",
+        "appy/main.py",
+        "appy/services/user.py",
     )
 
     dependencies["combined_context"].entity_ids = (
@@ -576,8 +576,8 @@ def test_response_contains_context_source_references(
     )
 
     assert response.source_files == (
-        "app/main.py",
-        "app/services/user.py",
+        "appy/main.py",
+        "appy/services/user.py",
     )
 
     assert response.entity_ids == (

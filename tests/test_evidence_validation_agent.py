@@ -3,14 +3,14 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from app.application.context_builder import ContextBuildResult
-from app.application.evidence_validation_agent import (
+from appy.application.context_builder import ContextBuildResult
+from appy.application.evidence_validation_agent import (
     EvidenceValidationAgent,
     EvidenceValidationError,
     EvidenceValidationResult,
 )
-from app.application.intent_detection_service import QueryIntent
-from app.application.reasoning_response_model import ReasoningResponse
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.reasoning_response_model import ReasoningResponse
 
 
 @pytest.fixture
@@ -28,8 +28,8 @@ def context():
         sections=(),
         context_text=context_text,
         source_files=(
-            "app/main.py",
-            "app/services/user.py",
+            "appy/main.py",
+            "appy/services/user.py",
         ),
         entity_ids=(
             "entity-1",
@@ -48,8 +48,8 @@ def response():
         answer="The application uses a layered architecture.",
         intent=QueryIntent.ARCHITECTURE,
         source_files=(
-            "app/main.py",
-            "app/services/user.py",
+            "appy/main.py",
+            "appy/services/user.py",
         ),
         entity_ids=(
             "entity-1",
@@ -82,8 +82,8 @@ def test_all_source_files_are_supported(
     result = agent.validate(response, context)
 
     assert result.supported_source_files == (
-        "app/main.py",
-        "app/services/user.py",
+        "appy/main.py",
+        "appy/services/user.py",
     )
     assert result.unsupported_source_files == ()
 
@@ -112,8 +112,8 @@ def test_unsupported_source_file_is_detected(
         answer=response.answer,
         intent=response.intent,
         source_files=(
-            "app/main.py",
-            "app/unknown.py",
+            "appy/main.py",
+            "appy/unknown.py",
         ),
         entity_ids=response.entity_ids,
         provider_name=response.provider_name,
@@ -124,8 +124,8 @@ def test_unsupported_source_file_is_detected(
     result = agent.validate(modified_response, context)
 
     assert result.is_valid is False
-    assert result.supported_source_files == ("app/main.py",)
-    assert result.unsupported_source_files == ("app/unknown.py",)
+    assert result.supported_source_files == ("appy/main.py",)
+    assert result.unsupported_source_files == ("appy/unknown.py",)
     assert len(result.issues) == 1
 
 
@@ -269,7 +269,7 @@ def test_context_can_contain_additional_unused_references(
         intent=context.intent,
         sections=context.sections,
         context_text=context.context_text,
-        source_files=context.source_files + ("app/config.py",),
+        source_files=context.source_files + ("appy/config.py",),
         entity_ids=context.entity_ids + ("entity-3",),
         character_count=context.character_count,
         max_characters=context.max_characters,
@@ -313,7 +313,7 @@ def test_response_source_files_must_be_tuple(
     object.__setattr__(
         response,
         "source_files",
-        ["app/main.py"],
+        ["appy/main.py"],
     )
 
     with pytest.raises(
@@ -349,7 +349,7 @@ def test_context_source_files_must_be_tuple(
     object.__setattr__(
         context,
         "source_files",
-        ["app/main.py"],
+        ["appy/main.py"],
     )
 
     with pytest.raises(
@@ -414,8 +414,8 @@ def test_duplicate_supported_references_are_normalized(
         answer="The application uses a layered architecture.",
         intent=QueryIntent.ARCHITECTURE,
         source_files=(
-            "app/main.py",
-            "app/main.py",
+            "appy/main.py",
+            "appy/main.py",
         ),
         entity_ids=(
             "entity-1",
@@ -429,7 +429,7 @@ def test_duplicate_supported_references_are_normalized(
     result = agent.validate(duplicate_response, context)
 
     assert result.is_valid is True
-    assert result.supported_source_files == ("app/main.py",)
+    assert result.supported_source_files == ("appy/main.py",)
     assert result.supported_entity_ids == ("entity-1",)
     assert result.unsupported_source_files == ()
     assert result.unsupported_entity_ids == ()

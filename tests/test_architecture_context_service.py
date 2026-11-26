@@ -2,16 +2,16 @@
 import pytest
 from pathlib import Path
 
-from app.application.repository_input import RepositoryInfo
-from app.application.call_graph_service import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.call_graph_service import (
     CallGraphResult,
     CallRecord,
 )
-from app.application.inheritance_analyzer import (
+from appy.application.inheritance_analyzer import (
     InheritanceAnalysisResult,
     InheritanceRecord,
 )
-from app.application.architecture_context_service import (
+from appy.application.architecture_context_service import (
     ArchitectureContextError,
     ArchitectureContextResult,
     ArchitectureContextService,
@@ -31,7 +31,7 @@ def repository_info(tmp_path):
 def call_graph_results():
     first_calls = (
         CallRecord(
-            filename="app/service.py",
+            filename="appy/service.py",
             caller="Service.process",
             caller_type="method",
             callee="validate",
@@ -39,7 +39,7 @@ def call_graph_results():
             line=10,
         ),
         CallRecord(
-            filename="app/service.py",
+            filename="appy/service.py",
             caller="Service.process",
             caller_type="method",
             callee="database.connect",
@@ -50,7 +50,7 @@ def call_graph_results():
 
     second_calls = (
         CallRecord(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             caller="authenticate",
             caller_type="function",
             callee="verify_password",
@@ -61,12 +61,12 @@ def call_graph_results():
 
     return (
         CallGraphResult(
-            filename="app/service.py",
+            filename="appy/service.py",
             calls=first_calls,
             total_calls=2,
         ),
         CallGraphResult(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             calls=second_calls,
             total_calls=1,
         ),
@@ -77,7 +77,7 @@ def call_graph_results():
 def inheritance_results():
     first_relationships = (
         InheritanceRecord(
-            filename="app/service.py",
+            filename="appy/service.py",
             class_name="UserService",
             qualified_class_name="service.UserService",
             base_class="BaseService",
@@ -88,7 +88,7 @@ def inheritance_results():
 
     second_relationships = (
         InheritanceRecord(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             class_name="AdminUser",
             qualified_class_name="auth.AdminUser",
             base_class="User",
@@ -96,7 +96,7 @@ def inheritance_results():
             inheritance_type="single",
         ),
         InheritanceRecord(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             class_name="AdminUser",
             qualified_class_name="auth.AdminUser",
             base_class="Auditable",
@@ -107,13 +107,13 @@ def inheritance_results():
 
     return (
         InheritanceAnalysisResult(
-            filename="app/service.py",
+            filename="appy/service.py",
             relationships=first_relationships,
             classes_without_bases=("service.Helper",),
             total_relationships=1,
         ),
         InheritanceAnalysisResult(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             relationships=second_relationships,
             classes_without_bases=("auth.Token",),
             total_relationships=2,
@@ -125,7 +125,7 @@ def inheritance_results():
 def directory_tree():
     return (
         "sample-repository\n"
-        "├── app\n"
+        "├── appy\n"
         "│   ├── auth.py\n"
         "│   └── service.py\n"
         "└── tests"
@@ -594,11 +594,11 @@ def test_build_context_filters_call_graphs(
         repository_info,
         directory_tree,
         call_graph_results=call_graph_results,
-        relevant_files=("app/service.py",),
+        relevant_files=("appy/service.py",),
     )
 
     assert len(result.call_graphs) == 1
-    assert result.call_graphs[0].filename == "app/service.py"
+    assert result.call_graphs[0].filename == "appy/service.py"
     assert result.total_calls == 2
 
 
@@ -612,11 +612,11 @@ def test_build_context_filters_inheritance_analyses(
         repository_info,
         directory_tree,
         inheritance_results=inheritance_results,
-        relevant_files=("app/auth.py",),
+        relevant_files=("appy/auth.py",),
     )
 
     assert len(result.inheritance_analyses) == 1
-    assert result.inheritance_analyses[0].filename == "app/auth.py"
+    assert result.inheritance_analyses[0].filename == "appy/auth.py"
     assert result.total_inheritance_relationships == 2
 
 
@@ -632,7 +632,7 @@ def test_build_context_filters_both_analysis_types(
         directory_tree,
         call_graph_results=call_graph_results,
         inheritance_results=inheritance_results,
-        relevant_files=("app/service.py",),
+        relevant_files=("appy/service.py",),
     )
 
     assert len(result.call_graphs) == 1
@@ -653,7 +653,7 @@ def test_build_context_returns_empty_analysis_for_unmatched_files(
         directory_tree,
         call_graph_results=call_graph_results,
         inheritance_results=inheritance_results,
-        relevant_files=("app/missing.py",),
+        relevant_files=("appy/missing.py",),
     )
 
     assert result.call_graphs == ()
@@ -816,7 +816,7 @@ def test_build_context_rejects_string_relevant_files(
         service.build_context(
             repository_info,
             directory_tree,
-            relevant_files="app/service.py",
+            relevant_files="appy/service.py",
         )
 
 
@@ -829,5 +829,5 @@ def test_build_context_rejects_invalid_relevant_filename(
         service.build_context(
             repository_info,
             directory_tree,
-            relevant_files=("app/service.py", ""),
+            relevant_files=("appy/service.py", ""),
         )

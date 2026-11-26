@@ -3,12 +3,12 @@ from pathlib import Path
 
 import pytest
 
-from app.application.repository_input import validate_repository_path
-from app.application.repository_scanner import (
+from appy.application.repository_input import validate_repository_path
+from appy.application.repository_scanner import (
     RepositoryScanResult,
     RepositoryScanner,
 )
-from app.application.repository_structure_validation_service import (
+from appy.application.repository_structure_validation_service import (
     RepositoryStructureIssue,
     RepositoryStructureValidationError,
     RepositoryStructureValidationResult,
@@ -24,7 +24,7 @@ def service():
 
 @pytest.fixture
 def repository(tmp_path):
-    (tmp_path / "app").mkdir()
+    (tmp_path / "appy").mkdir()
     (tmp_path / "tests").mkdir()
 
     (tmp_path / "README.md").write_text(
@@ -32,7 +32,7 @@ def repository(tmp_path):
         encoding="utf-8",
     )
 
-    (tmp_path / "app" / "main.py").write_text(
+    (tmp_path / "appy" / "main.py").write_text(
         "print('hello')",
         encoding="utf-8",
     )
@@ -84,7 +84,7 @@ def test_required_files_exist(service, repository, scan_result):
     result = service.validate(
         repository,
         scan_result,
-        required_files=("README.md", "app/main.py"),
+        required_files=("README.md", "appy/main.py"),
     )
 
     assert result.is_valid is True
@@ -95,7 +95,7 @@ def test_required_directories_exist(service, repository, scan_result):
     result = service.validate(
         repository,
         scan_result,
-        required_directories=("app", "tests"),
+        required_directories=("appy", "tests"),
     )
 
     assert result.is_valid is True
@@ -144,7 +144,7 @@ def test_required_file_must_be_a_file(
     result = service.validate(
         repository,
         scan_result,
-        required_files=("app",),
+        required_files=("appy",),
     )
 
     assert result.is_valid is False
@@ -528,7 +528,7 @@ def test_required_paths_accept_path_objects(
         repository,
         scan_result,
         required_files=(Path("README.md"),),
-        required_directories=(Path("app"),),
+        required_directories=(Path("appy"),),
     )
 
     assert result.is_valid is True
@@ -542,7 +542,7 @@ def test_required_paths_accept_generator(
     result = service.validate(
         repository,
         scan_result,
-        required_files=(path for path in ("README.md", "app/main.py")),
+        required_files=(path for path in ("README.md", "appy/main.py")),
     )
 
     assert result.is_valid is True

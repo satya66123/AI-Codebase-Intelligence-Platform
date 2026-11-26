@@ -1,15 +1,15 @@
 
 import pytest
 
-from app.application.question_analysis_agent import (
+from appy.application.question_analysis_agent import (
     QuestionAnalysisAgent,
     QuestionAnalysisError,
     QuestionAnalysisResult,
 )
-from app.application.question_validation_service import (
+from appy.application.question_validation_service import (
     QuestionValidationService,
 )
-from app.application.intent_detection_service import (
+from appy.application.intent_detection_service import (
     IntentDetectionService,
     QueryIntent,
 )

@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from app.application.intelligence_memory_models import (
+from appy.application.intelligence_memory_models import (
     IntelligenceMemory,
     MemoryModelError,
     MemoryType,

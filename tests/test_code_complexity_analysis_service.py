@@ -1,7 +1,7 @@
 
 import pytest
 
-from app.application.code_complexity_analysis_service import (
+from appy.application.code_complexity_analysis_service import (
     CodeComplexityAnalysisError,
     CodeComplexityAnalysisResult,
     CodeComplexityAnalysisService,

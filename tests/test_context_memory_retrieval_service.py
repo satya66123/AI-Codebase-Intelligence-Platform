@@ -3,16 +3,16 @@ from datetime import datetime, timezone
 
 import pytest
 
-from app.application.context_memory_retrieval_service import (
+from appy.application.context_memory_retrieval_service import (
     ContextMemoryRetrievalError,
     ContextMemoryRetrievalResult,
     ContextMemoryRetrievalService,
 )
-from app.application.intelligence_memory_models import (
+from appy.application.intelligence_memory_models import (
     IntelligenceMemory,
     MemoryType,
 )
-from app.application.intelligence_memory_storage import (
+from appy.application.intelligence_memory_storage import (
     IntelligenceMemoryStorage,
 )
 
@@ -39,7 +39,7 @@ def memories(storage):
             repository_id="repo-1",
             memory_type=MemoryType.CODE_ENTITY,
             content="UserService: Handles user authentication and registration",
-            source_files=("app/services/user_service.py",),
+            source_files=("appy/services/user_service.py",),
             related_entity_ids=("entity-user-service",),
             metadata={"language": "python"},
             created_at=timestamp,
@@ -50,7 +50,7 @@ def memories(storage):
             repository_id="repo-1",
             memory_type=MemoryType.DEPENDENCY,
             content="DatabaseService: Manages database connections",
-            source_files=("app/services/database_service.py",),
+            source_files=("appy/services/database_service.py",),
             related_entity_ids=("entity-database-service",),
             metadata={"language": "python"},
             created_at=timestamp,
@@ -61,7 +61,7 @@ def memories(storage):
             repository_id="repo-1",
             memory_type=MemoryType.FILE,
             content="user_service.py: Contains user service implementation",
-            source_files=("app/services/user_service.py",),
+            source_files=("appy/services/user_service.py",),
             related_entity_ids=("entity-user-service",),
             metadata={"language": "python"},
             created_at=timestamp,
@@ -72,7 +72,7 @@ def memories(storage):
             repository_id="repo-2",
             memory_type=MemoryType.CODE_ENTITY,
             content="PaymentService: Processes payment transactions",
-            source_files=("app/services/payment_service.py",),
+            source_files=("appy/services/payment_service.py",),
             related_entity_ids=("entity-payment-service",),
             metadata={"language": "python"},
             created_at=timestamp,
@@ -198,7 +198,7 @@ def test_retrieve_with_multiple_memory_types(service, memories):
 def test_retrieve_by_source_file(service, memories):
     result = service.retrieve_by_source_file(
         "repo-1",
-        "app/services/user_service.py",
+        "appy/services/user_service.py",
     )
 
     assert result.total_matches == 2
@@ -217,7 +217,7 @@ def test_retrieve_with_combined_filters(service, memories):
     result = service.retrieve(
         "repo-1",
         memory_types=(MemoryType.CODE_ENTITY,),
-        source_file="app/services/user_service.py",
+        source_file="appy/services/user_service.py",
         related_entity_id="entity-user-service",
     )
 

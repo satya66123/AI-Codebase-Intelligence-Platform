@@ -1,11 +1,11 @@
 
 import pytest
 
-from app.application.code_entity_extractor import CodeEntity
-from app.application.code_indexing_service import (
+from appy.application.code_entity_extractor import CodeEntity
+from appy.application.code_indexing_service import (
     CodeIndexingService,
 )
-from app.application.index_management_service import (
+from appy.application.index_management_service import (
     IndexManagementError,
     IndexManagementService,
     ManagedIndex,

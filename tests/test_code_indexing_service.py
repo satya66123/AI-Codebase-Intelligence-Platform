@@ -1,8 +1,8 @@
 
 import pytest
 
-from app.application.code_entity_extractor import CodeEntity
-from app.application.code_indexing_service import (
+from appy.application.code_entity_extractor import CodeEntity
+from appy.application.code_indexing_service import (
     CodeIndexEntry,
     CodeIndexingError,
     CodeIndexingService,
@@ -177,11 +177,11 @@ def test_reject_empty_entity_name(service):
     entity = CodeEntity(
         name="",
         entity_type="function",
-        qualified_name="app.run",
-        filename="app.py",
+        qualified_name="appy.run",
+        filename="appy.py",
         line=1,
         end_line=2,
-        parent="app",
+        parent="appy",
         docstring=None,
     )
 
@@ -196,11 +196,11 @@ def test_reject_invalid_line_number(service):
     entity = CodeEntity(
         name="run",
         entity_type="function",
-        qualified_name="app.run",
-        filename="app.py",
+        qualified_name="appy.run",
+        filename="appy.py",
         line=0,
         end_line=2,
-        parent="app",
+        parent="appy",
         docstring=None,
     )
 
@@ -215,11 +215,11 @@ def test_reject_invalid_end_line(service):
     entity = CodeEntity(
         name="run",
         entity_type="function",
-        qualified_name="app.run",
-        filename="app.py",
+        qualified_name="appy.run",
+        filename="appy.py",
         line=5,
         end_line=3,
-        parent="app",
+        parent="appy",
         docstring=None,
     )
 

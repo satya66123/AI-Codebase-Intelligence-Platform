@@ -1,9 +1,9 @@
 
 import pytest
 
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanner
-from app.application.metadata_extraction_service import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanner
+from appy.application.metadata_extraction_service import (
     MetadataExtractionService,
     MetadataExtractionError,
 )
@@ -42,7 +42,7 @@ def test_extract_nested_file_metadata(tmp_path):
     source = tmp_path / "src"
     source.mkdir()
 
-    file_path = source / "app.js"
+    file_path = source / "appy.js"
     file_path.write_text("console.log('hello')")
 
     metadata = MetadataExtractionService().extract_file_metadata(
@@ -50,13 +50,13 @@ def test_extract_nested_file_metadata(tmp_path):
         tmp_path,
     )
 
-    assert metadata.relative_path == "src/app.js"
+    assert metadata.relative_path == "src/appy.js"
     assert metadata.language == "JavaScript"
 
 
 def test_extract_repository_metadata(tmp_path):
     (tmp_path / "main.py").write_text("print('hello')")
-    (tmp_path / "app.js").write_text("console.log('hello')")
+    (tmp_path / "appy.js").write_text("console.log('hello')")
 
     source = tmp_path / "src"
     source.mkdir()
@@ -81,7 +81,7 @@ def test_extract_repository_metadata(tmp_path):
 
 def test_repository_total_size(tmp_path):
     (tmp_path / "main.py").write_text("12345")
-    (tmp_path / "app.js").write_text("123")
+    (tmp_path / "appy.js").write_text("123")
 
     result = scan_repository(tmp_path)
 

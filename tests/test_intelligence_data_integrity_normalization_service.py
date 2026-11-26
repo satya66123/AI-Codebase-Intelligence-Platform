@@ -1,6 +1,6 @@
 import pytest
 
-from app.application.intelligence_data_integrity_normalization_service import (
+from appy.application.intelligence_data_integrity_normalization_service import (
     IntegrityFinding,
     IntegritySeverity,
     IntelligenceDataIntegrityError,
@@ -25,7 +25,7 @@ class TestIntelligenceDataIntegrityNormalizationService:
                     "id": "entity-1",
                     "name": "User Service",
                     "description": "Handles user operations",
-                    "file_path": "app/services/user.py",
+                    "file_path": "appy/services/user.py",
                 }
             ]
         )
@@ -121,48 +121,48 @@ class TestIntelligenceDataIntegrityNormalizationService:
             [
                 {
                     "id": "entity-1",
-                    "file_path": r"app\services\user.py",
+                    "file_path": r"appy\services\user.py",
                 }
             ]
         )
 
-        assert result.records[0].data["file_path"] == "app/services/user.py"
+        assert result.records[0].data["file_path"] == "appy/services/user.py"
 
     def test_repeated_path_separators_are_normalized(self):
         result = self.service.normalize(
             [
                 {
                     "id": "entity-1",
-                    "file_path": "app//services///user.py",
+                    "file_path": "appy//services///user.py",
                 }
             ]
         )
 
-        assert result.records[0].data["file_path"] == "app/services/user.py"
+        assert result.records[0].data["file_path"] == "appy/services/user.py"
 
     def test_dot_path_segments_are_normalized(self):
         result = self.service.normalize(
             [
                 {
                     "id": "entity-1",
-                    "file_path": "app/./services/user.py",
+                    "file_path": "appy/./services/user.py",
                 }
             ]
         )
 
-        assert result.records[0].data["file_path"] == "app/services/user.py"
+        assert result.records[0].data["file_path"] == "appy/services/user.py"
 
     def test_path_with_parent_segment_inside_root_is_normalized(self):
         result = self.service.normalize(
             [
                 {
                     "id": "entity-1",
-                    "file_path": "app/services/../models/user.py",
+                    "file_path": "appy/services/../models/user.py",
                 }
             ]
         )
 
-        assert result.records[0].data["file_path"] == "app/models/user.py"
+        assert result.records[0].data["file_path"] == "appy/models/user.py"
 
     def test_absolute_unix_path_is_rejected_by_default(self):
         result = self.service.normalize(
@@ -217,7 +217,7 @@ class TestIntelligenceDataIntegrityNormalizationService:
             [
                 {
                     "id": "entity-1",
-                    "file_path": "app/../../outside/main.py",
+                    "file_path": "appy/../../outside/main.py",
                 }
             ]
         )
@@ -418,13 +418,13 @@ class TestIntelligenceDataIntegrityNormalizationService:
         original = {
             "id": "entity-1",
             "name": "  User   Service  ",
-            "file_path": r"app\services\user.py",
+            "file_path": r"appy\services\user.py",
         }
 
         self.service.normalize([original])
 
         assert original["name"] == "  User   Service  "
-        assert original["file_path"] == r"app\services\user.py"
+        assert original["file_path"] == r"appy\services\user.py"
 
     def test_unconfigured_fields_are_preserved(self):
         result = self.service.normalize(
@@ -448,7 +448,7 @@ class TestIntelligenceDataIntegrityNormalizationService:
                 {
                     "id": " entity-1 ",
                     "name": "  User   Service ",
-                    "file_path": r"app\services\user.py",
+                    "file_path": r"appy\services\user.py",
                 }
             ]
         )
@@ -525,11 +525,11 @@ class TestIntelligenceDataIntegrityNormalizationService:
         )
 
         result = service.normalize(
-            [{"id": "entity-1", "qualified_name": "  app . services . User  "}]
+            [{"id": "entity-1", "qualified_name": "  appy . services . User  "}]
         )
 
         assert result.records[0].data["qualified_name"] == (
-            "app . services . User"
+            "appy . services . User"
         )
 
     def test_custom_path_fields_are_supported(self):
@@ -538,10 +538,10 @@ class TestIntelligenceDataIntegrityNormalizationService:
         )
 
         result = service.normalize(
-            [{"id": "entity-1", "source_file": r"app\models\user.py"}]
+            [{"id": "entity-1", "source_file": r"appy\models\user.py"}]
         )
 
-        assert result.records[0].data["source_file"] == "app/models/user.py"
+        assert result.records[0].data["source_file"] == "appy/models/user.py"
 
     def test_required_fields_must_be_iterable(self):
         with pytest.raises(IntelligenceDataIntegrityError):

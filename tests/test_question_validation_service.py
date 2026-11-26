@@ -1,7 +1,7 @@
 
 import pytest
 
-from app.application.question_validation_service import (
+from appy.application.question_validation_service import (
     QuestionValidationError,
     QuestionValidationService,
     ValidatedQuestion,

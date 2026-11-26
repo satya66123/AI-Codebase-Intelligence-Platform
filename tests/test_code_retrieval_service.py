@@ -1,12 +1,12 @@
 
 import pytest
 
-from app.application.code_entity_extractor import CodeEntity
-from app.application.code_indexing_service import (
+from appy.application.code_entity_extractor import CodeEntity
+from appy.application.code_indexing_service import (
     CodeIndexEntry,
     CodeIndexingService,
 )
-from app.application.code_retrieval_service import (
+from appy.application.code_retrieval_service import (
     CodeRetrievalError,
     CodeRetrievalResult,
     CodeRetrievalService,
@@ -202,7 +202,7 @@ def test_line_range_returns_empty_for_other_file(
 def test_empty_index_retrieval(service):
     empty_index = CodeIndexingService().build_index([])
 
-    result = service.get_by_file(empty_index, "app.py")
+    result = service.get_by_file(empty_index, "appy.py")
 
     assert result.entries == ()
     assert result.total_results == 0

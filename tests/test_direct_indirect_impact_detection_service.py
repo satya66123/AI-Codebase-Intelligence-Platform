@@ -1,13 +1,13 @@
 
 import pytest
 
-from app.application.call_graph_service import (
+from appy.application.call_graph_service import (
     CallGraphResult,
     CallRecord,
 )
-from app.application.code_entity_extractor import CodeEntity
-from app.application.dependency_analyzer import DependencyRecord
-from app.application.direct_indirect_impact_detection_service import (
+from appy.application.code_entity_extractor import CodeEntity
+from appy.application.dependency_analyzer import DependencyRecord
+from appy.application.direct_indirect_impact_detection_service import (
     DirectIndirectImpactDetectionError,
     DirectIndirectImpactDetectionService,
     DirectIndirectImpactAnalysisResult,
@@ -385,35 +385,35 @@ def test_duplicate_changed_targets_are_removed(service):
 
 def test_windows_paths_are_normalized(service):
     result = service.analyze(
-        changed_files=("app\\services\\billing.py",),
+        changed_files=("appy\\services\\billing.py",),
         dependencies=(
             make_dependency(
-                "app\\services\\checkout.py",
-                "app.services.billing",
+                "appy\\services\\checkout.py",
+                "appy.services.billing",
             ),
         ),
     )
 
     assert result.affected_files == (
-        "app/services/checkout.py",
+        "appy/services/checkout.py",
     )
 
 
 def test_nested_package_import_is_resolved(service):
     dependencies = (
         make_dependency(
-            "app/services/checkout.py",
-            "app.services.billing",
+            "appy/services/checkout.py",
+            "appy.services.billing",
         ),
     )
 
     result = service.analyze(
-        changed_files=("app/services/billing.py",),
+        changed_files=("appy/services/billing.py",),
         dependencies=dependencies,
     )
 
     assert result.affected_files == (
-        "app/services/checkout.py",
+        "appy/services/checkout.py",
     )
 
 
@@ -608,8 +608,8 @@ def test_invalid_changed_entities_are_rejected(
         " ",
         "/billing.py",
         "../billing.py",
-        "app/../billing.py",
-        "app//billing.py",
+        "appy/../billing.py",
+        "appy//billing.py",
         "./billing.py",
         "C:\\project\\billing.py",
     ],

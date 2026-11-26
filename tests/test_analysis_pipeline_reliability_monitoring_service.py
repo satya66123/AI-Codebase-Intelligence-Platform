@@ -1,6 +1,6 @@
 import pytest
 
-from app.application.analysis_pipeline_reliability_monitoring_service import (
+from appy.application.analysis_pipeline_reliability_monitoring_service import (
     AnalysisPipelineReliabilityError,
     AnalysisPipelineReliabilityMonitoringService,
     AnalysisPipelineReliabilityReport,

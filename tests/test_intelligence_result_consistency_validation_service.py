@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from app.application.intelligence_result_consistency_validation_service import (
+from appy.application.intelligence_result_consistency_validation_service import (
     ConsistencyIssue,
     ConsistencySeverity,
     IntelligenceResultConsistencyError,

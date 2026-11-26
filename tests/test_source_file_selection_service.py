@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from app.application.source_file_selection_service import (
+from appy.application.source_file_selection_service import (
     SourceFileSelectionError,
     SourceFileSelectionService,
 )
@@ -17,13 +17,13 @@ def sample_files():
     return [
         {
             "name": "main.py",
-            "relative_path": "app/main.py",
+            "relative_path": "appy/main.py",
             "extension": ".py",
             "language": "Python",
         },
         {
-            "name": "app.js",
-            "relative_path": "frontend/app.js",
+            "name": "appy.js",
+            "relative_path": "frontend/appy.js",
             "extension": ".js",
             "language": "JavaScript",
         },
@@ -158,7 +158,7 @@ def test_dataclass_file_metadata_supported(service):
     files = [
         FileRecord(
             name="main.py",
-            relative_path="app/main.py",
+            relative_path="appy/main.py",
             extension=".py",
             language="Python",
         )

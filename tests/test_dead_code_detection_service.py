@@ -3,7 +3,7 @@
 
 import pytest
 
-from app.application.dead_code_detection_service import (
+from appy.application.dead_code_detection_service import (
     DeadCodeDetectionError,
     DeadCodeDetectionResult,
     DeadCodeDetectionService,
@@ -58,7 +58,7 @@ def test_unsupported_files_are_skipped(service):
     result = service.analyze({
         "main.py": "print('hello')",
         "README.md": "# Project",
-        "app.js": "console.log('hello');",
+        "appy.js": "console.log('hello');",
     })
 
     assert result.total_files == 3

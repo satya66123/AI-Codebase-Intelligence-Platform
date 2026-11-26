@@ -1,12 +1,12 @@
 
 import pytest
 
-from app.application.code_entity_extractor import (
+from appy.application.code_entity_extractor import (
     CodeEntity,
     CodeEntityExtractionError,
     CodeEntityExtractor,
 )
-from app.application.python_language_parser import (
+from appy.application.python_language_parser import (
     PythonLanguageParser,
 )
 
@@ -52,7 +52,7 @@ def test_extract_module_from_unknown_filename(extractor, parser):
 def test_extract_function(extractor, parser):
     source = "def greet():\n    return 'Hello'"
 
-    result = extractor.extract(parser.parse(source, "app.py"))
+    result = extractor.extract(parser.parse(source, "appy.py"))
 
     function = next(
         entity for entity in result
@@ -60,8 +60,8 @@ def test_extract_function(extractor, parser):
     )
 
     assert function.entity_type == "function"
-    assert function.qualified_name == "app.greet"
-    assert function.parent == "app"
+    assert function.qualified_name == "appy.greet"
+    assert function.parent == "appy"
     assert function.line == 1
 
 
@@ -119,7 +119,7 @@ def outer():
         pass
 """
 
-    result = extractor.extract(parser.parse(source, "app.py"))
+    result = extractor.extract(parser.parse(source, "appy.py"))
 
     inner = next(
         entity for entity in result
@@ -127,8 +127,8 @@ def outer():
     )
 
     assert inner.entity_type == "function"
-    assert inner.parent == "app.outer"
-    assert inner.qualified_name == "app.outer.inner"
+    assert inner.parent == "appy.outer"
+    assert inner.qualified_name == "appy.outer.inner"
 
 
 def test_extract_docstrings(extractor, parser):
@@ -140,7 +140,7 @@ def greet():
     pass
 '''
 
-    result = extractor.extract(parser.parse(source, "app.py"))
+    result = extractor.extract(parser.parse(source, "appy.py"))
 
     module = result[0]
     function = next(

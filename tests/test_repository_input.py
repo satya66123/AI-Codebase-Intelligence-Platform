@@ -1,7 +1,7 @@
 
 import pytest
 
-from app.application.repository_input import (
+from appy.application.repository_input import (
     RepositoryInputError,
     validate_repository_path,
 )

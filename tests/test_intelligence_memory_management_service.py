@@ -5,15 +5,15 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from app.application.intelligence_memory_models import (
+from appy.application.intelligence_memory_models import (
     IntelligenceMemory,
     MemoryType,
     MemoryModelError,
 )
-from app.application.intelligence_memory_storage import (
+from appy.application.intelligence_memory_storage import (
     IntelligenceMemoryStorage,
 )
-from app.application.intelligence_memory_management_service import (
+from appy.application.intelligence_memory_management_service import (
     IntelligenceMemoryManagementError,
     IntelligenceMemoryManagementService,
     MemoryAction,
@@ -43,7 +43,7 @@ def memory():
         repository_id="repo-1",
         memory_type=MemoryType.CODE_ENTITY,
         content="UserService handles authentication and registration.",
-        source_files=("app/services/user_service.py",),
+        source_files=("appy/services/user_service.py",),
         related_entity_ids=("entity-user-service",),
         metadata={"language": "python"},
         created_at=timestamp,
@@ -66,7 +66,7 @@ def make_memory(
         repository_id=repository_id,
         memory_type=memory_type,
         content=content,
-        source_files=("app/services/user_service.py",),
+        source_files=("appy/services/user_service.py",),
         related_entity_ids=("entity-user-service",),
         metadata={"language": "python"},
         created_at=created_at or now.isoformat(),

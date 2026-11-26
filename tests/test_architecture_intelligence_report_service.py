@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.architecture_intelligence_report_service import (
+from appy.application.architecture_intelligence_report_service import (
     ArchitectureIntelligenceReport,
     ArchitectureIntelligenceReportError,
     ArchitectureIntelligenceReportService,
@@ -134,7 +134,7 @@ def test_architecture_section_reports_patterns(service):
         pattern=SimpleNamespace(value="layered_architecture"),
         confidence=SimpleNamespace(value="high"),
         evidence_count=4,
-        affected_files=("app/domain.py", "app/services.py"),
+        affected_files=("appy/domain.py", "appy/services.py"),
     )
 
     result = service.generate(
@@ -167,7 +167,7 @@ def test_architecture_section_handles_no_patterns(service):
 
 def test_module_section_reports_classified_modules(service):
     finding = SimpleNamespace(
-        file_path="app/services/user.py",
+        file_path="appy/services/user.py",
         responsibility=SimpleNamespace(value="service"),
         confidence=SimpleNamespace(value="high"),
     )
@@ -177,7 +177,7 @@ def test_module_section_reports_classified_modules(service):
             responsibilities=SimpleNamespace(
                 total_modules=2,
                 classified_modules=1,
-                unclassified_files=("app/unknown.py",),
+                unclassified_files=("appy/unknown.py",),
                 findings=(finding,),
             )
         )
@@ -189,11 +189,11 @@ def test_module_section_reports_classified_modules(service):
 
     assert "1 of 2 module(s) classified" in section.summary
     assert any(
-        "app/services/user.py" in item
+        "appy/services/user.py" in item
         for item in section.findings
     )
     assert any(
-        "app/unknown.py" in item
+        "appy/unknown.py" in item
         for item in section.findings
     )
 
@@ -295,8 +295,8 @@ def test_execution_section_reports_unresolved_references(service):
 
 def test_cross_module_section_reports_relationships(service):
     relationship = SimpleNamespace(
-        source_module="app.main",
-        target_module="app.services",
+        source_module="appy.main",
+        target_module="appy.services",
         relationship_count=3,
     )
 
@@ -316,12 +316,12 @@ def test_cross_module_section_reports_relationships(service):
     )
 
     assert "3 resolved call(s)" in section.summary
-    assert "app.main -> app.services" in section.findings[0]
+    assert "appy.main -> appy.services" in section.findings[0]
 
 
 def test_cross_module_section_reports_unresolved_references(service):
     reference = SimpleNamespace(
-        source_module="app.main",
+        source_module="appy.main",
         callee="missing",
         reason="No target entity",
     )

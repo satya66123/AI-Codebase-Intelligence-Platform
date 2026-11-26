@@ -1,9 +1,9 @@
 
 import pytest
 
-from app.application.repository_agent import RepositoryAgent
-from app.application.repository_input import RepositoryInputError
-from app.application.repository_storage_service import (
+from appy.application.repository_agent import RepositoryAgent
+from appy.application.repository_input import RepositoryInputError
+from appy.application.repository_storage_service import (
     RepositoryStorageService,
 )
 
@@ -29,7 +29,7 @@ def sample_repository(tmp_path):
         encoding="utf-8",
     )
 
-    (repository / "app.js").write_text(
+    (repository / "appy.js").write_text(
         "console.log('hello')",
         encoding="utf-8",
     )

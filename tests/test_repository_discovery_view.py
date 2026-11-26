@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.presentation import repository_discovery_view as view
+from appy.presentation import repository_discovery_view as view
 
 
 class FakeStreamlit:

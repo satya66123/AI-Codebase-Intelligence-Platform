@@ -3,8 +3,8 @@
 
 import pytest
 
-from app.application.import_analyzer import ImportRecord
-from app.application.import_reference_validation_service import (
+from appy.application.import_analyzer import ImportRecord
+from appy.application.import_reference_validation_service import (
     ImportReferenceIssue,
     ImportReferenceRecord,
     ImportReferenceSeverity,
@@ -22,7 +22,7 @@ def service():
 
 def make_import(
     filename="src/main.py",
-    module="app.services.user_service",
+    module="appy.services.user_service",
     imported_name=None,
     alias=None,
     import_type="import",
@@ -56,7 +56,7 @@ def test_empty_inputs_return_valid_result(service):
 def test_known_internal_module_is_valid(service):
     result = service.validate(
         [make_import()],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.valid_imports == 1
@@ -66,8 +66,8 @@ def test_known_internal_module_is_valid(service):
 
 def test_module_path_with_py_extension_is_normalized(service):
     result = service.validate(
-        [make_import(module="app/services/user_service")],
-        ["app/services/user_service.py"],
+        [make_import(module="appy/services/user_service")],
+        ["appy/services/user_service.py"],
     )
 
     assert result.valid_imports == 1
@@ -75,8 +75,8 @@ def test_module_path_with_py_extension_is_normalized(service):
 
 def test_module_path_with_backslashes_is_normalized(service):
     result = service.validate(
-        [make_import(module="app.services.user_service")],
-        ["app\\services\\user_service.py"],
+        [make_import(module="appy.services.user_service")],
+        ["appy\\services\\user_service.py"],
     )
 
     assert result.valid_imports == 1
@@ -84,8 +84,8 @@ def test_module_path_with_backslashes_is_normalized(service):
 
 def test_module_child_is_resolved_from_known_submodule(service):
     result = service.validate(
-        [make_import(module="app.services")],
-        ["app.services.user_service"],
+        [make_import(module="appy.services")],
+        ["appy.services.user_service"],
     )
 
     assert result.valid_imports == 1
@@ -93,8 +93,8 @@ def test_module_child_is_resolved_from_known_submodule(service):
 
 def test_known_package_init_module_is_resolved(service):
     result = service.validate(
-        [make_import(module="app.services")],
-        ["app.services.__init__"],
+        [make_import(module="appy.services")],
+        ["appy.services.__init__"],
     )
 
     assert result.valid_imports == 1
@@ -103,7 +103,7 @@ def test_known_package_init_module_is_resolved(service):
 def test_missing_repository_module_is_external(service):
     result = service.validate(
         [make_import(module="requests")],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.external_imports == 1
@@ -121,7 +121,7 @@ def test_relative_import_is_unresolved(service):
                 level=1,
             )
         ],
-        ["app.helpers"],
+        ["appy.helpers"],
     )
 
     assert result.unresolved_imports == 1
@@ -145,14 +145,14 @@ def test_imported_symbol_is_valid_when_exported(service):
     result = service.validate(
         [
             make_import(
-                module="app.services.user_service",
+                module="appy.services.user_service",
                 imported_name="UserService",
                 import_type="from_import",
             )
         ],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
         module_exports={
-            "app.services.user_service": ["UserService", "create_user"],
+            "appy.services.user_service": ["UserService", "create_user"],
         },
     )
 
@@ -164,14 +164,14 @@ def test_missing_imported_symbol_is_invalid(service):
     result = service.validate(
         [
             make_import(
-                module="app.services.user_service",
+                module="appy.services.user_service",
                 imported_name="MissingService",
                 import_type="from_import",
             )
         ],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
         module_exports={
-            "app.services.user_service": ["UserService"],
+            "appy.services.user_service": ["UserService"],
         },
     )
 
@@ -185,12 +185,12 @@ def test_symbol_is_not_guessed_when_export_inventory_is_missing(service):
     result = service.validate(
         [
             make_import(
-                module="app.services.user_service",
+                module="appy.services.user_service",
                 imported_name="UnknownSymbol",
                 import_type="from_import",
             )
         ],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.valid_imports == 1
@@ -201,15 +201,15 @@ def test_import_alias_does_not_change_symbol_validation(service):
     result = service.validate(
         [
             make_import(
-                module="app.services.user_service",
+                module="appy.services.user_service",
                 imported_name="UserService",
                 alias="Service",
                 import_type="from_import",
             )
         ],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
         module_exports={
-            "app.services.user_service": ["UserService"],
+            "appy.services.user_service": ["UserService"],
         },
     )
 
@@ -225,9 +225,9 @@ def test_external_module_symbol_is_not_checked_against_internal_exports(service)
                 import_type="from_import",
             )
         ],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
         module_exports={
-            "app.services.user_service": ["UserService"],
+            "appy.services.user_service": ["UserService"],
         },
     )
 
@@ -238,7 +238,7 @@ def test_external_module_symbol_is_not_checked_against_internal_exports(service)
 def test_missing_module_name_is_unresolved(service):
     result = service.validate(
         [make_import(module=None)],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.unresolved_imports == 1
@@ -248,7 +248,7 @@ def test_missing_module_name_is_unresolved(service):
 def test_module_name_with_only_dots_is_invalid(service):
     result = service.validate(
         [make_import(module="...")],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.invalid_imports == 1
@@ -257,14 +257,14 @@ def test_module_name_with_only_dots_is_invalid(service):
 
 def test_multiple_imports_are_counted_independently(service):
     imports = [
-        make_import(module="app.services.user_service", line=1),
+        make_import(module="appy.services.user_service", line=1),
         make_import(module="requests", line=2),
         make_import(module="missing_module", line=3, level=1),
     ]
 
     result = service.validate(
         imports,
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.total_imports == 3
@@ -289,7 +289,7 @@ def test_issue_records_include_source_location(service):
 def test_records_preserve_import_metadata(service):
     record = make_import(
         filename="src/api.py",
-        module="app.services.user_service",
+        module="appy.services.user_service",
         imported_name="UserService",
         alias="Service",
         import_type="from_import",
@@ -298,14 +298,14 @@ def test_records_preserve_import_metadata(service):
 
     result = service.validate(
         [record],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     validated = result.records[0]
 
     assert validated.source_file == "src/api.py"
     assert validated.line == 8
-    assert validated.imported_module == "app.services.user_service"
+    assert validated.imported_module == "appy.services.user_service"
     assert validated.imported_name == "UserService"
     assert validated.alias == "Service"
 
@@ -314,13 +314,13 @@ def test_is_valid_is_false_when_invalid_import_exists(service):
     result = service.validate(
         [
             make_import(
-                module="app.services.user_service",
+                module="appy.services.user_service",
                 imported_name="Missing",
                 import_type="from_import",
             )
         ],
-        ["app.services.user_service"],
-        module_exports={"app.services.user_service": ["UserService"]},
+        ["appy.services.user_service"],
+        module_exports={"appy.services.user_service": ["UserService"]},
     )
 
     assert result.is_valid is False
@@ -341,7 +341,7 @@ def test_error_and_warning_counts(service):
     result = service.validate(
         [
             make_import(
-                module="app.services.user_service",
+                module="appy.services.user_service",
                 imported_name="Missing",
                 import_type="from_import",
                 line=1,
@@ -349,8 +349,8 @@ def test_error_and_warning_counts(service):
             make_import(module="helpers", level=1, line=2),
             make_import(module="requests", line=3),
         ],
-        ["app.services.user_service"],
-        module_exports={"app.services.user_service": ["UserService"]},
+        ["appy.services.user_service"],
+        module_exports={"appy.services.user_service": ["UserService"]},
     )
 
     assert result.error_count == 1
@@ -362,7 +362,7 @@ def test_import_generator_is_supported(service):
 
     result = service.validate(
         imports,
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.total_imports == 1
@@ -370,7 +370,7 @@ def test_import_generator_is_supported(service):
 
 
 def test_internal_module_generator_is_supported(service):
-    modules = (item for item in ["app.services.user_service"])
+    modules = (item for item in ["appy.services.user_service"])
 
     result = service.validate(
         [make_import()],
@@ -387,9 +387,9 @@ def test_internal_module_generator_is_supported(service):
         ("invalid", []),
         ({"invalid": "input"}, []),
         ([], None),
-        ([], "app.services"),
-        ([], {"app.services"}),
-        ([], {"app.services": "value"}),
+        ([], "appy.services"),
+        ([], {"appy.services"}),
+        ([], {"appy.services": "value"}),
     ],
 )
 def test_invalid_import_or_module_inputs_are_rejected(
@@ -419,11 +419,11 @@ def test_invalid_export_mapping_type_is_rejected(service):
 @pytest.mark.parametrize(
     "exports",
     [
-        {"app.services.user_service": "UserService"},
-        {"app.services.user_service": None},
-        {"app.services.user_service": {"UserService"}},
+        {"appy.services.user_service": "UserService"},
+        {"appy.services.user_service": None},
+        {"appy.services.user_service": {"UserService"}},
         {" ": ["UserService"]},
-        {"app.services.user_service": [""]},
+        {"appy.services.user_service": [""]},
     ],
 )
 def test_invalid_export_values_are_rejected(service, exports):
@@ -437,8 +437,8 @@ def test_duplicate_normalized_export_modules_are_rejected(service):
             [],
             [],
             module_exports={
-                "app/services/user_service.py": ["UserService"],
-                "app.services.user_service": ["create_user"],
+                "appy/services/user_service.py": ["UserService"],
+                "appy.services.user_service": ["create_user"],
             },
         )
 
@@ -469,8 +469,8 @@ def test_invalid_import_type_is_rejected(service):
 
 def test_analysis_does_not_modify_inputs(service):
     imports = [make_import()]
-    modules = ["app.services.user_service"]
-    exports = {"app.services.user_service": ["UserService"]}
+    modules = ["appy.services.user_service"]
+    exports = {"appy.services.user_service": ["UserService"]}
 
     original_imports = list(imports)
     original_modules = list(modules)
@@ -489,8 +489,8 @@ def test_validation_is_deterministic(service):
         make_import(module="missing", level=1, line=1),
     ]
 
-    first = service.validate(imports, ["app.services.user_service"])
-    second = service.validate(imports, ["app.services.user_service"])
+    first = service.validate(imports, ["appy.services.user_service"])
+    second = service.validate(imports, ["appy.services.user_service"])
 
     assert first == second
 
@@ -568,7 +568,7 @@ def test_record_rejects_invalid_status():
 def test_standard_library_import_is_external_without_repository_inventory(service):
     result = service.validate(
         [make_import(module="os")],
-        ["app.services.user_service"],
+        ["appy.services.user_service"],
     )
 
     assert result.external_imports == 1

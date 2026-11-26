@@ -1,9 +1,9 @@
 
 import pytest
 
-from app.application.context_builder import ContextBuildResult
-from app.application.intent_detection_service import QueryIntent
-from app.application.reasoning_prompt_builder import (
+from appy.application.context_builder import ContextBuildResult
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.reasoning_prompt_builder import (
     ReasoningPromptBuilder,
     ReasoningPromptBuilderError,
 )
@@ -21,7 +21,7 @@ def builder():
 def context():
     context_text = (
         "Repository: sample-project\n"
-        "File: app/services/user_service.py\n"
+        "File: appy/services/user_service.py\n"
         "Class: UserService\n"
         "Method: create_user"
     )
@@ -31,7 +31,7 @@ def context():
         intent=QueryIntent.CODE_EXPLANATION,
         sections=(),
         context_text=context_text,
-        source_files=("app/services/user_service.py",),
+        source_files=("appy/services/user_service.py",),
         entity_ids=("user-service",),
         character_count=len(context_text),
         max_characters=12000,
@@ -93,7 +93,7 @@ def test_prompt_contains_source_files(builder, context):
         context,
     )
 
-    assert "app/services/user_service.py" in result
+    assert "appy/services/user_service.py" in result
 
 
 def test_prompt_contains_entity_ids(builder, context):
@@ -325,8 +325,8 @@ def test_multiple_source_files_are_included(builder):
         sections=(),
         context_text="Repository context",
         source_files=(
-            "app/services/user_service.py",
-            "app/models/user.py",
+            "appy/services/user_service.py",
+            "appy/models/user.py",
         ),
         entity_ids=(),
         character_count=len("Repository context"),
@@ -340,8 +340,8 @@ def test_multiple_source_files_are_included(builder):
         context,
     )
 
-    assert "app/services/user_service.py" in result
-    assert "app/models/user.py" in result
+    assert "appy/services/user_service.py" in result
+    assert "appy/models/user.py" in result
 
 
 def test_truncated_context_is_identified(builder):

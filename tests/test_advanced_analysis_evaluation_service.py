@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.advanced_analysis_evaluation_service import (
+from appy.application.advanced_analysis_evaluation_service import (
     AdvancedAnalysisEvaluationError,
     AdvancedAnalysisEvaluationResult,
     AdvancedAnalysisEvaluationService,
@@ -46,8 +46,8 @@ def make_investigation(
             unresolved_calls=0,
         ),
         data_flow=data_flow if data_flow is not None else (
-            SimpleNamespace(file_path="app/main.py", analyzed=True),
-            SimpleNamespace(file_path="app/service.py", analyzed=True),
+            SimpleNamespace(file_path="appy/main.py", analyzed=True),
+            SimpleNamespace(file_path="appy/service.py", analyzed=True),
         ),
     )
 
@@ -67,10 +67,10 @@ def make_change_impact_result(findings=None):
     if findings is None:
         findings = (
             SimpleNamespace(
-                source_file="app/service.py",
-                affected_file="app/service.py",
+                source_file="appy/service.py",
+                affected_file="appy/service.py",
                 relationship_type="function_call",
-                changed_target="app/core.py",
+                changed_target="appy/core.py",
                 affected_entity="service.run",
                 reason="Calls changed function.",
             ),
@@ -83,7 +83,7 @@ def make_direct_indirect_result(findings=None):
     if findings is None:
         findings = (
             SimpleNamespace(
-                path=("app.main", "app.service", "app.repository"),
+                path=("appy.main", "appy.service", "appy.repository"),
                 relationship_types=("function_call", "import"),
             ),
         )
@@ -314,10 +314,10 @@ def test_change_impact_checks_finding_traceability():
 
 def test_change_impact_detects_incomplete_finding():
     incomplete = SimpleNamespace(
-        source_file="app/service.py",
-        affected_file="app/service.py",
+        source_file="appy/service.py",
+        affected_file="appy/service.py",
         relationship_type="import",
-        changed_target="app/core.py",
+        changed_target="appy/core.py",
         affected_entity="",
         reason="Missing entity.",
     )
@@ -352,7 +352,7 @@ def test_direct_indirect_impact_checks_relationship_paths():
 
 def test_direct_indirect_impact_detects_incomplete_path():
     invalid = SimpleNamespace(
-        path=("app.main",),
+        path=("appy.main",),
         relationship_types=("function_call",),
     )
 

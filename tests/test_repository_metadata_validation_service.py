@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanResult
-from app.application.metadata_extraction_service import FileMetadata
-from app.application.repository_metadata_validation_service import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanResult
+from appy.application.metadata_extraction_service import FileMetadata
+from appy.application.repository_metadata_validation_service import (
     RepositoryMetadataValidationError,
     RepositoryMetadataIssue,
     RepositoryMetadataValidationResult,
@@ -28,7 +28,7 @@ def repository(tmp_path):
         encoding="utf-8",
     )
 
-    app_directory = tmp_path / "app"
+    app_directory = tmp_path / "appy"
     app_directory.mkdir()
 
     (app_directory / "main.py").write_text(
@@ -55,11 +55,11 @@ def scan_result(repository):
         root=repository.root,
         files=(
             repository.root / "README.md",
-            repository.root / "app" / "main.py",
-            repository.root / "app" / "utils.py",
+            repository.root / "appy" / "main.py",
+            repository.root / "appy" / "utils.py",
         ),
         directories=(
-            repository.root / "app",
+            repository.root / "appy",
         ),
         symlinks=(),
     )
@@ -328,7 +328,7 @@ def test_scan_directories_must_be_tuple(
     scan = RepositoryScanResult(
         root=repository.root,
         files=(),
-        directories=[repository.root / "app"],
+        directories=[repository.root / "appy"],
         symlinks=(),
     )
 

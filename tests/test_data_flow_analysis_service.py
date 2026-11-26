@@ -3,8 +3,8 @@ import ast
 
 import pytest
 
-from app.application.language_parser import ParsedSource
-from app.application.data_flow_analysis_service import (
+from appy.application.language_parser import ParsedSource
+from appy.application.data_flow_analysis_service import (
     DataFlowAnalysisError,
     DataFlowAnalysisResult,
     DataFlowAnalysisService,

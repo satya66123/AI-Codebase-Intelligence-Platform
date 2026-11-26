@@ -3,12 +3,12 @@ import ast
 
 import pytest
 
-from app.application.function_method_execution_path_service import (
+from appy.application.function_method_execution_path_service import (
     ExecutionPathStatus,
     FunctionMethodExecutionPathError,
     FunctionMethodExecutionPathService,
 )
-from app.application.language_parser import ParsedSource
+from appy.application.language_parser import ParsedSource
 
 
 @pytest.fixture
@@ -622,8 +622,8 @@ def test_rejects_mismatched_source_filename(service):
         "",
         "/absolute/main.py",
         "../main.py",
-        "app/../main.py",
-        "app//main.py",
+        "appy/../main.py",
+        "appy//main.py",
         "./main.py",
     ],
 )
@@ -675,20 +675,71 @@ def test_skips_all_non_python_sources(service):
     assert result.total_functions == 0
 
 
-def test_rejects_duplicate_module_stems(service):
-    with pytest.raises(
-        FunctionMethodExecutionPathError,
-        match="Duplicate module name",
-    ):
-        service.analyze(
-            {
-                "main.py": parsed_source("main.py", "pass"),
-                "folder/main.py": parsed_source(
-                    "folder/main.py",
-                    "pass",
-                ),
-            }
-        )
+@pytest.mark.parametrize(
+    ("source_path", "expected_module"),
+    [
+        ("main.py", "main"),
+        ("folder/main.py", "folder.main"),
+        ("appy/__init__.py", "appy"),
+        ("appy/application/__init__.py", "appy.application"),
+        ("appy/application/service.py", "appy.application.service"),
+    ],
+)
+def test_gets_fully_qualified_module_name(source_path, expected_module):
+    assert (
+        FunctionMethodExecutionPathService._get_module_name(source_path)
+        == expected_module
+    )
+
+
+def test_allows_same_filename_in_different_packages(service):
+    result = service.analyze(
+        {
+            "main.py": parsed_source("main.py", "pass"),
+            "folder/main.py": parsed_source(
+                "folder/main.py",
+                "pass",
+            ),
+        }
+    )
+
+    assert result.total_files == 2
+    assert result.analyzed_files == 2
+
+
+def test_allows_nested_package_initializer_files(service):
+    result = service.analyze(
+        {
+            "appy/__init__.py": parsed_source(
+                "appy/__init__.py",
+                "pass",
+            ),
+            "appy/application/__init__.py": parsed_source(
+                "appy/application/__init__.py",
+                "pass",
+            ),
+        }
+    )
+
+    assert result.total_files == 2
+    assert result.analyzed_files == 2
+
+def test_supports_module_file_and_matching_package_initializer(service):
+    sources = {
+        "appy.py": parsed_source(
+            "appy.py",
+            "pass",
+        ),
+        "appy/__init__.py": parsed_source(
+            "appy/__init__.py",
+            "pass",
+        ),
+    }
+
+    result = service.analyze(sources)
+
+    assert result.total_files == 2
+    assert result.analyzed_files == 2
 
 
 def test_counts_functions_and_methods(service):
@@ -857,3 +908,26 @@ def third():
 
     assert len(result.depth_limited_paths) == 1
     assert result.depth_limited_paths[0].terminated_by_depth_limit
+
+def test_supports_module_file_and_matching_package_initializer(service):
+    sources = {
+        "appy.py": parsed_source(
+            "appy.py",
+            """
+def main():
+    return True
+""",
+        ),
+        "appy/__init__.py": parsed_source(
+            "appy/__init__.py",
+            """
+def initialize():
+    return True
+""",
+        ),
+    }
+
+    result = service.analyze(sources)
+
+    assert result.total_files == 2
+    assert result.analyzed_files == 2

@@ -3,12 +3,12 @@ import ast
 
 import pytest
 
-from app.application.language_parser import (
+from appy.application.language_parser import (
     BaseLanguageParser,
     LanguageParserError,
     ParsedSource,
 )
-from app.application.python_language_parser import (
+from appy.application.python_language_parser import (
     PythonLanguageParser,
 )
 

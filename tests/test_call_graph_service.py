@@ -1,12 +1,12 @@
 
 import pytest
 
-from app.application.call_graph_service import (
+from appy.application.call_graph_service import (
     CallGraphError,
     CallGraphResult,
     CallGraphService,
 )
-from app.application.python_language_parser import (
+from appy.application.python_language_parser import (
     PythonLanguageParser,
 )
 
@@ -22,7 +22,7 @@ def parser():
 
 
 def test_analyze_returns_call_graph_result(service, parser):
-    parsed = parser.parse("print('Hello')", "app.py")
+    parsed = parser.parse("print('Hello')", "appy.py")
 
     result = service.analyze(parsed)
 
@@ -31,7 +31,7 @@ def test_analyze_returns_call_graph_result(service, parser):
 
 def test_extract_simple_function_call(service, parser):
     result = service.analyze(
-        parser.parse("print('Hello')", "app.py")
+        parser.parse("print('Hello')", "appy.py")
     )
 
     assert result.total_calls == 1
@@ -45,11 +45,11 @@ def greet():
     print("Hello")
 """
 
-    result = service.analyze(parser.parse(source, "app.py"))
+    result = service.analyze(parser.parse(source, "appy.py"))
 
     call = result.calls[0]
 
-    assert call.caller == "app.greet"
+    assert call.caller == "appy.greet"
     assert call.caller_type == "function"
     assert call.callee == "print"
 
@@ -73,7 +73,7 @@ class Employee:
 
 def test_extract_attribute_call(service, parser):
     result = service.analyze(
-        parser.parse("service.process()", "app.py")
+        parser.parse("service.process()", "appy.py")
     )
 
     assert result.calls[0].callee == "service.process"
@@ -86,16 +86,16 @@ def outer():
     inner()
 """
 
-    result = service.analyze(parser.parse(source, "app.py"))
+    result = service.analyze(parser.parse(source, "appy.py"))
 
-    assert result.calls[0].caller == "app.outer"
+    assert result.calls[0].caller == "appy.outer"
     assert result.calls[0].callee == "inner"
 
 
 def test_extract_nested_calls_in_arguments(service, parser):
     source = "print(str(len(values)))"
 
-    result = service.analyze(parser.parse(source, "app.py"))
+    result = service.analyze(parser.parse(source, "appy.py"))
 
     callees = {call.callee for call in result.calls}
 
@@ -111,15 +111,15 @@ def outer():
     load()
 """
 
-    result = service.analyze(parser.parse(source, "app.py"))
+    result = service.analyze(parser.parse(source, "appy.py"))
 
     calls_by_callee = {
         call.callee: call.caller
         for call in result.calls
     }
 
-    assert calls_by_callee["save"] == "app.outer.inner"
-    assert calls_by_callee["load"] == "app.outer"
+    assert calls_by_callee["save"] == "appy.outer.inner"
+    assert calls_by_callee["load"] == "appy.outer"
 
 
 def test_extract_async_function_calls(service, parser):
@@ -128,9 +128,9 @@ async def fetch():
     await load_data()
 """
 
-    result = service.analyze(parser.parse(source, "app.py"))
+    result = service.analyze(parser.parse(source, "appy.py"))
 
-    assert result.calls[0].caller == "app.fetch"
+    assert result.calls[0].caller == "appy.fetch"
     assert result.calls[0].callee == "load_data"
 
 
@@ -140,16 +140,16 @@ class Example:
     register()
 """
 
-    result = service.analyze(parser.parse(source, "app.py"))
+    result = service.analyze(parser.parse(source, "appy.py"))
 
-    assert result.calls[0].caller == "app.Example"
+    assert result.calls[0].caller == "appy.Example"
     assert result.calls[0].caller_type == "class"
 
 
 def test_extract_dynamic_call(service, parser):
     source = "get_handler()()"
 
-    result = service.analyze(parser.parse(source, "app.py"))
+    result = service.analyze(parser.parse(source, "appy.py"))
 
     assert result.total_calls == 2
     assert any(
@@ -176,7 +176,7 @@ def run():
 
 def test_no_calls_returns_empty_result(service, parser):
     result = service.analyze(
-        parser.parse("value = 10", "app.py")
+        parser.parse("value = 10", "appy.py")
     )
 
     assert result.calls == ()

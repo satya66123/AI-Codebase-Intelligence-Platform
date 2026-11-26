@@ -3,8 +3,8 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from app.application.intent_detection_service import QueryIntent
-from app.application.reasoning_response_model import (
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.reasoning_response_model import (
     ReasoningResponse,
     ReasoningResponseError,
 )
@@ -16,7 +16,7 @@ def response():
         question="Explain the UserService class.",
         answer="UserService manages user-related operations.",
         intent=QueryIntent.CODE_EXPLANATION,
-        source_files=("app/services/user_service.py",),
+        source_files=("appy/services/user_service.py",),
         entity_ids=("user-service",),
         provider_name="OpenAI",
         model_name="gpt-5-mini",
@@ -44,7 +44,7 @@ def test_stores_intent(response):
 
 def test_stores_source_files(response):
     assert response.source_files == (
-        "app/services/user_service.py",
+        "appy/services/user_service.py",
     )
 
 
@@ -102,11 +102,11 @@ def test_accepts_list_references():
         question="Explain the repository.",
         answer="Repository explanation.",
         intent=QueryIntent.GENERAL_CODEBASE,
-        source_files=["app/main.py"],
+        source_files=["appy/main.py"],
         entity_ids=["main-function"],
     )
 
-    assert result.source_files == ("app/main.py",)
+    assert result.source_files == ("appy/main.py",)
     assert result.entity_ids == ("main-function",)
 
 
@@ -116,15 +116,15 @@ def test_deduplicates_source_files():
         answer="Repository explanation.",
         intent=QueryIntent.GENERAL_CODEBASE,
         source_files=(
-            "app/main.py",
-            "app/main.py",
-            "app/services/user.py",
+            "appy/main.py",
+            "appy/main.py",
+            "appy/services/user.py",
         ),
     )
 
     assert result.source_files == (
-        "app/main.py",
-        "app/services/user.py",
+        "appy/main.py",
+        "appy/services/user.py",
     )
 
 
@@ -193,7 +193,7 @@ def test_rejects_invalid_intent(intent):
 
 @pytest.mark.parametrize(
     "source_files",
-    [None, "app/main.py", 123, {"file": "app/main.py"}],
+    [None, "appy/main.py", 123, {"file": "appy/main.py"}],
 )
 def test_rejects_invalid_source_files(source_files):
     with pytest.raises(ReasoningResponseError):
@@ -317,7 +317,7 @@ def test_to_dict_contains_all_fields(response):
         "question": "Explain the UserService class.",
         "answer": "UserService manages user-related operations.",
         "intent": "CODE_EXPLANATION",
-        "source_files": ["app/services/user_service.py"],
+        "source_files": ["appy/services/user_service.py"],
         "entity_ids": ["user-service"],
         "provider_name": "openai",
         "model_name": "gpt-5-mini",

@@ -1,12 +1,12 @@
 
 import pytest
 
-from app.application.import_analyzer import (
+from appy.application.import_analyzer import (
     ImportAnalyzer,
     ImportAnalyzerError,
     ImportRecord,
 )
-from app.application.python_language_parser import (
+from appy.application.python_language_parser import (
     PythonLanguageParser,
 )
 
@@ -23,7 +23,7 @@ def parser():
 
 def test_analyze_returns_import_records(analyzer, parser):
     result = analyzer.analyze(
-        parser.parse("import os", "app.py")
+        parser.parse("import os", "appy.py")
     )
 
     assert isinstance(result, tuple)
@@ -31,7 +31,7 @@ def test_analyze_returns_import_records(analyzer, parser):
 
 
 def test_extract_regular_import(analyzer, parser):
-    result = analyzer.analyze(parser.parse("import os", "app.py"))
+    result = analyzer.analyze(parser.parse("import os", "appy.py"))
 
     record = result[0]
 
@@ -39,12 +39,12 @@ def test_extract_regular_import(analyzer, parser):
     assert record.imported_name is None
     assert record.import_type == "import"
     assert record.level == 0
-    assert record.filename == "app.py"
+    assert record.filename == "appy.py"
 
 
 def test_extract_multiple_imports(analyzer, parser):
     result = analyzer.analyze(
-        parser.parse("import os, sys", "app.py")
+        parser.parse("import os, sys", "appy.py")
     )
 
     assert len(result) == 2

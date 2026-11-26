@@ -1,17 +1,17 @@
 
 import pytest
 
-from app.application.confidence_service import (
+from appy.application.confidence_service import (
     ConfidenceAssessment,
     ConfidenceLevel,
     ConfidenceService,
     ConfidenceServiceError,
 )
-from app.application.evidence_validation_agent import (
+from appy.application.evidence_validation_agent import (
     EvidenceValidationResult,
 )
-from app.application.intent_detection_service import QueryIntent
-from app.application.reasoning_response_model import ReasoningResponse
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.reasoning_response_model import ReasoningResponse
 
 
 @pytest.fixture
@@ -25,7 +25,7 @@ def response():
         question="Explain the application architecture",
         answer="The application uses a layered architecture.",
         intent=QueryIntent.ARCHITECTURE,
-        source_files=("app/main.py", "app/services/user_service.py"),
+        source_files=("appy/main.py", "appy/services/user_service.py"),
         entity_ids=("entity-1",),
         provider_name="openai",
         model_name="gpt-4o",
@@ -34,7 +34,7 @@ def response():
 
 
 def make_validation(
-    supported_files=("app/main.py", "app/services/user_service.py"),
+    supported_files=("appy/main.py", "appy/services/user_service.py"),
     unsupported_files=(),
     supported_entities=("entity-1",),
     unsupported_entities=(),
@@ -80,8 +80,8 @@ def test_partial_reference_support_gives_medium_confidence(
     result = service.assess(
         response,
         make_validation(
-            supported_files=("app/main.py",),
-            unsupported_files=("app/services/user_service.py",),
+            supported_files=("appy/main.py",),
+            unsupported_files=("appy/services/user_service.py",),
             supported_entities=("entity-1",),
         ),
     )
@@ -99,8 +99,8 @@ def test_no_supported_references_gives_low_confidence(
         make_validation(
             supported_files=(),
             unsupported_files=(
-                "app/main.py",
-                "app/services/user_service.py",
+                "appy/main.py",
+                "appy/services/user_service.py",
             ),
             supported_entities=(),
             unsupported_entities=("entity-1",),
@@ -206,8 +206,8 @@ def test_unsupported_references_are_counted(service, response):
     result = service.assess(
         response,
         make_validation(
-            supported_files=("app/main.py",),
-            unsupported_files=("app/services/user_service.py",),
+            supported_files=("appy/main.py",),
+            unsupported_files=("appy/services/user_service.py",),
             supported_entities=("entity-1",),
         ),
     )
@@ -343,8 +343,8 @@ def test_medium_threshold_is_respected(service, response):
     result = service.assess(
         response,
         make_validation(
-            supported_files=("app/main.py",),
-            unsupported_files=("app/services/user_service.py",),
+            supported_files=("appy/main.py",),
+            unsupported_files=("appy/services/user_service.py",),
             supported_entities=(),
             unsupported_entities=("entity-1",),
         ),

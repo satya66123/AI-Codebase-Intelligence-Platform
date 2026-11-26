@@ -1,28 +1,28 @@
 
 import pytest
 
-from app.application.intent_detection_service import QueryIntent
-from app.application.question_analysis_agent import (
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.question_analysis_agent import (
     QuestionAnalysisResult,
 )
-from app.application.repository_retrieval_service import (
+from appy.application.repository_retrieval_service import (
     RepositoryRetrievalResult,
 )
-from app.application.relevant_file_retrieval_service import (
+from appy.application.relevant_file_retrieval_service import (
     RelevantFile,
     RelevantFileRetrievalResult,
 )
-from app.application.relevant_code_retrieval_service import (
+from appy.application.relevant_code_retrieval_service import (
     RelevantCodeRetrievalResult,
 )
-from app.application.code_indexing_service import CodeIndexEntry
-from app.application.dependency_context_service import (
+from appy.application.code_indexing_service import CodeIndexEntry
+from appy.application.dependency_context_service import (
     DependencyContextResult,
 )
-from app.application.architecture_context_service import (
+from appy.application.architecture_context_service import (
     ArchitectureContextResult,
 )
-from app.application.context_builder import (
+from appy.application.context_builder import (
     ContextBuilder,
     ContextBuilderError,
     ContextBuildResult,
@@ -63,13 +63,13 @@ def code_entry():
         name="authenticate_user",
         entity_type="function",
         qualified_name="auth.authenticate_user",
-        filename="app/auth.py",
+        filename="appy/auth.py",
         line=10,
         end_line=20,
         parent=None,
         docstring="Authenticate a user.",
         normalized_name="authenticate_user",
-        search_text="authenticate_user authentication app/auth.py",
+        search_text="authenticate_user authentication appy/auth.py",
     )
 
 
@@ -80,7 +80,7 @@ def relevant_files(code_entry):
         total_files=1,
         files=(
             RelevantFile(
-                filename="app/auth.py",
+                filename="appy/auth.py",
                 relevance_score=1,
                 matched_entities=(code_entry,),
             ),
@@ -118,7 +118,7 @@ def architecture_context():
         repository_name="sample-repository",
         repository_root="/repositories/sample-repository",
         is_git_repository=True,
-        directory_tree="sample-repository\n└── app",
+        directory_tree="sample-repository\n└── appy",
         call_graphs=(),
         inheritance_analyses=(),
         total_calls=0,
@@ -160,7 +160,7 @@ def test_context_section_creation():
     section = ContextSection(
         name="relevant_code",
         content="Authentication function.",
-        source_files=("app/auth.py",),
+        source_files=("appy/auth.py",),
         entity_ids=("entity-1",),
     )
 
@@ -189,7 +189,7 @@ def test_context_section_rejects_non_tuple_source_files():
         ContextSection(
             name="code",
             content="content",
-            source_files=["app/auth.py"],
+            source_files=["appy/auth.py"],
         )
 
 
@@ -460,7 +460,7 @@ def test_build_context_collects_source_files(
 ):
     result = builder.build_context(**build_inputs)
 
-    assert "app/auth.py" in result.source_files
+    assert "appy/auth.py" in result.source_files
 
 
 def test_build_context_collects_entity_ids(
@@ -715,4 +715,4 @@ def test_build_context_preserves_entity_identity(
     )
 
     assert code_section.entity_ids == ("entity-1",)
-    assert code_section.source_files == ("app/auth.py",)
+    assert code_section.source_files == ("appy/auth.py",)

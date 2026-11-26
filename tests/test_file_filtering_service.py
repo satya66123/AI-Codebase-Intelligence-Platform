@@ -1,9 +1,9 @@
 
 import pytest
 
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanner
-from app.application.file_filtering_service import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanner
+from appy.application.file_filtering_service import (
     FileFilteringService,
 )
 

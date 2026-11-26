@@ -1,15 +1,14 @@
-
 import ast
 
 import pytest
 
-from app.application.cross_module_relationship_analysis_service import (
+from appy.application.cross_module_relationship_analysis_service import (
     CrossModuleRelationshipAnalysisError,
     CrossModuleRelationshipAnalysisService,
     CrossModuleRelationshipType,
     CrossModuleResolutionStatus,
 )
-from app.application.language_parser import ParsedSource
+from appy.application.language_parser import ParsedSource
 
 
 @pytest.fixture
@@ -22,8 +21,6 @@ def parsed_source(
     source,
     language="python",
 ):
-    # The service only analyzes Python ASTs. For unsupported languages,
-    # use a harmless AST placeholder so the service can skip the file.
     source_tree = (
         ast.parse(source)
         if language.lower() == "python"
@@ -496,15 +493,15 @@ def existing():
 
 def test_supports_nested_source_paths(service):
     sources = {
-        "app/main.py": parsed_source(
-            "app/main.py",
+        "appy/main.py": parsed_source(
+            "appy/main.py",
             """
 def run():
     helper()
 """,
         ),
-        "app/helper.py": parsed_source(
-            "app/helper.py",
+        "appy/helper.py": parsed_source(
+            "appy/helper.py",
             """
 def helper():
     pass
@@ -518,25 +515,25 @@ def helper():
     assert result.cross_module_calls == 1
     assert (
         result.module_relationships[0].source_module
-        == "app.main"
+        == "appy.main"
     )
     assert (
         result.module_relationships[0].target_module
-        == "app.helper"
+        == "appy.helper"
     )
 
 
 def test_supports_package_init_module_paths(service):
     sources = {
-        "app/main.py": parsed_source(
-            "app/main.py",
+        "appy/main.py": parsed_source(
+            "appy/main.py",
             """
 def run():
     helper()
 """,
         ),
-        "app/helpers/__init__.py": parsed_source(
-            "app/helpers/__init__.py",
+        "appy/helpers/__init__.py": parsed_source(
+            "appy/helpers/__init__.py",
             """
 def helper():
     pass
@@ -548,6 +545,56 @@ def helper():
 
     assert result.total_modules == 2
     assert result.cross_module_calls == 1
+
+
+def test_supports_nested_package_initializers(service):
+    sources = {
+        "appy/__init__.py": parsed_source(
+            "appy/__init__.py",
+            "pass",
+        ),
+        "appy/application/__init__.py": parsed_source(
+            "appy/application/__init__.py",
+            "pass",
+        ),
+    }
+
+    result = service.analyze(sources)
+
+    assert result.total_files == 2
+    assert result.analyzed_files == 2
+    assert result.total_modules == 2
+
+
+def test_supports_root_level_package_initializer(service):
+    sources = {
+        "__init__.py": parsed_source(
+            "__init__.py",
+            "pass",
+        ),
+    }
+
+    result = service.analyze(sources)
+
+    assert result.total_modules == 1
+    assert result.analyzed_files == 1
+
+def test_supports_package_initializer_and_matching_module(service):
+    sources = {
+        "appy/__init__.py": parsed_source(
+            "appy/__init__.py",
+            "pass",
+        ),
+        "appy.py": parsed_source(
+            "appy.py",
+            "pass",
+        ),
+    }
+
+    result = service.analyze(sources)
+
+    assert result.total_files == 2
+    assert result.analyzed_files == 2
 
 
 def test_rejects_non_mapping_input(service):
@@ -564,8 +611,8 @@ def test_rejects_non_mapping_input(service):
         "",
         "/absolute/main.py",
         "../main.py",
-        "app/../main.py",
-        "app//main.py",
+        "appy/../main.py",
+        "appy//main.py",
         "./main.py",
     ],
 )

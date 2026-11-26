@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from app.application.application_reliability_error_handling_service import (
+from appy.application.application_reliability_error_handling_service import (
     ApplicationExecutionRecord,
     ApplicationReliabilityError,
     ApplicationReliabilityErrorHandlingService,

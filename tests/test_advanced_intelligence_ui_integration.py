@@ -6,7 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.advanced_intelligence_ui_integration import (
+from appy.application.advanced_intelligence_ui_integration import (
     AdvancedIntelligenceUIIntegration,
     AdvancedIntelligenceUIIntegrationError,
 )
@@ -100,7 +100,7 @@ class FakeApplicationService:
 @pytest.fixture
 def parsed_sources():
     return {
-        "app.py": SimpleNamespace(filename="app.py", language="python"),
+        "appy.py": SimpleNamespace(filename="appy.py", language="python"),
         "service.py": SimpleNamespace(filename="service.py", language="python"),
     }
 
@@ -204,7 +204,7 @@ def test_render_forwards_source_files(
     parsed_sources,
     application_service,
 ):
-    source_files = {"app.py": "print('hello')"}
+    source_files = {"appy.py": "print('hello')"}
 
     integration.render(parsed_sources, source_files=source_files)
 
@@ -228,7 +228,7 @@ def test_render_forwards_dependencies(
     parsed_sources,
     application_service,
 ):
-    dependencies = (SimpleNamespace(source="app.py"),)
+    dependencies = (SimpleNamespace(source="appy.py"),)
 
     integration.render(parsed_sources, dependencies=dependencies)
 
@@ -252,7 +252,7 @@ def test_render_forwards_entry_points(
     parsed_sources,
     application_service,
 ):
-    entry_points = ("app.main",)
+    entry_points = ("appy.main",)
 
     integration.render(parsed_sources, entry_points=entry_points)
 
@@ -298,7 +298,7 @@ def test_render_forwards_direct_indirect_impact_result(
 
 @pytest.mark.parametrize(
     "invalid_sources",
-    [None, (), [], "app.py", 123],
+    [None, (), [], "appy.py", 123],
 )
 def test_render_rejects_non_mapping_sources(integration, invalid_sources, ui):
     result = integration.render(invalid_sources)

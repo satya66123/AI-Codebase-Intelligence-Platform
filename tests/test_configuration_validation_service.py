@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from app.application.configuration_validation_service import (
+from appy.application.configuration_validation_service import (
     ConfigurationIssue,
     ConfigurationIssueSeverity,
     ConfigurationValidationError,

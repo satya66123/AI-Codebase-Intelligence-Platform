@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.architecture_pattern_detection_service import (
+from appy.application.architecture_pattern_detection_service import (
     ArchitecturePattern,
     ArchitecturePatternDetectionError,
     ArchitecturePatternDetectionResult,
@@ -23,7 +23,7 @@ def entity(
     name,
     entity_type="class",
     qualified_name=None,
-    filename="app/module.py",
+    filename="appy/module.py",
 ):
     return SimpleNamespace(
         name=name,
@@ -34,7 +34,7 @@ def entity(
 
 
 def graph(
-    filename="app/agents/research_agent.py",
+    filename="appy/agents/research_agent.py",
     total_calls=2,
 ):
     return SimpleNamespace(
@@ -44,8 +44,8 @@ def graph(
 
 
 def dep(
-    source_file="app/service.py",
-    imported_module="app.domain",
+    source_file="appy/service.py",
+    imported_module="appy.domain",
 ):
     return SimpleNamespace(
         source_file=source_file,
@@ -72,21 +72,21 @@ def test_analyzed_files_are_sorted_and_unique(service):
 
 def test_windows_paths_are_normalized(service):
     result = service.analyze(
-        source_files=(r"app\services\user.py",)
+        source_files=(r"appy\services\user.py",)
     )
 
     assert result.analyzed_files == (
-        "app/services/user.py",
+        "appy/services/user.py",
     )
 
 
 def test_detects_four_layer_architecture(service):
     result = service.analyze(
         source_files=(
-            "app/presentation/page.py",
-            "app/application/use_case.py",
-            "app/domain/entity.py",
-            "app/infrastructure/database.py",
+            "appy/presentation/page.py",
+            "appy/application/use_case.py",
+            "appy/domain/entity.py",
+            "appy/infrastructure/database.py",
         )
     )
 
@@ -101,9 +101,9 @@ def test_detects_four_layer_architecture(service):
 def test_detects_three_layer_architecture(service):
     result = service.analyze(
         source_files=(
-            "app/ui/page.py",
-            "app/services/use_case.py",
-            "app/domain/entity.py",
+            "appy/ui/page.py",
+            "appy/services/use_case.py",
+            "appy/domain/entity.py",
         )
     )
 
@@ -115,8 +115,8 @@ def test_detects_three_layer_architecture(service):
 def test_does_not_detect_two_layers(service):
     result = service.analyze(
         source_files=(
-            "app/ui/page.py",
-            "app/domain/entity.py",
+            "appy/ui/page.py",
+            "appy/domain/entity.py",
         )
     )
 
@@ -241,7 +241,7 @@ def test_detects_service_class(service):
 
 def test_detects_service_directory(service):
     result = service.analyze(
-        source_files=("app/services/payment.py",)
+        source_files=("appy/services/payment.py",)
     )
 
     assert result.get_pattern(
@@ -266,11 +266,11 @@ def test_service_layer_confidence_from_multiple_entities(service):
 
 def test_does_not_detect_service_without_indicators(service):
     result = service.analyze(
-        source_files=("app/core/user.py",),
+        source_files=("appy/core/user.py",),
         code_entities=(
             entity(
                 "UserManager",
-                filename="app/core/user.py",
+                filename="appy/core/user.py",
             ),
         ),
     )
@@ -506,9 +506,9 @@ def test_findings_are_deterministic(service):
     "kwargs",
     [
         {"source_files": None},
-        {"source_files": "app.py"},
-        {"source_files": b"app.py"},
-        {"source_files": {"app.py"}},
+        {"source_files": "appy.py"},
+        {"source_files": b"appy.py"},
+        {"source_files": {"appy.py"}},
         {"source_files": ("",)},
         {"source_files": ("a.py", "a.py")},
         {"code_entities": None},

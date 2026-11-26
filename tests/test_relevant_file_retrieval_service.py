@@ -1,16 +1,16 @@
 
 import pytest
 
-from app.application.code_indexing_service import (
+from appy.application.code_indexing_service import (
     CodeIndexEntry,
     CodeIndexResult,
 )
-from app.application.code_search_service import CodeSearchService
-from app.application.intent_detection_service import QueryIntent
-from app.application.question_analysis_agent import (
+from appy.application.code_search_service import CodeSearchService
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.question_analysis_agent import (
     QuestionAnalysisResult,
 )
-from app.application.relevant_file_retrieval_service import (
+from appy.application.relevant_file_retrieval_service import (
     RelevantFile,
     RelevantFileRetrievalError,
     RelevantFileRetrievalResult,
@@ -62,19 +62,19 @@ def index():
         create_entry(
             "entity-1",
             "authenticate_user",
-            "app/auth.py",
+            "appy/auth.py",
             f"authenticate_user {QUESTION} authentication",
         ),
         create_entry(
             "entity-2",
             "login",
-            "app/login.py",
+            "appy/login.py",
             f"login {QUESTION} authentication",
         ),
         create_entry(
             "entity-3",
             "process_payment",
-            "app/payment.py",
+            "appy/payment.py",
             "process_payment payment processing",
         ),
     )
@@ -85,17 +85,17 @@ def index():
         total_entities=len(entries),
         total_files=3,
         files=(
-            "app/auth.py",
-            "app/login.py",
-            "app/payment.py",
+            "appy/auth.py",
+            "appy/login.py",
+            "appy/payment.py",
         ),
         entity_counts={
             "function": 3,
         },
         by_file={
-            "app/auth.py": ("entity-1",),
-            "app/login.py": ("entity-2",),
-            "app/payment.py": ("entity-3",),
+            "appy/auth.py": ("entity-1",),
+            "appy/login.py": ("entity-2",),
+            "appy/payment.py": ("entity-3",),
         },
     )
 
@@ -153,7 +153,7 @@ def test_relevant_file_creation(index):
         matched_entities=(entry,),
     )
 
-    assert result.filename == "app/auth.py"
+    assert result.filename == "appy/auth.py"
     assert result.relevance_score == 1
     assert result.matched_entities == (entry,)
 
@@ -170,7 +170,7 @@ def test_relevant_file_rejects_empty_filename(index):
 def test_relevant_file_rejects_invalid_score(index):
     with pytest.raises((ValueError, RelevantFileRetrievalError)):
         RelevantFile(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             relevance_score=-1,
             matched_entities=(index.entries[0],),
         )
@@ -179,7 +179,7 @@ def test_relevant_file_rejects_invalid_score(index):
 def test_relevant_file_rejects_score_not_matching_entities(index):
     with pytest.raises((ValueError, RelevantFileRetrievalError)):
         RelevantFile(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             relevance_score=2,
             matched_entities=(index.entries[0],),
         )
@@ -188,7 +188,7 @@ def test_relevant_file_rejects_score_not_matching_entities(index):
 def test_relevant_file_rejects_invalid_matched_entities():
     with pytest.raises((ValueError, RelevantFileRetrievalError)):
         RelevantFile(
-            filename="app/auth.py",
+            filename="appy/auth.py",
             relevance_score=1,
             matched_entities=("invalid",),
         )
@@ -265,8 +265,8 @@ def test_retrieve_returns_matching_files(
 
     filenames = {item.filename for item in result.files}
 
-    assert "app/auth.py" in filenames
-    assert "app/login.py" in filenames
+    assert "appy/auth.py" in filenames
+    assert "appy/login.py" in filenames
 
 
 def test_retrieve_excludes_unrelated_files(
@@ -281,7 +281,7 @@ def test_retrieve_excludes_unrelated_files(
 
     filenames = {item.filename for item in result.files}
 
-    assert "app/payment.py" not in filenames
+    assert "appy/payment.py" not in filenames
 
 
 def test_retrieve_groups_entities_by_filename(
@@ -464,7 +464,7 @@ def test_retrieve_returns_empty_result_when_nothing_matches(
     unrelated_entry = create_entry(
         "entity-10",
         "calculate_tax",
-        "app/tax.py",
+        "appy/tax.py",
         "calculate tax financial report",
     )
 
@@ -473,10 +473,10 @@ def test_retrieve_returns_empty_result_when_nothing_matches(
         entries=(unrelated_entry,),
         total_entities=1,
         total_files=1,
-        files=("app/tax.py",),
+        files=("appy/tax.py",),
         entity_counts={"function": 1},
         by_file={
-            "app/tax.py": (unrelated_entry.entity_id,),
+            "appy/tax.py": (unrelated_entry.entity_id,),
         },
     )
 
@@ -524,19 +524,19 @@ def test_retrieve_orders_by_relevance_score(
         create_entry(
             "entity-1",
             "authenticate_user",
-            "app/auth.py",
+            "appy/auth.py",
             f"authenticate_user {QUESTION} authentication",
         ),
         create_entry(
             "entity-2",
             "validate_user",
-            "app/auth.py",
+            "appy/auth.py",
             f"validate_user {QUESTION} authentication",
         ),
         create_entry(
             "entity-3",
             "login",
-            "app/login.py",
+            "appy/login.py",
             f"login {QUESTION} authentication",
         ),
     )
@@ -546,11 +546,11 @@ def test_retrieve_orders_by_relevance_score(
         entries=entries,
         total_entities=3,
         total_files=2,
-        files=("app/auth.py", "app/login.py"),
+        files=("appy/auth.py", "appy/login.py"),
         entity_counts={"function": 3},
         by_file={
-            "app/auth.py": ("entity-1", "entity-2"),
-            "app/login.py": ("entity-3",),
+            "appy/auth.py": ("entity-1", "entity-2"),
+            "appy/login.py": ("entity-3",),
         },
     )
 
@@ -559,7 +559,7 @@ def test_retrieve_orders_by_relevance_score(
         analysis_result=analysis_result,
     )
 
-    assert result.files[0].filename == "app/auth.py"
+    assert result.files[0].filename == "appy/auth.py"
     assert result.files[0].relevance_score == 2
 
 
@@ -571,13 +571,13 @@ def test_retrieve_uses_filename_as_deterministic_tiebreaker(
         create_entry(
             "entity-1",
             "authenticate_user",
-            "app/z_auth.py",
+            "appy/z_auth.py",
             f"authenticate_user {QUESTION}",
         ),
         create_entry(
             "entity-2",
             "login",
-            "app/a_auth.py",
+            "appy/a_auth.py",
             f"login {QUESTION}",
         ),
     )
@@ -587,11 +587,11 @@ def test_retrieve_uses_filename_as_deterministic_tiebreaker(
         entries=entries,
         total_entities=2,
         total_files=2,
-        files=("app/a_auth.py", "app/z_auth.py"),
+        files=("appy/a_auth.py", "appy/z_auth.py"),
         entity_counts={"function": 2},
         by_file={
-            "app/z_auth.py": ("entity-1",),
-            "app/a_auth.py": ("entity-2",),
+            "appy/z_auth.py": ("entity-1",),
+            "appy/a_auth.py": ("entity-2",),
         },
     )
 

@@ -5,15 +5,15 @@ from pathlib import Path
 
 import pytest
 
-from app.application.file_directory_integrity_service import (
+from appy.application.file_directory_integrity_service import (
     FileDirectoryIntegrityError,
     FileDirectoryIntegrityIssue,
     FileDirectoryIntegrityResult,
     FileDirectoryIntegrityService,
     IntegritySeverity,
 )
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanResult
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanResult
 
 
 # ---------------------------------------------------------------------------
@@ -28,7 +28,7 @@ def repository(tmp_path):
         encoding="utf-8",
     )
 
-    app_directory = tmp_path / "app"
+    app_directory = tmp_path / "appy"
     app_directory.mkdir()
 
     (app_directory / "main.py").write_text(
@@ -95,10 +95,10 @@ def test_valid_repository_has_no_integrity_issues(
         repository.root,
         files=(
             repository.root / "README.md",
-            repository.root / "app" / "main.py",
+            repository.root / "appy" / "main.py",
         ),
         directories=(
-            repository.root / "app",
+            repository.root / "appy",
         ),
     )
 
@@ -129,7 +129,7 @@ def test_all_discovered_files_are_checked(
         repository.root,
         files=(
             repository.root / "README.md",
-            repository.root / "app" / "main.py",
+            repository.root / "appy" / "main.py",
         ),
     )
 
@@ -145,7 +145,7 @@ def test_all_discovered_directories_are_checked(
     scan = make_scan_result(
         repository.root,
         directories=(
-            repository.root / "app",
+            repository.root / "appy",
         ),
     )
 
@@ -178,7 +178,7 @@ def test_total_checked_matches_all_entry_types(
     scan = make_scan_result(
         repository.root,
         files=(repository.root / "README.md",),
-        directories=(repository.root / "app",),
+        directories=(repository.root / "appy",),
         symlinks=(repository.root / "missing-link",),
     )
 
@@ -212,7 +212,7 @@ def test_valid_directory_is_accepted(
     service,
     repository,
 ):
-    directory_path = repository.root / "app"
+    directory_path = repository.root / "appy"
 
     scan = make_scan_result(
         repository.root,
@@ -285,7 +285,7 @@ def test_file_that_becomes_directory_is_reported(
     service,
     repository,
 ):
-    directory_path = repository.root / "app"
+    directory_path = repository.root / "appy"
 
     scan = make_scan_result(
         repository.root,
@@ -348,7 +348,7 @@ def test_directory_not_accessible_is_reported(
     repository,
     monkeypatch,
 ):
-    directory_path = repository.root / "app"
+    directory_path = repository.root / "appy"
 
     monkeypatch.setattr(
         os,
@@ -515,7 +515,7 @@ def test_scan_result_directories_must_be_tuple(
     scan = RepositoryScanResult(
         root=repository.root,
         files=(),
-        directories=[repository.root / "app"],
+        directories=[repository.root / "appy"],
         symlinks=(),
     )
 
@@ -747,7 +747,7 @@ def test_directory_metadata_access_error_is_reported(
     repository,
     monkeypatch,
 ):
-    directory_path = repository.root / "app"
+    directory_path = repository.root / "appy"
     original_stat = Path.stat
 
     def fake_stat(path, *args, **kwargs):

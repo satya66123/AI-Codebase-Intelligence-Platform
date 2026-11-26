@@ -3,8 +3,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from app.application.repository_agent import RepositoryAnalysisResult
-from app.application.repository_discovery_integration_service import (
+from appy.application.repository_agent import RepositoryAnalysisResult
+from appy.application.repository_discovery_integration_service import (
     RepositoryDiscoveryIntegrationError,
     RepositoryDiscoveryIntegrationService,
 )

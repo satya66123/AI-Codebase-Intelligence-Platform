@@ -1,11 +1,11 @@
 
 import pytest
 
-from app.application.code_indexing_service import (
+from appy.application.code_indexing_service import (
     CodeIndexEntry,
     CodeIndexResult,
 )
-from app.application.retrieval_evaluation_service import (
+from appy.application.retrieval_evaluation_service import (
     RetrievalEvaluationCase,
     RetrievalEvaluationError,
     RetrievalEvaluationService,
@@ -18,7 +18,7 @@ def create_entry(
     entity_id,
     name,
     entity_type="function",
-    filename="app.py",
+    filename="appy.py",
 ):
     return CodeIndexEntry(
         entity_id=entity_id,

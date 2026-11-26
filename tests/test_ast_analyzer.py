@@ -1,12 +1,12 @@
 
 import pytest
 
-from app.application.ast_analyzer import (
+from appy.application.ast_analyzer import (
     ASTAnalyzer,
     ASTAnalyzerError,
     ASTAnalysisResult,
 )
-from app.application.python_language_parser import (
+from appy.application.python_language_parser import (
     PythonLanguageParser,
 )
 

@@ -1,7 +1,7 @@
 
 import pytest
 
-from app.application.code_duplication_detection_service import (
+from appy.application.code_duplication_detection_service import (
     CodeDuplicationDetectionError,
     CodeDuplicationDetectionResult,
     CodeDuplicationDetectionService,

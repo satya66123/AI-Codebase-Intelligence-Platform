@@ -1,6 +1,6 @@
 
-from app.application.container import ApplicationContainer
-from app.application.repository_discovery_integration_service import (
+from appy.application.container import ApplicationContainer
+from appy.application.repository_discovery_integration_service import (
     RepositoryDiscoveryIntegrationService,
 )
 

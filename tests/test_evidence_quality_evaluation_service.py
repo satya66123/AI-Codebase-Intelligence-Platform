@@ -1,20 +1,20 @@
 import pytest
 
-from app.application.context_builder import (
+from appy.application.context_builder import (
     ContextBuildResult,
     ContextSection,
 )
-from app.application.evidence_quality_evaluation_service import (
+from appy.application.evidence_quality_evaluation_service import (
     EvidenceQualityEvaluationError,
     EvidenceQualityEvaluationResult,
     EvidenceQualityEvaluationService,
     EvidenceQualityLevel,
 )
-from app.application.evidence_validation_agent import (
+from appy.application.evidence_validation_agent import (
     EvidenceValidationResult,
 )
-from app.application.intent_detection_service import QueryIntent
-from app.application.reasoning_response_model import ReasoningResponse
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.reasoning_response_model import ReasoningResponse
 
 
 @pytest.fixture
@@ -38,7 +38,7 @@ def validation_result():
 
 
 def create_response(
-    source_files=("app/main.py",),
+    source_files=("appy/main.py",),
     entity_ids=("entity-1",),
     evidence_sufficient=True,
 ):
@@ -55,7 +55,7 @@ def create_response(
 
 
 def create_context(
-    source_files=("app/main.py", "app/services/user.py"),
+    source_files=("appy/main.py", "appy/services/user.py"),
     entity_ids=("entity-1", "entity-2"),
     sections=None,
     context_text="Repository architecture context",
@@ -66,7 +66,7 @@ def create_context(
             ContextSection(
                 name="repository",
                 content="Repository structure and metadata.",
-                source_files=("app/main.py",),
+                source_files=("appy/main.py",),
             ),
             ContextSection(
                 name="code",
@@ -89,7 +89,7 @@ def create_context(
 
 
 def create_validation_result(
-    supported_source_files=("app/main.py",),
+    supported_source_files=("appy/main.py",),
     unsupported_source_files=(),
     supported_entity_ids=("entity-1",),
     unsupported_entity_ids=(),
@@ -166,7 +166,7 @@ def test_evaluate_counts_supported_references():
 
 def test_evaluate_counts_unsupported_references():
     validation = create_validation_result(
-        unsupported_source_files=("app/missing.py",),
+        unsupported_source_files=("appy/missing.py",),
         unsupported_entity_ids=("entity-missing",),
         is_valid=False,
         issues=("Unsupported references detected.",),
@@ -179,8 +179,8 @@ def test_evaluate_counts_unsupported_references():
 
 def test_evaluate_counts_total_references():
     validation = create_validation_result(
-        supported_source_files=("app/main.py",),
-        unsupported_source_files=("app/missing.py",),
+        supported_source_files=("appy/main.py",),
+        unsupported_source_files=("appy/missing.py",),
         supported_entity_ids=("entity-1",),
         unsupported_entity_ids=("entity-missing",),
         is_valid=False,
@@ -208,7 +208,7 @@ def test_reference_counts_add_up_correctly():
 
 def test_reference_support_score_is_one_hundred_when_all_supported():
     validation = create_validation_result(
-        supported_source_files=("app/main.py",),
+        supported_source_files=("appy/main.py",),
         supported_entity_ids=("entity-1",),
     )
 
@@ -219,8 +219,8 @@ def test_reference_support_score_is_one_hundred_when_all_supported():
 
 def test_reference_support_score_handles_unsupported_references():
     validation = create_validation_result(
-        supported_source_files=("app/main.py",),
-        unsupported_source_files=("app/missing.py",),
+        supported_source_files=("appy/main.py",),
+        unsupported_source_files=("appy/missing.py",),
         supported_entity_ids=("entity-1",),
         is_valid=False,
     )
@@ -250,7 +250,7 @@ def test_reference_support_score_is_zero_without_references():
 
 def test_unsupported_references_are_reported():
     validation = create_validation_result(
-        unsupported_source_files=("app/missing.py",),
+        unsupported_source_files=("appy/missing.py",),
         is_valid=False,
         issues=("Unsupported source file.",),
     )
@@ -268,7 +268,7 @@ def test_unsupported_references_are_reported():
 
 def test_source_coverage_score_uses_context_source_files():
     validation = create_validation_result(
-        supported_source_files=("app/main.py",),
+        supported_source_files=("appy/main.py",),
     )
 
     result = evaluate(validation_result=validation)
@@ -278,10 +278,10 @@ def test_source_coverage_score_uses_context_source_files():
 
 def test_source_coverage_score_is_one_hundred_when_all_sources_covered():
     context = create_context(
-        source_files=("app/main.py",),
+        source_files=("appy/main.py",),
     )
     validation = create_validation_result(
-        supported_source_files=("app/main.py",),
+        supported_source_files=("appy/main.py",),
     )
 
     result = evaluate(
@@ -348,11 +348,11 @@ def test_entity_coverage_score_is_one_hundred_without_context_entities():
 
 def test_coverage_scores_are_capped_at_one_hundred():
     context = create_context(
-        source_files=("app/main.py",),
+        source_files=("appy/main.py",),
         entity_ids=("entity-1",),
     )
     validation = create_validation_result(
-        supported_source_files=("app/main.py", "app/extra.py"),
+        supported_source_files=("appy/main.py", "appy/extra.py"),
         supported_entity_ids=("entity-1", "entity-2"),
     )
 
@@ -540,7 +540,7 @@ def test_findings_are_returned_as_tuple():
 
 def test_unsupported_validation_adds_finding():
     validation = create_validation_result(
-        unsupported_source_files=("app/missing.py",),
+        unsupported_source_files=("appy/missing.py",),
         is_valid=False,
         issues=("Unsupported source file.",),
     )
@@ -589,8 +589,8 @@ def test_is_reliable_requires_sufficient_supported_evidence():
 
 def test_is_reliable_is_false_with_unsupported_references():
     validation = create_validation_result(
-        supported_source_files=("app/main.py",),
-        unsupported_source_files=("app/missing.py",),
+        supported_source_files=("appy/main.py",),
+        unsupported_source_files=("appy/missing.py",),
         supported_entity_ids=("entity-1",),
         is_valid=False,
     )

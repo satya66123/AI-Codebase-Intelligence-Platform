@@ -1,9 +1,9 @@
 
 import pytest
 
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanner
-from app.application.repository_map_service import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanner
+from appy.application.repository_map_service import (
     RepositoryMapService,
     RepositoryMapError,
 )
@@ -95,7 +95,7 @@ def test_invalid_scan_result_rejected():
 def test_outside_repository_entry_rejected(tmp_path):
     outside_file = tmp_path.parent / "outside.py"
 
-    from app.application.repository_scanner import (
+    from appy.application.repository_scanner import (
         RepositoryScanResult,
     )
 

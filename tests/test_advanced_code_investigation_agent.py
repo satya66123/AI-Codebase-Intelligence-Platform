@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.advanced_code_investigation_agent import (
+from appy.application.advanced_code_investigation_agent import (
     AdvancedCodeInvestigationAgent,
     AdvancedCodeInvestigationError,
     AdvancedCodeInvestigationResult,

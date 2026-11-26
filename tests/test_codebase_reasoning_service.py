@@ -1,14 +1,14 @@
 
 import pytest
 
-from app.application.codebase_reasoning_service import (
+from appy.application.codebase_reasoning_service import (
     CodebaseReasoningError,
     CodebaseReasoningService,
 )
-from app.application.context_builder import ContextBuildResult
-from app.application.services.ai_service import AIService
-from app.domain.interfaces.ai_provider import AIProvider
-from app.application.intent_detection_service import QueryIntent
+from appy.application.context_builder import ContextBuildResult
+from appy.application.services.ai_service import AIService
+from appy.domain.interfaces.ai_provider import AIProvider
+from appy.application.intent_detection_service import QueryIntent
 
 
 QUESTION = "Explain the UserService class."
@@ -60,7 +60,7 @@ def ai_service(provider):
 def context():
     context_text = (
         "Repository: sample-project\n"
-        "File: app/services/user_service.py\n"
+        "File: appy/services/user_service.py\n"
         "Class: UserService\n"
         "Method: create_user"
     )
@@ -70,7 +70,7 @@ def context():
         intent=QueryIntent.CODE_EXPLANATION,
         sections=(),
         context_text=context_text,
-        source_files=("app/services/user_service.py",),
+        source_files=("appy/services/user_service.py",),
         entity_ids=("user-service",),
         character_count=len(context_text),
         max_characters=12000,

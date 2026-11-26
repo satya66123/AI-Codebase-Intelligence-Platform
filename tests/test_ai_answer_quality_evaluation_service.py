@@ -1,13 +1,13 @@
 
 import pytest
 
-from app.application.context_builder import ContextBuildResult
-from app.application.evidence_validation_agent import (
+from appy.application.context_builder import ContextBuildResult
+from appy.application.evidence_validation_agent import (
     EvidenceValidationResult,
 )
-from app.application.intent_detection_service import QueryIntent
-from app.application.reasoning_response_model import ReasoningResponse
-from app.application.ai_answer_quality_evaluation_service import (
+from appy.application.intent_detection_service import QueryIntent
+from appy.application.reasoning_response_model import ReasoningResponse
+from appy.application.ai_answer_quality_evaluation_service import (
     AIAnswerQualityEvaluationError,
     AIAnswerQualityEvaluationResult,
     AIAnswerQualityEvaluationService,
@@ -23,7 +23,7 @@ def create_response(
         "It creates users and retrieves user information "
         "through the application service layer."
     ),
-    source_files=("app/services/user_service.py",),
+    source_files=("appy/services/user_service.py",),
     entity_ids=("entity-1",),
     evidence_sufficient=True,
 ):
@@ -41,7 +41,7 @@ def create_response(
 
 def create_context(
     context_text="UserService manages user creation and retrieval.",
-    source_files=("app/services/user_service.py",),
+    source_files=("appy/services/user_service.py",),
     entity_ids=("entity-1",),
 ):
     return ContextBuildResult(
@@ -60,7 +60,7 @@ def create_context(
 def create_evidence_result(
     is_valid=True,
     evidence_sufficient=True,
-    supported_source_files=("app/services/user_service.py",),
+    supported_source_files=("appy/services/user_service.py",),
     unsupported_source_files=(),
     supported_entity_ids=("entity-1",),
     unsupported_entity_ids=(),
@@ -376,7 +376,7 @@ def test_evidence_grounding_scores_supported_references():
 def test_evidence_grounding_penalizes_unsupported_references():
     evidence = create_evidence_result(
         is_valid=False,
-        supported_source_files=("app.py",),
+        supported_source_files=("appy.py",),
         unsupported_source_files=("unknown.py",),
         supported_entity_ids=("entity-1",),
         issues=("Unsupported source file.",),
@@ -434,7 +434,7 @@ def test_evidence_grounding_uses_response_evidence_flag():
 def test_evidence_grounding_caps_score_for_invalid_validation():
     evidence = create_evidence_result(
         is_valid=False,
-        supported_source_files=("app.py",),
+        supported_source_files=("appy.py",),
         unsupported_source_files=(),
         supported_entity_ids=("entity-1",),
         issues=("Validation failed.",),
@@ -459,7 +459,7 @@ def test_evidence_grounding_reports_empty_context():
 
 def test_result_reports_reference_counts():
     evidence = create_evidence_result(
-        supported_source_files=("app.py", "services/user.py"),
+        supported_source_files=("appy.py", "services/user.py"),
         unsupported_source_files=("missing.py",),
         supported_entity_ids=("entity-1", "entity-2"),
         unsupported_entity_ids=("entity-3",),
@@ -702,7 +702,7 @@ def test_evaluate_does_not_modify_context():
 
 def test_evaluate_reports_supported_and_unsupported_entity_references():
     evidence = create_evidence_result(
-        supported_source_files=("app.py",),
+        supported_source_files=("appy.py",),
         unsupported_source_files=(),
         supported_entity_ids=("entity-1",),
         unsupported_entity_ids=("entity-2",),

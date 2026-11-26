@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from app.application.repository_storage_service import (
+from appy.application.repository_storage_service import (
     RepositoryStorageService,
     RepositoryStorageError,
 )
@@ -31,8 +31,8 @@ def sample_index():
                 "modified_time": "2026-11-24T10:00:00",
             },
             {
-                "name": "app.js",
-                "relative_path": "app.js",
+                "name": "appy.js",
+                "relative_path": "appy.js",
                 "extension": ".js",
                 "language": "JavaScript",
                 "size_bytes": 50,

@@ -31,9 +31,9 @@ def test_streamlit_imports():
     """Test required application imports."""
 
     import streamlit as st
-    from app import Application
-    from app.config import settings
-    from app.presentation import render
+    from appy import Application
+    from appy.config import settings
+    from appy.presentation import render
 
     assert st is not None
     assert Application is not None

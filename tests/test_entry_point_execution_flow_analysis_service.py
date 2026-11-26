@@ -4,14 +4,14 @@ from pathlib import Path
 
 import pytest
 
-from app.application.entry_point_execution_flow_analysis_service import (
+from appy.application.entry_point_execution_flow_analysis_service import (
     EntryPointExecutionFlowAnalysisService,
     EntryPointExecutionFlowError,
     EntryPointType,
 )
-from app.application.language_parser import ParsedSource
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanResult
+from appy.application.language_parser import ParsedSource
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanResult
 
 
 @pytest.fixture
@@ -151,7 +151,7 @@ def start():
 @pytest.mark.parametrize(
     "filename",
     [
-        "app.py",
+        "appy.py",
         "run.py",
         "manage.py",
         "wsgi.py",
@@ -189,12 +189,12 @@ if __name__ == "__main__":
     main()
 """
 
-    scan = create_scan(repository.root, "app.py")
+    scan = create_scan(repository.root, "appy.py")
 
     result = service.analyze(
         repository,
         scan,
-        {"app.py": parsed(source, "app.py")},
+        {"appy.py": parsed(source, "appy.py")},
     )
 
     assert result.total_entry_points == 1
@@ -303,13 +303,13 @@ def helper():
 
 
 def test_does_not_confirm_conventional_candidate(service, repository):
-    scan = create_scan(repository.root, "app.py")
+    scan = create_scan(repository.root, "appy.py")
     source = "print('hello')"
 
     result = service.analyze(
         repository,
         scan,
-        {"app.py": parsed(source, "app.py")},
+        {"appy.py": parsed(source, "appy.py")},
     )
 
     assert result.has_confirmed_entry_points is False
@@ -586,7 +586,7 @@ def start():
 
     scan = create_scan(
         repository.root,
-        "app.py",
+        "appy.py",
         "worker.py",
     )
 
@@ -594,7 +594,7 @@ def start():
         repository,
         scan,
         {
-            "app.py": parsed(candidate, "app.py"),
+            "appy.py": parsed(candidate, "appy.py"),
             "worker.py": parsed(confirmed, "worker.py"),
         },
     )

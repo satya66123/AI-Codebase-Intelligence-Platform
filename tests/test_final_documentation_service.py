@@ -5,7 +5,7 @@ from datetime import timezone
 
 import pytest
 
-from app.application.final_documentation_service import (
+from appy.application.final_documentation_service import (
     DocumentationResult,
     DocumentationSection,
     FinalDocumentationError,

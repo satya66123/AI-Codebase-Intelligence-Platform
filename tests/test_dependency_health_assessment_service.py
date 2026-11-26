@@ -5,15 +5,15 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from app.application.circular_dependency_detection_service import (
+from appy.application.circular_dependency_detection_service import (
     CircularDependencyDetectionResult,
 )
-from app.application.dependency_consistency_validation_service import (
+from appy.application.dependency_consistency_validation_service import (
     DependencyConsistencyIssue,
     DependencyConsistencySeverity,
     DependencyConsistencyValidationResult,
 )
-from app.application.dependency_health_assessment_service import (
+from appy.application.dependency_health_assessment_service import (
     DependencyHealthAssessment,
     DependencyHealthAssessmentError,
     DependencyHealthAssessmentService,
@@ -21,7 +21,7 @@ from app.application.dependency_health_assessment_service import (
     DependencyHealthSeverity,
     DependencyHealthStatus,
 )
-from app.application.import_reference_validation_service import (
+from appy.application.import_reference_validation_service import (
     ImportReferenceIssue,
     ImportReferenceRecord,
     ImportReferenceSeverity,
@@ -48,7 +48,7 @@ def consistency_result(
             DependencyConsistencyIssue(
                 code=f"CONSISTENCY_ERROR_{index}",
                 message="Dependency consistency error.",
-                source_file="app/example.py",
+                source_file="appy/example.py",
                 line=index + 1,
                 severity=DependencyConsistencySeverity.ERROR,
             )
@@ -59,7 +59,7 @@ def consistency_result(
             DependencyConsistencyIssue(
                 code=f"CONSISTENCY_WARNING_{index}",
                 message="Dependency consistency warning.",
-                source_file="app/example.py",
+                source_file="appy/example.py",
                 line=errors + index + 1,
                 severity=DependencyConsistencySeverity.WARNING,
             )
@@ -98,9 +98,9 @@ def import_result(
         for _ in range(count):
             records.append(
                 ImportReferenceRecord(
-                    source_file="app/example.py",
+                    source_file="appy/example.py",
                     line=len(records) + 1,
-                    imported_module="app.example",
+                    imported_module="appy.example",
                     imported_name=None,
                     alias=None,
                     status=status,
@@ -117,11 +117,11 @@ def import_result(
                     ImportReferenceIssue(
                         code=f"IMPORT_{status.value.upper()}",
                         message=f"Import reference is {status.value}.",
-                        source_file="app/example.py",
+                        source_file="appy/example.py",
                         line=len(records),
                         severity=severity,
                         status=status,
-                        imported_module="app.example",
+                        imported_module="appy.example",
                         imported_name=None,
                     )
                 )
@@ -149,7 +149,7 @@ def circular_result(cycle_count=0):
             # Only the cycle count is relevant to the assessment.
             # Construct valid cycle models through the public model.
             __import__(
-                "app.application.circular_dependency_detection_service",
+                "appy.application.circular_dependency_detection_service",
                 fromlist=["CircularDependency"],
             ).CircularDependency(
                 cycle_id=f"cycle-{index}",

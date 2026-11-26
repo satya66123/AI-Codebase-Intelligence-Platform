@@ -3,18 +3,18 @@
 
 import pytest
 
-from app.application.dependency_analyzer import (
+from appy.application.dependency_analyzer import (
     DependencyAnalyzer,
     DependencyRecord,
 )
-from app.application.dependency_consistency_validation_service import (
+from appy.application.dependency_consistency_validation_service import (
     DependencyConsistencyIssue,
     DependencyConsistencySeverity,
     DependencyConsistencyValidationError,
     DependencyConsistencyValidationResult,
     DependencyConsistencyValidationService,
 )
-from app.application.import_analyzer import ImportRecord
+from appy.application.import_analyzer import ImportRecord
 
 
 @pytest.fixture
@@ -104,10 +104,10 @@ def test_matching_external_dependency_is_valid(service):
 
 
 def test_matching_internal_dependency_is_valid(service):
-    imports = [make_import(module="app.services.user_service")]
+    imports = [make_import(module="appy.services.user_service")]
     dependencies = [
         make_dependency(
-            imported_module="app.services.user_service",
+            imported_module="appy.services.user_service",
             dependency_type="internal",
         )
     ]
@@ -115,7 +115,7 @@ def test_matching_internal_dependency_is_valid(service):
     result = service.validate(
         imports,
         dependencies,
-        internal_modules=["app.services.user_service"],
+        internal_modules=["appy.services.user_service"],
     )
 
     assert result.is_valid is True
@@ -354,10 +354,10 @@ def test_relative_import_with_external_classification_is_invalid(service):
 
 
 def test_internal_module_prefix_is_classified_as_internal(service):
-    imports = [make_import(module="app.services.user")]
+    imports = [make_import(module="appy.services.user")]
     dependencies = [
         make_dependency(
-            imported_module="app.services.user",
+            imported_module="appy.services.user",
             dependency_type="internal",
         )
     ]
@@ -365,7 +365,7 @@ def test_internal_module_prefix_is_classified_as_internal(service):
     result = service.validate(
         imports,
         dependencies,
-        internal_modules=["app"],
+        internal_modules=["appy"],
     )
 
     assert result.is_valid is True
@@ -416,10 +416,10 @@ def test_import_generator_is_supported(service):
 
 
 def test_internal_module_generator_is_supported(service):
-    imports = [make_import(module="app.services.user")]
+    imports = [make_import(module="appy.services.user")]
     dependencies = [
         make_dependency(
-            imported_module="app.services.user",
+            imported_module="appy.services.user",
             dependency_type="internal",
         )
     ]
@@ -427,7 +427,7 @@ def test_internal_module_generator_is_supported(service):
     result = service.validate(
         imports,
         dependencies,
-        internal_modules=(name for name in ["app.services"]),
+        internal_modules=(name for name in ["appy.services"]),
     )
 
     assert result.is_valid is True
@@ -443,8 +443,8 @@ def test_internal_module_generator_is_supported(service):
         ([], "invalid", ()),
         ([], {"invalid": "input"}, ()),
         ([], [], None),
-        ([], [], "app"),
-        ([], [], {"app"}),
+        ([], [], "appy"),
+        ([], [], {"appy"}),
     ],
 )
 def test_invalid_iterable_inputs_are_rejected(
@@ -469,7 +469,7 @@ def test_invalid_dependency_record_type_is_rejected(service):
 
 def test_invalid_internal_module_name_is_rejected(service):
     with pytest.raises(DependencyConsistencyValidationError):
-        service.validate([], [], internal_modules=["app", " "])
+        service.validate([], [], internal_modules=["appy", " "])
 
 
 def test_invalid_import_line_is_rejected(service):

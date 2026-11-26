@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.advanced_intelligence_integration_service import (
+from appy.application.advanced_intelligence_integration_service import (
     AdvancedIntelligenceIntegrationError,
     AdvancedIntelligenceIntegrationResult,
     AdvancedIntelligenceIntegrationService,
@@ -68,8 +68,8 @@ class FakeEvaluationService:
 @pytest.fixture
 def parsed_sources():
     return {
-        "app.py": SimpleNamespace(
-            filename="app.py",
+        "appy.py": SimpleNamespace(
+            filename="appy.py",
             language="python",
         )
     }
@@ -159,21 +159,21 @@ def test_investigation_receives_all_analysis_arguments(
 
     service.integrate(
         parsed_sources=parsed_sources,
-        source_files=("app.py",),
+        source_files=("appy.py",),
         code_entities=("entity-1",),
         dependencies=("dependency-1",),
         call_graphs=("call-1",),
-        entry_points=("app.main",),
+        entry_points=("appy.main",),
         max_depth=5,
     )
 
     assert investigation.received == {
         "parsed_sources": parsed_sources,
-        "source_files": ("app.py",),
+        "source_files": ("appy.py",),
         "code_entities": ("entity-1",),
         "dependencies": ("dependency-1",),
         "call_graphs": ("call-1",),
-        "entry_points": ("app.main",),
+        "entry_points": ("appy.main",),
         "max_depth": 5,
     }
 
@@ -233,7 +233,7 @@ def test_default_analysis_arguments_are_forwarded(
         None,
         (),
         [],
-        "app.py",
+        "appy.py",
         123,
     ],
 )

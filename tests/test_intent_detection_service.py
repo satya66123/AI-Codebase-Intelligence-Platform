@@ -1,13 +1,13 @@
 
 import pytest
 
-from app.application.intent_detection_service import (
+from appy.application.intent_detection_service import (
     IntentDetectionError,
     IntentDetectionResult,
     IntentDetectionService,
     QueryIntent,
 )
-from app.application.question_validation_service import (
+from appy.application.question_validation_service import (
     QuestionValidationService,
     ValidatedQuestion,
 )

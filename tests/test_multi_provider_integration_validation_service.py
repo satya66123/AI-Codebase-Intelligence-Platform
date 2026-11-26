@@ -3,7 +3,7 @@
 
 import pytest
 
-from app.application.multi_provider_integration_validation_service import (
+from appy.application.multi_provider_integration_validation_service import (
     MultiProviderIntegrationValidationError,
     MultiProviderIntegrationValidationResult,
     MultiProviderIntegrationValidationService,

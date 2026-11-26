@@ -1,9 +1,9 @@
 
 import pytest
 
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import RepositoryScanner
-from app.application.ignore_rule_service import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import RepositoryScanner
+from appy.application.ignore_rule_service import (
     IgnoreRuleService,
     IgnoreRuleError,
 )
@@ -79,13 +79,13 @@ def test_gitignore_file_pattern(tmp_path):
         "*.log\n",
         encoding="utf-8"
     )
-    (tmp_path / "app.py").write_text("print('hello')")
+    (tmp_path / "appy.py").write_text("print('hello')")
     (tmp_path / "debug.log").write_text("debug")
 
     result = scan_repository(tmp_path)
     filtered = IgnoreRuleService().filter_scan_result(result)
 
-    assert "app.py" in {path.name for path in filtered.files}
+    assert "appy.py" in {path.name for path in filtered.files}
     assert "debug.log" not in {path.name for path in filtered.files}
 
 
@@ -98,7 +98,7 @@ def test_gitignore_directory_pattern(tmp_path):
 
     logs = tmp_path / "logs"
     logs.mkdir()
-    (logs / "app.log").write_text("debug")
+    (logs / "appy.log").write_text("debug")
 
     (tmp_path / "main.py").write_text("print('hello')")
 
@@ -108,7 +108,7 @@ def test_gitignore_directory_pattern(tmp_path):
     discovered_files = {path.name for path in filtered.files}
 
     assert discovered_files == {"main.py", ".gitignore"}
-    assert "app.log" not in discovered_files
+    assert "appy.log" not in discovered_files
     assert filtered.total_directories == 0
 
 

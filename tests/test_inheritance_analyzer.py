@@ -1,13 +1,13 @@
 
 import pytest
 
-from app.application.inheritance_analyzer import (
+from appy.application.inheritance_analyzer import (
     InheritanceAnalyzer,
     InheritanceAnalyzerError,
     InheritanceAnalysisResult,
     InheritanceRecord,
 )
-from app.application.python_language_parser import (
+from appy.application.python_language_parser import (
     PythonLanguageParser,
 )
 

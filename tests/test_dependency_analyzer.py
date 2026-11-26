@@ -1,13 +1,13 @@
 
 import pytest
 
-from app.application.dependency_analyzer import (
+from appy.application.dependency_analyzer import (
     DependencyAnalyzer,
     DependencyAnalyzerError,
     DependencyRecord,
 )
-from app.application.import_analyzer import ImportAnalyzer
-from app.application.python_language_parser import PythonLanguageParser
+from appy.application.import_analyzer import ImportAnalyzer
+from appy.application.python_language_parser import PythonLanguageParser
 
 
 @pytest.fixture
@@ -26,7 +26,7 @@ def parser():
 
 
 def get_imports(parser, import_analyzer, source):
-    parsed = parser.parse(source, "app/services/user.py")
+    parsed = parser.parse(source, "appy/services/user.py")
     return import_analyzer.analyze(parsed)
 
 
@@ -85,12 +85,12 @@ def test_classify_internal_module(
     imports = get_imports(
         parser,
         import_analyzer,
-        "from app.services import user",
+        "from appy.services import user",
     )
 
     result = analyzer.analyze(
         imports,
-        internal_modules=["app.services.user"],
+        internal_modules=["appy.services.user"],
     )
 
     assert result[0].dependency_type == "internal"
@@ -102,12 +102,12 @@ def test_classify_internal_submodule(
     imports = get_imports(
         parser,
         import_analyzer,
-        "import app.services.user",
+        "import appy.services.user",
     )
 
     result = analyzer.analyze(
         imports,
-        internal_modules=["app.services"],
+        internal_modules=["appy.services"],
     )
 
     assert result[0].dependency_type == "internal"
@@ -119,12 +119,12 @@ def test_classify_internal_module_from_path(
     imports = get_imports(
         parser,
         import_analyzer,
-        "import app.services.user",
+        "import appy.services.user",
     )
 
     result = analyzer.analyze(
         imports,
-        internal_modules=["app/services/user.py"],
+        internal_modules=["appy/services/user.py"],
     )
 
     assert result[0].dependency_type == "internal"
@@ -136,12 +136,12 @@ def test_classify_parent_package_as_internal(
     imports = get_imports(
         parser,
         import_analyzer,
-        "import app",
+        "import appy",
     )
 
     result = analyzer.analyze(
         imports,
-        internal_modules=["app.services.user"],
+        internal_modules=["appy.services.user"],
     )
 
     assert result[0].dependency_type == "internal"
@@ -158,7 +158,7 @@ def test_relative_import_is_unresolved(
 
     result = analyzer.analyze(
         imports,
-        internal_modules=["app.services.utils"],
+        internal_modules=["appy.services.utils"],
     )
 
     assert result[0].dependency_type == "unresolved"
@@ -178,7 +178,7 @@ def test_preserve_dependency_metadata(
 
     record = result[0]
 
-    assert record.source_file == "app/services/user.py"
+    assert record.source_file == "appy/services/user.py"
     assert record.imported_module == "requests"
     assert record.alias == "http"
     assert record.line == 1
@@ -210,7 +210,7 @@ def test_reject_invalid_internal_modules(analyzer):
         DependencyAnalyzerError,
         match="iterable of module names",
     ):
-        analyzer.analyze([], internal_modules="app.services")
+        analyzer.analyze([], internal_modules="appy.services")
 
 
 def test_reject_empty_internal_module_name(analyzer):

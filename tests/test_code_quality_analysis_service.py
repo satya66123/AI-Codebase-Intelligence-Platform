@@ -1,7 +1,7 @@
 
 import pytest
 
-from app.application.code_quality_analysis_service import (
+from appy.application.code_quality_analysis_service import (
     CodeQualityAnalysisError,
     CodeQualityAnalysisResult,
     CodeQualityAnalysisService,

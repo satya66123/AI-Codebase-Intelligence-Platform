@@ -5,7 +5,7 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from app.application.release_readiness_final_validation_service import (
+from appy.application.release_readiness_final_validation_service import (
     ReleaseReadinessCheck,
     ReleaseReadinessError,
     ReleaseReadinessFinalValidationService,

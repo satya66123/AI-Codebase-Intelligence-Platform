@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.module_responsibility_analysis_service import (
+from appy.application.module_responsibility_analysis_service import (
     ModuleResponsibility,
     ModuleResponsibilityAnalysisError,
     ModuleResponsibilityAnalysisResult,
@@ -23,7 +23,7 @@ def entity(
     name,
     entity_type="class",
     qualified_name=None,
-    filename="app/module.py",
+    filename="appy/module.py",
 ):
     return SimpleNamespace(
         name=name,
@@ -33,11 +33,11 @@ def entity(
     )
 
 
-def dependency(source_file="app/module.py"):
+def dependency(source_file="appy/module.py"):
     return SimpleNamespace(source_file=source_file)
 
 
-def call_graph(filename="app/module.py", total_calls=3):
+def call_graph(filename="appy/module.py", total_calls=3):
     return SimpleNamespace(
         filename=filename,
         total_calls=total_calls,
@@ -55,10 +55,10 @@ def test_empty_repository(service):
 
 def test_classifies_api_directory(service):
     result = service.analyze(
-        source_files=("app/api/users.py",)
+        source_files=("appy/api/users.py",)
     )
 
-    finding = result.get_module("app/api/users.py")
+    finding = result.get_module("appy/api/users.py")
 
     assert finding.responsibility is ModuleResponsibility.API
     assert finding.confidence is ResponsibilityConfidence.HIGH
@@ -66,61 +66,61 @@ def test_classifies_api_directory(service):
 
 def test_classifies_presentation_directory(service):
     result = service.analyze(
-        source_files=("app/views/dashboard.py",)
+        source_files=("appy/views/dashboard.py",)
     )
 
     assert result.get_module(
-        "app/views/dashboard.py"
+        "appy/views/dashboard.py"
     ).responsibility is ModuleResponsibility.PRESENTATION
 
 
 def test_classifies_application_directory(service):
     result = service.analyze(
-        source_files=("app/application/workflow.py",)
+        source_files=("appy/application/workflow.py",)
     )
 
     assert result.get_module(
-        "app/application/workflow.py"
+        "appy/application/workflow.py"
     ).responsibility is ModuleResponsibility.APPLICATION
 
 
 def test_classifies_domain_directory(service):
     result = service.analyze(
-        source_files=("app/domain/customer.py",)
+        source_files=("appy/domain/customer.py",)
     )
 
     assert result.get_module(
-        "app/domain/customer.py"
+        "appy/domain/customer.py"
     ).responsibility is ModuleResponsibility.DOMAIN
 
 
 def test_classifies_infrastructure_directory(service):
     result = service.analyze(
-        source_files=("app/infrastructure/email.py",)
+        source_files=("appy/infrastructure/email.py",)
     )
 
     assert result.get_module(
-        "app/infrastructure/email.py"
+        "appy/infrastructure/email.py"
     ).responsibility is ModuleResponsibility.INFRASTRUCTURE
 
 
 def test_classifies_data_access_directory(service):
     result = service.analyze(
-        source_files=("app/repositories/customer.py",)
+        source_files=("appy/repositories/customer.py",)
     )
 
     assert result.get_module(
-        "app/repositories/customer.py"
+        "appy/repositories/customer.py"
     ).responsibility is ModuleResponsibility.DATA_ACCESS
 
 
 def test_classifies_configuration_directory(service):
     result = service.analyze(
-        source_files=("app/config/settings.py",)
+        source_files=("appy/config/settings.py",)
     )
 
     assert result.get_module(
-        "app/config/settings.py"
+        "appy/config/settings.py"
     ).responsibility is ModuleResponsibility.CONFIGURATION
 
 
@@ -136,166 +136,166 @@ def test_classifies_testing_directory(service):
 
 def test_classifies_utilities_directory(service):
     result = service.analyze(
-        source_files=("app/utils/helpers.py",)
+        source_files=("appy/utils/helpers.py",)
     )
 
     assert result.get_module(
-        "app/utils/helpers.py"
+        "appy/utils/helpers.py"
     ).responsibility is ModuleResponsibility.UTILITIES
 
 
 def test_classifies_agent_directory(service):
     result = service.analyze(
-        source_files=("app/agents/research.py",)
+        source_files=("appy/agents/research.py",)
     )
 
     assert result.get_module(
-        "app/agents/research.py"
+        "appy/agents/research.py"
     ).responsibility is ModuleResponsibility.AGENT
 
 
 def test_classifies_service_directory(service):
     result = service.analyze(
-        source_files=("app/services/payment.py",)
+        source_files=("appy/services/payment.py",)
     )
 
     assert result.get_module(
-        "app/services/payment.py"
+        "appy/services/payment.py"
     ).responsibility is ModuleResponsibility.SERVICE
 
 
 def test_directory_classification_takes_precedence(service):
     result = service.analyze(
-        source_files=("app/services/user_repository.py",)
+        source_files=("appy/services/user_repository.py",)
     )
 
     assert result.get_module(
-        "app/services/user_repository.py"
+        "appy/services/user_repository.py"
     ).responsibility is ModuleResponsibility.SERVICE
 
 
 def test_classifies_router_filename(service):
     result = service.analyze(
-        source_files=("app/user_router.py",)
+        source_files=("appy/user_router.py",)
     )
 
     assert result.get_module(
-        "app/user_router.py"
+        "appy/user_router.py"
     ).responsibility is ModuleResponsibility.API
 
 
 def test_classifies_view_filename(service):
     result = service.analyze(
-        source_files=("app/dashboard_view.py",)
+        source_files=("appy/dashboard_view.py",)
     )
 
     assert result.get_module(
-        "app/dashboard_view.py"
+        "appy/dashboard_view.py"
     ).responsibility is ModuleResponsibility.PRESENTATION
 
 
 def test_classifies_use_case_filename(service):
     result = service.analyze(
-        source_files=("app/create_user_use_case.py",)
+        source_files=("appy/create_user_use_case.py",)
     )
 
     assert result.get_module(
-        "app/create_user_use_case.py"
+        "appy/create_user_use_case.py"
     ).responsibility is ModuleResponsibility.APPLICATION
 
 
 def test_classifies_entity_filename(service):
     result = service.analyze(
-        source_files=("app/customer_entity.py",)
+        source_files=("appy/customer_entity.py",)
     )
 
     assert result.get_module(
-        "app/customer_entity.py"
+        "appy/customer_entity.py"
     ).responsibility is ModuleResponsibility.DOMAIN
 
 
 def test_classifies_adapter_filename(service):
     result = service.analyze(
-        source_files=("app/payment_adapter.py",)
+        source_files=("appy/payment_adapter.py",)
     )
 
     assert result.get_module(
-        "app/payment_adapter.py"
+        "appy/payment_adapter.py"
     ).responsibility is ModuleResponsibility.INFRASTRUCTURE
 
 
 def test_classifies_repository_filename(service):
     result = service.analyze(
-        source_files=("app/customer_repository.py",)
+        source_files=("appy/customer_repository.py",)
     )
 
     assert result.get_module(
-        "app/customer_repository.py"
+        "appy/customer_repository.py"
     ).responsibility is ModuleResponsibility.DATA_ACCESS
 
 
 def test_classifies_settings_filename(service):
     result = service.analyze(
-        source_files=("app/application_settings.py",)
+        source_files=("appy/application_settings.py",)
     )
 
     assert result.get_module(
-        "app/application_settings.py"
+        "appy/application_settings.py"
     ).responsibility is ModuleResponsibility.CONFIGURATION
 
 
 def test_classifies_test_filename(service):
     result = service.analyze(
-        source_files=("app/test_customer.py",)
+        source_files=("appy/test_customer.py",)
     )
 
     assert result.get_module(
-        "app/test_customer.py"
+        "appy/test_customer.py"
     ).responsibility is ModuleResponsibility.TESTING
 
 
 def test_classifies_helpers_filename(service):
     result = service.analyze(
-        source_files=("app/string_helpers.py",)
+        source_files=("appy/string_helpers.py",)
     )
 
     assert result.get_module(
-        "app/string_helpers.py"
+        "appy/string_helpers.py"
     ).responsibility is ModuleResponsibility.UTILITIES
 
 
 def test_classifies_agent_filename(service):
     result = service.analyze(
-        source_files=("app/research_agent.py",)
+        source_files=("appy/research_agent.py",)
     )
 
     assert result.get_module(
-        "app/research_agent.py"
+        "appy/research_agent.py"
     ).responsibility is ModuleResponsibility.AGENT
 
 
 def test_classifies_service_filename(service):
     result = service.analyze(
-        source_files=("app/payment_service.py",)
+        source_files=("appy/payment_service.py",)
     )
 
     assert result.get_module(
-        "app/payment_service.py"
+        "appy/payment_service.py"
     ).responsibility is ModuleResponsibility.SERVICE
 
 
 def test_classifies_using_entity_names(service):
     result = service.analyze(
-        source_files=("app/operations.py",),
+        source_files=("appy/operations.py",),
         code_entities=(
             entity(
                 "CustomerRepository",
-                filename="app/operations.py",
+                filename="appy/operations.py",
             ),
         ),
     )
 
-    finding = result.get_module("app/operations.py")
+    finding = result.get_module("appy/operations.py")
 
     assert finding.responsibility is ModuleResponsibility.DATA_ACCESS
     assert finding.confidence is ResponsibilityConfidence.MEDIUM
@@ -303,20 +303,20 @@ def test_classifies_using_entity_names(service):
 
 def test_multiple_matching_entities_increase_confidence(service):
     result = service.analyze(
-        source_files=("app/operations.py",),
+        source_files=("appy/operations.py",),
         code_entities=(
             entity(
                 "CustomerRepository",
-                filename="app/operations.py",
+                filename="appy/operations.py",
             ),
             entity(
                 "OrderRepository",
-                filename="app/operations.py",
+                filename="appy/operations.py",
             ),
         ),
     )
 
-    finding = result.get_module("app/operations.py")
+    finding = result.get_module("appy/operations.py")
 
     assert finding.confidence is ResponsibilityConfidence.HIGH
     assert finding.entity_count == 2
@@ -324,17 +324,17 @@ def test_multiple_matching_entities_increase_confidence(service):
 
 def test_unrecognized_module_is_unclassified(service):
     result = service.analyze(
-        source_files=("app/processor.py",)
+        source_files=("appy/processor.py",)
     )
 
-    assert result.unclassified_files == ("app/processor.py",)
+    assert result.unclassified_files == ("appy/processor.py",)
     assert result.has_unclassified_modules
 
 
 def test_dependencies_contribute_to_module_inventory(service):
     result = service.analyze(
         dependencies=(
-            dependency("app/services/user.py"),
+            dependency("appy/services/user.py"),
         )
     )
 
@@ -345,7 +345,7 @@ def test_dependencies_contribute_to_module_inventory(service):
 def test_call_graphs_contribute_to_module_inventory(service):
     result = service.analyze(
         call_graphs=(
-            call_graph("app/agents/research.py", 5),
+            call_graph("appy/agents/research.py", 5),
         )
     )
 
@@ -355,14 +355,14 @@ def test_call_graphs_contribute_to_module_inventory(service):
 
 def test_counts_entities_dependencies_and_calls(service):
     result = service.analyze(
-        source_files=("app/services/user.py",),
+        source_files=("appy/services/user.py",),
         code_entities=(
             entity("UserService"),
             entity(
                 "UserHelper",
                 "function",
                 "UserHelper",
-                "app/services/user.py",
+                "appy/services/user.py",
             ),
         ),
         dependencies=(
@@ -383,35 +383,35 @@ def test_counts_entities_dependencies_and_calls(service):
 def test_module_findings_are_sorted(service):
     result = service.analyze(
         source_files=(
-            "app/services/z.py",
-            "app/api/a.py",
+            "appy/services/z.py",
+            "appy/api/a.py",
         )
     )
 
     assert tuple(
         item.file_path for item in result.findings
     ) == (
-        "app/api/a.py",
-        "app/services/z.py",
+        "appy/api/a.py",
+        "appy/services/z.py",
     )
 
 
 def test_normalizes_windows_paths(service):
     result = service.analyze(
-        source_files=(r"app\services\user.py",)
+        source_files=(r"appy\services\user.py",)
     )
 
     assert result.get_module(
-        "app/services/user.py"
+        "appy/services/user.py"
     ) is not None
 
 
 def test_get_by_responsibility(service):
     result = service.analyze(
         source_files=(
-            "app/services/user.py",
-            "app/services/order.py",
-            "app/api/routes.py",
+            "appy/services/user.py",
+            "appy/services/order.py",
+            "appy/api/routes.py",
         )
     )
 
@@ -424,7 +424,7 @@ def test_get_by_responsibility(service):
 
 def test_get_by_responsibility_accepts_string(service):
     result = service.analyze(
-        source_files=("app/api/routes.py",)
+        source_files=("appy/api/routes.py",)
     )
 
     findings = result.get_by_responsibility("api")
@@ -434,7 +434,7 @@ def test_get_by_responsibility_accepts_string(service):
 
 def test_unknown_responsibility_lookup_returns_empty(service):
     result = service.analyze(
-        source_files=("app/api/routes.py",)
+        source_files=("appy/api/routes.py",)
     )
 
     assert result.get_by_responsibility("unknown-value") == ()
@@ -443,8 +443,8 @@ def test_unknown_responsibility_lookup_returns_empty(service):
 def test_responsibilities_property(service):
     result = service.analyze(
         source_files=(
-            "app/api/routes.py",
-            "app/services/user.py",
+            "appy/api/routes.py",
+            "appy/services/user.py",
         )
     )
 
@@ -456,7 +456,7 @@ def test_responsibilities_property(service):
 
 def test_high_confidence_findings_property(service):
     result = service.analyze(
-        source_files=("app/services/user.py",)
+        source_files=("appy/services/user.py",)
     )
 
     assert len(result.high_confidence_findings) == 1
@@ -465,8 +465,8 @@ def test_high_confidence_findings_property(service):
 def test_result_reports_incomplete_classification(service):
     result = service.analyze(
         source_files=(
-            "app/api/routes.py",
-            "app/processor.py",
+            "appy/api/routes.py",
+            "appy/processor.py",
         )
     )
 
@@ -476,7 +476,7 @@ def test_result_reports_incomplete_classification(service):
 
 def test_result_reports_complete_classification(service):
     result = service.analyze(
-        source_files=("app/api/routes.py",)
+        source_files=("appy/api/routes.py",)
     )
 
     assert result.is_complete
@@ -485,9 +485,9 @@ def test_result_reports_complete_classification(service):
 
 def test_analysis_is_deterministic(service):
     files = (
-        "app/services/user.py",
-        "app/api/routes.py",
-        "app/domain/customer.py",
+        "appy/services/user.py",
+        "appy/api/routes.py",
+        "appy/domain/customer.py",
     )
 
     assert service.analyze(source_files=files) == service.analyze(
@@ -499,9 +499,9 @@ def test_analysis_is_deterministic(service):
     "kwargs",
     [
         {"source_files": None},
-        {"source_files": "app.py"},
-        {"source_files": b"app.py"},
-        {"source_files": {"app.py"}},
+        {"source_files": "appy.py"},
+        {"source_files": b"appy.py"},
+        {"source_files": {"appy.py"}},
         {"source_files": ("",)},
         {"source_files": ("a.py", "a.py")},
         {"code_entities": None},

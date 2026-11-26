@@ -1,13 +1,13 @@
 
 import pytest
 
-from app.application.call_graph_service import (
+from appy.application.call_graph_service import (
     CallGraphResult,
     CallRecord,
 )
-from app.application.code_entity_extractor import CodeEntity
-from app.application.dependency_analyzer import DependencyRecord
-from app.application.change_impact_analysis_service import (
+from appy.application.code_entity_extractor import CodeEntity
+from appy.application.dependency_analyzer import DependencyRecord
+from appy.application.change_impact_analysis_service import (
     ChangeImpactAnalysisError,
     ChangeImpactAnalysisResult,
     ChangeImpactAnalysisService,
@@ -236,8 +236,8 @@ def test_analyze_detects_method_call_relationship(service):
 
 def test_analyze_supports_nested_changed_file_paths(service):
     dependency = DependencyRecord(
-        source_file="app/services/checkout.py",
-        imported_module="app.services.billing",
+        source_file="appy/services/checkout.py",
+        imported_module="appy.services.billing",
         imported_name=None,
         alias=None,
         dependency_type="internal",
@@ -246,17 +246,17 @@ def test_analyze_supports_nested_changed_file_paths(service):
     )
 
     result = service.analyze(
-        changed_files=("app/services/billing.py",),
+        changed_files=("appy/services/billing.py",),
         dependencies=(dependency,),
     )
 
-    assert result.affected_files == ("app/services/checkout.py",)
+    assert result.affected_files == ("appy/services/checkout.py",)
 
 
 def test_analyze_normalizes_windows_file_paths(service):
     dependency = DependencyRecord(
-        source_file="app\\services\\checkout.py",
-        imported_module="app.services.billing",
+        source_file="appy\\services\\checkout.py",
+        imported_module="appy.services.billing",
         imported_name=None,
         alias=None,
         dependency_type="internal",
@@ -265,11 +265,11 @@ def test_analyze_normalizes_windows_file_paths(service):
     )
 
     result = service.analyze(
-        changed_files=("app\\services\\billing.py",),
+        changed_files=("appy\\services\\billing.py",),
         dependencies=(dependency,),
     )
 
-    assert result.affected_files == ("app/services/checkout.py",)
+    assert result.affected_files == ("appy/services/checkout.py",)
 
 
 def test_analyze_deduplicates_changed_targets(service):
@@ -479,8 +479,8 @@ def test_analyze_rejects_invalid_changed_entities(
         " ",
         "/billing.py",
         "../billing.py",
-        "app/../billing.py",
-        "app//billing.py",
+        "appy/../billing.py",
+        "appy//billing.py",
         "./billing.py",
         "C:\\project\\billing.py",
     ],
@@ -545,16 +545,16 @@ def test_analyze_rejects_unordered_record_collections(
 
 def test_change_impact_target_rejects_invalid_type():
     with pytest.raises(ChangeImpactAnalysisError):
-        ChangeImpactTarget("directory", "app")
+        ChangeImpactTarget("directory", "appy")
 
 
 def test_change_impact_target_normalizes_file_path():
     target = ChangeImpactTarget(
         "file",
-        "app\\services\\billing.py",
+        "appy\\services\\billing.py",
     )
 
-    assert target.value == "app/services/billing.py"
+    assert target.value == "appy/services/billing.py"
 
 
 def test_change_impact_target_rejects_empty_value():

@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.application.end_to_end_workflow_orchestration_service import (
+from appy.application.end_to_end_workflow_orchestration_service import (
     EndToEndWorkflowOrchestrationError,
     EndToEndWorkflowOrchestrationService,
     EndToEndWorkflowResult,
@@ -36,7 +36,7 @@ class FakeIntegrationService:
 @pytest.fixture
 def parsed_sources():
     return {
-        "app.py": SimpleNamespace(filename="app.py", language="python"),
+        "appy.py": SimpleNamespace(filename="appy.py", language="python"),
         "service.py": SimpleNamespace(filename="service.py", language="python"),
     }
 
@@ -95,7 +95,7 @@ def test_execute_forwards_source_files(
     integration_service,
     parsed_sources,
 ):
-    source_files = {"app.py": "print('hello')"}
+    source_files = {"appy.py": "print('hello')"}
 
     orchestration_service.execute(
         parsed_sources,
@@ -125,7 +125,7 @@ def test_execute_forwards_dependencies(
     integration_service,
     parsed_sources,
 ):
-    dependencies = (SimpleNamespace(source="app.py"),)
+    dependencies = (SimpleNamespace(source="appy.py"),)
 
     orchestration_service.execute(
         parsed_sources,
@@ -155,7 +155,7 @@ def test_execute_forwards_entry_points(
     integration_service,
     parsed_sources,
 ):
-    entry_points = ("app.main",)
+    entry_points = ("appy.main",)
 
     orchestration_service.execute(
         parsed_sources,
@@ -229,7 +229,7 @@ def test_execute_forwards_default_optional_arguments(
 
 @pytest.mark.parametrize(
     "invalid_sources",
-    [None, (), [], "app.py", 123],
+    [None, (), [], "appy.py", 123],
 )
 def test_execute_rejects_non_mapping_parsed_sources(invalid_sources):
     service = EndToEndWorkflowOrchestrationService(
@@ -275,7 +275,7 @@ def test_execute_rejects_none_parsed_source():
     )
 
     with pytest.raises(EndToEndWorkflowOrchestrationError) as exc_info:
-        service.execute({"app.py": None})
+        service.execute({"appy.py": None})
 
     assert exc_info.value.stage == "input_validation"
 

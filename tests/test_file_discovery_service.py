@@ -1,11 +1,11 @@
 
 import pytest
 
-from app.application.repository_input import RepositoryInfo
-from app.application.repository_scanner import (
+from appy.application.repository_input import RepositoryInfo
+from appy.application.repository_scanner import (
     RepositoryScanError,
 )
-from app.application.file_discovery_service import (
+from appy.application.file_discovery_service import (
     FileDiscoveryService,
 )
 

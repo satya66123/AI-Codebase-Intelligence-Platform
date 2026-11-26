@@ -3,11 +3,11 @@ import ast
 
 import pytest
 
-from app.application.advanced_code_flow_tracing_service import (
+from appy.application.advanced_code_flow_tracing_service import (
     AdvancedCodeFlowTracingError,
     AdvancedCodeFlowTracingService,
 )
-from app.application.language_parser import ParsedSource
+from appy.application.language_parser import ParsedSource
 
 
 def parsed_source(source: str, filename: str = "sample.py"):

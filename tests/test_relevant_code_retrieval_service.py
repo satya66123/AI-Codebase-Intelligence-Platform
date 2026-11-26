@@ -1,15 +1,15 @@
 
 import pytest
 
-from app.application.code_indexing_service import (
+from appy.application.code_indexing_service import (
     CodeIndexEntry,
     CodeIndexResult,
 )
-from app.application.relevant_file_retrieval_service import (
+from appy.application.relevant_file_retrieval_service import (
     RelevantFile,
     RelevantFileRetrievalResult,
 )
-from app.application.relevant_code_retrieval_service import (
+from appy.application.relevant_code_retrieval_service import (
     RelevantCodeRetrievalError,
     RelevantCodeRetrievalResult,
     RelevantCodeRetrievalService,
@@ -47,25 +47,25 @@ def index():
         create_entry(
             "entity-1",
             "authenticate_user",
-            "app/auth.py",
+            "appy/auth.py",
             10,
         ),
         create_entry(
             "entity-2",
             "validate_user",
-            "app/auth.py",
+            "appy/auth.py",
             20,
         ),
         create_entry(
             "entity-3",
             "login",
-            "app/login.py",
+            "appy/login.py",
             5,
         ),
         create_entry(
             "entity-4",
             "process_payment",
-            "app/payment.py",
+            "appy/payment.py",
             15,
         ),
     )
@@ -76,17 +76,17 @@ def index():
         total_entities=len(entries),
         total_files=3,
         files=(
-            "app/auth.py",
-            "app/login.py",
-            "app/payment.py",
+            "appy/auth.py",
+            "appy/login.py",
+            "appy/payment.py",
         ),
         entity_counts={
             "function": 4,
         },
         by_file={
-            "app/auth.py": ("entity-1", "entity-2"),
-            "app/login.py": ("entity-3",),
-            "app/payment.py": ("entity-4",),
+            "appy/auth.py": ("entity-1", "entity-2"),
+            "appy/login.py": ("entity-3",),
+            "appy/payment.py": ("entity-4",),
         },
     )
 
@@ -101,12 +101,12 @@ def relevant_files(index):
         total_files=2,
         files=(
             RelevantFile(
-                filename="app/auth.py",
+                filename="appy/auth.py",
                 relevance_score=1,
                 matched_entities=(auth_entry,),
             ),
             RelevantFile(
-                filename="app/login.py",
+                filename="appy/login.py",
                 relevance_score=1,
                 matched_entities=(login_entry,),
             ),
@@ -263,8 +263,8 @@ def test_retrieve_returns_entities_from_relevant_files(
     }
 
     assert filenames == {
-        "app/auth.py",
-        "app/login.py",
+        "appy/auth.py",
+        "appy/login.py",
     }
 
 
@@ -280,7 +280,7 @@ def test_retrieve_excludes_irrelevant_files(
         for entry in result.code_entities
     }
 
-    assert "app/payment.py" not in filenames
+    assert "appy/payment.py" not in filenames
 
 
 def test_retrieve_preserves_original_index_entries(
@@ -514,13 +514,13 @@ def test_retrieve_returns_empty_result_when_files_do_not_match(
     index,
 ):
     unrelated_file = RelevantFile(
-        filename="app/unknown.py",
+        filename="appy/unknown.py",
         relevance_score=1,
         matched_entities=(
             create_entry(
                 "external-1",
                 "unknown_function",
-                "app/unknown.py",
+                "appy/unknown.py",
             ),
         ),
     )

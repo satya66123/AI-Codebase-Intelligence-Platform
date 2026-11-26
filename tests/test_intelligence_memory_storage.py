@@ -3,11 +3,11 @@ import json
 
 import pytest
 
-from app.application.intelligence_memory_models import (
+from appy.application.intelligence_memory_models import (
     IntelligenceMemory,
     MemoryType,
 )
-from app.application.intelligence_memory_storage import (
+from appy.application.intelligence_memory_storage import (
     IntelligenceMemoryStorage,
     IntelligenceMemoryStorageError,
 )
